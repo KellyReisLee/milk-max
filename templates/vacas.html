@@ -3,20 +3,26 @@
 {% block title %} cart {% endblock %}
 
 {% block main %}
-    <table>
+    <h2>Minhas vacas</h2>
+    <table class="table">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Name</th>
+                {% for coluna in colunas %}
+                    <th>{{ coluna }}</th>
+                {% endfor %}
             </tr>
         </thead>
         <tbody>
-            {% for book in books %}
+            {% for linha in vacas %}
                 <tr>
-                    <td>{{ book[0] }}</td>
-                    <td>{{ book[1] }}</td>
+                    {% for item in linha %}
+                        <td>{{ item }}</td>
+                    {% endfor %}
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+    <div class="container">
+        <button>Adicionar vaca</button>
+    </div>
 {% endblock %}
