@@ -28,3 +28,15 @@
     width: 625px;
     border: 1px solid black
 }
+
+.form-container p{
+    margin-top: 5px;
+}
+.form-grup{
+    margin-bottom: 10px;
+}
+
+.form-grup:nth-child(1){
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
