@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, session, request
 import psycopg2
+from psycopg2.extras import RealDictCursor
 import os
 
 # Configure app
@@ -15,9 +16,6 @@ conn = psycopg2.connect(
     port='5432'
 )
 
-# Create a cursor object
-cursor = conn.cursor()
-
 
 @app.route("/")
 def index():
@@ -31,7 +29,11 @@ def relatorios():
 
 @app.route("/vacas")
 def vacas():
-    return render_template("vacas.html")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM vacas")
+    vacas = cursor.fetchall()
+    colunas = [desc[0] for desc in cursor.description]  # Nomes das colunas
+    return render_template("vacas.html", colunas=colunas, vacas=vacas)
 
 
 @app.route("/diario")
@@ -41,5 +43,3 @@ def diario():
 
 if __name__=='__main__':
     app.run(debug=True)
-
-conn.close()
