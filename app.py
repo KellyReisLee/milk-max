@@ -24,6 +24,21 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/relatorios")
+def relatorios():
+    return render_template("relatorios.html")
+
+
+@app.route("/vacas")
+def vacas():
+    return render_template("vacas.html")
+
+
+@app.route("/diario")
+def diario():
+    return render_template("diario.html")
+
+
 if __name__=='__main__':
     app.run(debug=True)
 
