@@ -65,3 +65,7 @@ h2 {
 .table {
     text-align: center;
 }
+
+.button {
+    margin: 50px;
+}

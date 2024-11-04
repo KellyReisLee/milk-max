@@ -3,5 +3,32 @@
 {% block title %} Diário {% endblock %}
 
 {% block main %}
-    
+    <h2>Diário</h2>
+    <div class="container button">
+        <form action="/vacas" method="post">
+            <input autocomplete="off" autofocus id="selecao_vaca" name="selecao_vaca" placeholder="ID vaca" type="text">
+            <button type="submit">Ver diário</button>
+        </form>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                {% for coluna in colunas %}
+                    <th>{{ coluna }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for linha in dias %}
+                <tr>
+                    {% for item in linha %}
+                        <td>{{ item }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="container">
+        <button>Adicionar registro</button>
+    </div>
 {% endblock %}

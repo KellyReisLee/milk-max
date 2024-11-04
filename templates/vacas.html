@@ -4,6 +4,12 @@
 
 {% block main %}
     <h2>Minhas vacas</h2>
+    <div class="container button">
+        <form action="/vacas" method="post">
+            <input autocomplete="off" autofocus id="new_column" name="new_column" placeholder="Novo atributo" type="text">
+            <button type="submit" onclick="add_column()">Adicionar atributo</button>
+        </form>
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -22,7 +28,41 @@
             {% endfor %}
         </tbody>
     </table>
-    <div class="container">
-        <button>Adicionar vaca</button>
+    <div class="container button">
+        <button onclick="cadastro()">Cadastrar vaca</button>
+        <div>
+            <form onsubmit="return ValidateForm()" action="/cadastro", method="post">
+                <input autocomplete="off" id="raca" name="raca" placeholder="Raça" type="hidden">
+                <input autocomplete="off" id="nasc" name="nasc" placeholder="Data de Nascimento" type="hidden">
+                <input autocomplete="off" id="peso" name="peso" placeholder="Peso" type="hidden">
+                <button id="cadastrar" type="submit" style="display: none;">Cadastrar</button>
+            </form>
+        </div>
     </div>
+    <script>
+        // Adicionar coluna
+        function add_column() {
+            const columnName = document.getElementById("new_column").value
+        }
+
+        // Desocultar campos ao clicar em "Cadastrar vaca"
+        function cadastro() {
+            document.getElementById("raca").type = "text";
+            document.getElementById("nasc").type = "text";
+            document.getElementById("peso").type = "text";
+            document.getElementById("cadastrar").style.display = "inline";
+        }
+
+        // Validar formulário "Cadastrar vaca"
+        function ValidateForm() {
+            let raca = document.getElementById("raca").value
+            let nasc = document.getElementById("nasc").value
+            let peso = document.getElementById("peso").value
+            if (raca == "" || nasc == "" || peso == "") {
+                alert("Preencha todos os campos.")
+                return false;
+            }
+            return true;
+        }
+    </script>
 {% endblock %}
