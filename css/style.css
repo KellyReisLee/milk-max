@@ -1,12 +1,50 @@
-.login-container{
-     display: flex;
+/* CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.login-container{
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    line-height: 1.6;
+    font-family: Arial, sans-serif;
+
+}
+
+nav ul {
+    margin: 0;
+    /* Remove margin padrão */
+    padding: 0;
+    /* Remove padding padrão */
+    gap: 1.2rem;
+
+}
+
+nav ul li a {
+    list-style-type: none;
+    text-decoration: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+.login-container {
+    display: flex;
+}
+
+.login-container {
     margin: 10px;
 }
 
-.login-img{
+.login-img {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,12 +52,12 @@
     width: 625px;
 }
 
-.login-img img{
+.login-img img {
     height: 450px;
     width: 400px;
 }
 
-.form-container{
+.form-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -29,14 +67,15 @@
     border: 1px solid black
 }
 
-.form-container p{
+.form-container p {
     margin-top: 5px;
 }
-.form-grup{
+
+.form-grup {
     margin-bottom: 10px;
 }
 
-.form-grup:nth-child(1){
+.form-grup:nth-child(1) {
     margin-top: 20px;
     margin-bottom: 10px;
 }
