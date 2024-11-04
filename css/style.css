@@ -36,6 +36,43 @@ a {
     padding: 0;
 }
 
+/* Header Section */
+
+/* Header-section */
+.header-container {
+    background-color: #1051AB;
+    padding: 1rem 0;
+}
+
+.btn-login {
+    width: 15%;
+    color: #1051AB;
+    padding: 1rem 0;
+
+}
+
+.logo {
+    width: 200px;
+}
+
+/* Para telas pequenas (sm) e médias (md) */
+@media (max-width: 991px) {
+    .btn-login {
+        width: 30%;
+        margin-top: 1rem;
+        color: #1051AB;
+
+    }
+
+
+
+}
+
+
+
+
+/* Login section */
+
 .login-container {
     display: flex;
 }
