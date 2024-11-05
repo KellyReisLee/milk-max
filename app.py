@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, session, request
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from dataclasses import dataclass
 import os
 
 # Configure app
@@ -19,8 +20,14 @@ conn = psycopg2.connect(
 # Create cursor
 cursor = conn.cursor()
 
-# Número de vacas
+class cows:
+    id: int
+    raca: str
+    nasc: str
+    peso: float
+
 VACAS = []
+
 
 @app.route("/")
 def index():
@@ -54,6 +61,27 @@ def diario():
             return render_template("diario.html", colunas=colunas, dias=dias)
     else:
         return render_template("diario.html")
+
+
+@app.route("/cadastro", methods = ["POST"])
+def cadastro():
+    # Retrieving data
+    raca = request.form.get("raca")
+    nasc = request.form.get("nasc")
+    peso = request.form.get("peso")
+
+    # Criar tabela para nova vaca
+    cursor.execute('''SELECT COUNT(*) FROM vacas''')
+    num_vacas = cursor.fetchall()
+    posicao = num_vacas + 1
+    VACAS[posicao] = cow(id=posicao, raca=raca, nasc=nasc, peso=peso)
+    create_table = '''
+    CREATE TABLE vaca(%s) (dia INTEGER, raca VARCHAR(50), nasc DATE, peso FLOAT, consumo_alimento FLOAT, leite_quantidade FLOAT, leite_ph FLOAT)
+    ''', posicao
+    cursor.execute(create_table)
+    cursor.commit()
+
+    
 
 
 if __name__=='__main__':
