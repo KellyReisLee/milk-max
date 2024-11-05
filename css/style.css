@@ -13,14 +13,31 @@ body {
     line-height: 1.6;
     font-family: Arial, sans-serif;
 
+
 }
+
+h1,
+h2,
+h3,
+button,
+a {
+    font-family: "League Spartan", sans-serif;
+
+}
+
+p,
+a,
+span {
+    font-family: "Open Sans", sans-serif;
+}
+
+
 
 nav ul {
     margin: 0;
-    /* Remove margin padrão */
     padding: 0;
-    /* Remove padding padrão */
     gap: 1.2rem;
+    list-style: none;
 
 }
 
@@ -36,7 +53,10 @@ a {
     padding: 0;
 }
 
-/* Header Section */
+
+i {
+    color: #1051AB;
+}
 
 /* Header-section */
 .header-container {
@@ -52,8 +72,9 @@ a {
 }
 
 .logo {
-    width: 240px;
+    width: 260px;
 }
+
 
 /* Para telas pequenas (sm) e médias (md) */
 @media (max-width: 991px) {
@@ -63,13 +84,100 @@ a {
         color: #1051AB;
 
     }
+}
 
 
+/* Footer */
+.footer-container {
+    background-color: #1051AB;
+    padding: 1rem 0;
+    position: fixed;
+    bottom: 0;
+}
 
+.subtitle-footer {
+    color: #e0e0e0;
+    margin: 0;
+}
+
+.icon {
+    background-color: #f6f6f6;
+    padding: 0.8rem;
+    border-radius: 50%;
+}
+
+/* Container flexível para alinhar o input e o botão */
+.subscribe-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Estilizar o campo de entrada */
+.subscribe-input {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-right: none;
+    /* Remove a borda direita para unir com o botão */
+    border-radius: 4px 0 0 4px;
+    /* Bordas arredondadas para o lado esquerdo */
+    outline: none;
+    height: auto;
+}
+
+/* Estilizar o botão */
+.subscribe-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    letter-spacing: 1.1px;
+    border: 1px solid #007bff;
+    background-color: #007bff;
+    color: #ffffff;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+    /* Bordas arredondadas para o lado direito */
+    transition: background-color 0.3s;
+}
+
+/* Efeito de hover para o botão */
+.subscribe-button:hover {
+    background-color: #0056b3;
+}
+
+/* Remover estilos extras no input ao focar */
+.subscribe-input:focus {
+    border-color: #007bff;
+}
+
+.hr-footer {
+    background-color: #ccc;
+    width: 100%;
+}
+
+.footer-nav ul {
+    display: flex;
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
+}
+
+.nav-links-footer {
+    color: #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    padding: 0 1.4rem;
+}
+
+.nav-links-footer a {
+    color: #e0e0e0;
+}
+
+.copyright {
+    margin: 0;
+    color: #e0e0e0;
+    font-size: 12px;
 }
 
 /* Login section */
-
 .login-container {
     display: flex;
 }
@@ -93,12 +201,12 @@ a {
 }
 
 /* Divisor imagem e formulário*/
-.divisor{
+.divisor {
     margin: 0;
     padding: 0;
-    width: 1px; 
-    height: 500px; 
-    background-color: #e0e0e0; 
+    width: 1px;
+    height: 500px;
+    background-color: #e0e0e0;
 }
 
 /* Formulário de Login */
@@ -119,23 +227,23 @@ a {
     margin-bottom: 25px;
 }
 
-input{
+input {
     width: 400px;
     height: 40px;
     border: 1.5px solid #b4b5b7;
     border-radius: 5px;
 }
 
-input::placeholder{
+input::placeholder {
     padding-left: 5px;
 }
 
-.form-btn{
+.form-btn {
     width: 400px;
     height: 45px;
     border: none;
     border-radius: 5px;
-    background-color: #1051AB;    
+    background-color: #1051AB;
     color: white;
 }
 
@@ -154,9 +262,12 @@ input::placeholder{
 
     .login-img {
         width: 100%;
-        max-width: 150px; /* Define uma largura máxima específica */
-        height: auto; /* Ajusta a altura automaticamente para manter a proporção */
-        margin-bottom: 20px; /* Espaçamento abaixo da imagem */
+        max-width: 150px;
+        /* Define uma largura máxima específica */
+        height: auto;
+        /* Ajusta a altura automaticamente para manter a proporção */
+        margin-bottom: 20px;
+        /* Espaçamento abaixo da imagem */
     }
 
     .login-img img {
@@ -171,7 +282,8 @@ input::placeholder{
     }
 
     .divisor {
-        display: none; /* Oculta a linha divisora no mobile */
+        display: none;
+        /* Oculta a linha divisora no mobile */
     }
 
     input,

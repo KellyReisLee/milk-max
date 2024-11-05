@@ -13,8 +13,12 @@
 
 ## Cores e Fontes
 1. Cores: 
- - Azul -  #1051AB
- - Cinza -  #EFEFED
+ - Azul_1 - #1051AB
+ - Azul_2 - #007bff
+ - Cinza_claro_1 - #EFEFED
+ - Cinza_claro_2 - #e0e0e0
+ - Cinza_claro_3 - #e0e0e0
+ - Branco - #ffffff
 
 
 2. Fontes:
