@@ -68,9 +68,6 @@ a {
 
 }
 
-
-
-
 /* Login section */
 
 .login-container {
@@ -81,6 +78,7 @@ a {
     margin: 10px;
 }
 
+/* Imagem Ilustrativa */
 .login-img {
     display: flex;
     justify-content: center;
@@ -94,6 +92,16 @@ a {
     width: 400px;
 }
 
+/* Divisor imagem e formulário*/
+.divisor{
+    margin: 0;
+    padding: 0;
+    width: 1px; 
+    height: 500px; 
+    background-color: #e0e0e0; 
+}
+
+/* Formulário de Login */
 .form-container {
     display: flex;
     flex-direction: column;
@@ -101,7 +109,6 @@ a {
     align-items: center;
     height: 500px;
     width: 625px;
-    border: 1px solid black
 }
 
 .form-container p {
@@ -109,10 +116,71 @@ a {
 }
 
 .form-grup {
-    margin-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+input{
+    width: 400px;
+    height: 40px;
+    border: 1.5px solid #b4b5b7;
+    border-radius: 5px;
+}
+
+input::placeholder{
+    padding-left: 5px;
+}
+
+.form-btn{
+    width: 400px;
+    height: 45px;
+    border: none;
+    border-radius: 5px;
+    background-color: #1051AB;    
+    color: white;
 }
 
 .form-grup:nth-child(1) {
     margin-top: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+}
+
+/* Para telas pequenas (sm) e médias (md) (LOGIN) */
+@media (max-width: 991px) {
+    .login-container {
+        flex-direction: column;
+        align-items: center;
+        margin: 20px;
+    }
+
+    .login-img {
+        width: 100%;
+        max-width: 150px; /* Define uma largura máxima específica */
+        height: auto; /* Ajusta a altura automaticamente para manter a proporção */
+        margin-bottom: 20px; /* Espaçamento abaixo da imagem */
+    }
+
+    .login-img img {
+        width: 100%;
+        height: auto;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 90%;
+        height: 280px;
+    }
+
+    .divisor {
+        display: none; /* Oculta a linha divisora no mobile */
+    }
+
+    input,
+    .form-btn {
+        width: 100%;
+        max-width: 90%;
+    }
+
+    .form-container p {
+        text-align: center;
+    }
 }
