@@ -4,12 +4,15 @@
 
 {% block main %}
     <h2>Minhas vacas</h2>
+    <!-- Botão novo atributo -->
     <div class="container button">
         <form action="/vacas" method="post">
             <input autocomplete="off" autofocus id="new_column" name="new_column" placeholder="Novo atributo" type="text">
             <button type="submit" onclick="add_column()">Adicionar atributo</button>
         </form>
     </div>
+
+    <!-- Tabela com todas as vacas -->
     <table class="table">
         <thead>
             <tr>
@@ -28,8 +31,10 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <!-- Cadastrar nova vaca -->
     <div class="container button">
-        <button onclick="cadastro()">Cadastrar vaca</button>
+        <button style="margin-bottom: 50px;" onclick="cadastro()">Cadastrar vaca</button>
         <div>
             <form onsubmit="return ValidateForm()" action="/cadastro", method="post">
                 <input autocomplete="off" id="raca" name="raca" placeholder="Raça" type="hidden">
@@ -39,8 +44,10 @@
             </form>
         </div>
     </div>
+
+    <!-- Script -->
     <script>
-        // Adicionar coluna
+        // Adicionar coluna de novo atributo
         function add_column() {
             const columnName = document.getElementById("new_column").value
         }
