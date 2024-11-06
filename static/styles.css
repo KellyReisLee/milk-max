@@ -2,7 +2,17 @@ body {
     margin: 0;
     padding: 0;
     box-sizing:border-box;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: 'Open Sans', 'Calibri', 'Times New Roman';
+}
+
+.nav-item {
+    font-size: larger;
+    font-family: 'League Spartan', 'Calibri', 'Times New Roman';
+}
+
+button, input {
+    font-size: larger;
+    font-family: 'League Spartan', 'Calibri', 'Times New Roman';
 }
 
 #container_logo {
@@ -12,7 +22,7 @@ body {
 #logo {
     background-image: url("logo.png");
     height: 100px;
-    width: 200px;
+    width: 270px;
     vertical-align: middle;
     background-size: contain;
     background-repeat: no-repeat;
