@@ -23,3 +23,7 @@ peso = 400
 posicao = 6
 VACAS[posicao] = cow(id=posicao, raca=raca, nasc=nasc, peso=peso)
 print(VACAS[posicao].raca)
+
+num_vacas = 5
+tabela = f'vaca{num_vacas + 1}'
+print(tabela)

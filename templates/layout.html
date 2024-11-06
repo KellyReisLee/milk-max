@@ -15,13 +15,24 @@
 <body>
     <div id="barra">
         <div class="container" id="nav">
-            <div id="logo"></div>
-            <div class="menu">
-                <ul class="top">
-                    <li class="item"><a href='/relatorios'>Relatórios</a></li>
-                    <li class="item"><a href='/vacas'>Vacas</a></li>
-                    <li class="item"><a href='/diario'>Diário</a></li>
-                </ul>
+            <div id="logo" href="/index"></div>
+            <div class="collapse navbar-collapse" id="navbar">
+                {% if session["username"] %}
+                    <ul class="navbar-nav me-auto mt-2">
+                        <li class="nav-item"><a class="nav-link" href="/relatorios">Relatórios</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/vacas">Vacas</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/diario">Diário</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/history">History</a></li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto mt-2">
+                        <li class="nav-item"><a class="nav-link" href="/logout">Sair</a></li>
+                    </ul>
+                {% else %}
+                    <ul class="navbar-nav ms-auto mt-2">
+                        <li class="nav-item"><a class="nav-link" href="/register">Registrar-se</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                    </ul>
+                {% endif %}
             </div>
         </div>
     </div>
