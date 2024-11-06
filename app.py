@@ -20,14 +20,6 @@ conn = psycopg2.connect(
 # Create cursor
 cursor = conn.cursor()
 
-class cows:
-    id: int
-    raca: str
-    nasc: str
-    peso: float
-
-VACAS = []
-
 
 @app.route("/")
 def index():
@@ -65,21 +57,31 @@ def diario():
 
 @app.route("/cadastro", methods = ["POST"])
 def cadastro():
-    # Retrieving data
+    # Recuperando dados inputados
     raca = request.form.get("raca")
     nasc = request.form.get("nasc")
     peso = request.form.get("peso")
 
+    # Inserindo nova vaca na tabela vacas
+    new_cow = '''
+    INSERT INTO vacas (raca, nasc, peso) VALUES ((%s), (%s), (%s))
+    '''
+    new_cow_values = (raca, nasc, peso)
+    cursor.execute(new_cow, new_cow_values)
+    conn.commit()
+    return redirect("/vacas")
+
     # Criar tabela para nova vaca
-    cursor.execute('''SELECT COUNT(*) FROM vacas''')
-    num_vacas = cursor.fetchall()
-    posicao = num_vacas + 1
-    VACAS[posicao] = cow(id=posicao, raca=raca, nasc=nasc, peso=peso)
-    create_table = '''
-    CREATE TABLE vaca(%s) (dia INTEGER, raca VARCHAR(50), nasc DATE, peso FLOAT, consumo_alimento FLOAT, leite_quantidade FLOAT, leite_ph FLOAT)
-    ''', posicao
-    cursor.execute(create_table)
-    cursor.commit()
+    #cursor.execute('''SELECT COUNT(*) FROM vacas''')
+    #num_vacas = cursor.fetchall()
+    #posicao = num_vacas + 1
+    
+
+   # create_table = '''
+   # CREATE TABLE vaca(%s) (dia INTEGER, raca VARCHAR(50), nasc DATE, peso FLOAT, consumo_alimento FLOAT, leite_quantidade FLOAT, leite_ph FLOAT)
+   # ''', posicao
+   # cursor.execute(create_table)
+   # cursor.commit()
 
     
 
