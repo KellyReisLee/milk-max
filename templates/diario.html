@@ -5,9 +5,9 @@
 {% block main %}
     <h2>Diário</h2>
     <div class="container button">
-        <form action="/vacas" method="post">
+        <form action="/diario" method="post">
             Vaca:
-            <input autocomplete="off" autofocus id="selecao_vaca" name="selecao_vaca" placeholder="ID vaca" type="number">
+            <input min="1" autocomplete="off" autofocus id="selecao_vaca" name="selecao_vaca" placeholder="ID vaca" type="number">
             <button type="submit">Ver diário</button>
         </form>
     </div>
@@ -29,7 +29,7 @@
             {% endfor %}
         </tbody>
     </table>
-    <div class="container">
-        <button>Adicionar registro</button>
+    <div class="container button">
+        <button style="margin-bottom: 50px;">Adicionar registro</button>
     </div>
 {% endblock %}

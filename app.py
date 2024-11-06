@@ -3,7 +3,9 @@
 import os
 
 from flask import Flask, render_template, redirect, session, request
+from flask_session import Session
 import psycopg2
+from psycopg2 import sql
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import apology, login_required
@@ -15,6 +17,11 @@ from helpers import apology, login_required
 # Configure app
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'default_secret_key')
+
+# Configurar sessão para que armazenamento de dados seja feito no servidor, e não através de cookies (navegador)
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 # Connect to the PostgreSQL database
 conn = psycopg2.connect(
@@ -66,7 +73,10 @@ def register():
         confirm = request.form.get("confirm")
 
         # Retornar apology se nome de usuário já existe
-        cursor.execute("SELECT * FROM users WHERE username = (%s)", username)
+        query_register = '''
+        SELECT * FROM users WHERE username = (%s)
+        '''
+        cursor.execute(query_register, (username,))
         usr = cursor.fetchall()
         if len(usr) != 0:
             return apology("Nome de usuário já existe")
@@ -78,7 +88,7 @@ def register():
         # Inserir novo usuário na tabela users
         hash = generate_password_hash(password, method='pbkdf2', salt_length=16) # Gerar versão criptografada da senha
         query = '''
-        INSERT INTO users (username, hash) VALUES (%s), (%s)
+        INSERT INTO users (username, hash) VALUES ((%s), (%s))
         '''
         values = (username, hash)
         cursor.execute(query, values)
@@ -113,8 +123,8 @@ def login():
         query = '''
         SELECT * FROM users WHERE username = (%s)
         '''
-        value = (request.form.get("username"))
-        cursor.execute(query, value)
+        value = request.form.get("username")
+        cursor.execute(query, (value,))
         rows = cursor.fetchall()
 
         # Garantir que username existe e senha está correta
@@ -129,16 +139,19 @@ def login():
         # Criar tabela de vacas se não existe
         tabela_vacas = f'vacas_{session["username"]}'
         session["vacas"] = tabela_vacas # guardar nome da tabela na sessão do usuário
-        create_query = '''
-        CREATE TABLE IF NOT EXISTS (%s) (id SERIAL PRIMARY KEY, raca VARCHAR(50), nasc DATE, peso FLOAT);
-        '''
-        cursor.execute(create_query, session["vacas"])
+        create_query = sql.SQL('''
+        CREATE TABLE IF NOT EXISTS {} (id SERIAL PRIMARY KEY, raca VARCHAR(50), nasc DATE, peso FLOAT);
+        ''').format(sql.Identifier(tabela_vacas)) # Comando SQL dinâmico para nome da tabela
+        cursor.execute(create_query)
         conn.commit()
 
         # Guardar número de vacas na sessão do usuário
-        cursor.execute('''SELECT COUNT(*) FROM (%s)''', session["vacas"])
+        count_query = sql.SQL('''
+        SELECT COUNT(*) FROM {}
+        ''').format(sql.Identifier(session["vacas"]))
+        cursor.execute(count_query)
         num_vacas = cursor.fetchall()
-        session["num_vacas"] = num_vacas
+        session["num_vacas"] = int(num_vacas[0][0])
 
         # Redirecionar para homepage
         return redirect("/")
@@ -151,14 +164,17 @@ def login():
 @app.route("/vacas", methods=["GET", "POST"])
 @login_required
 def vacas():
-#**********************************************************************
+
     # Adicionar atributo
     if request.method == "POST":
         return redirect("/vacas")
     
     # Renderizar tabela
     else:
-        cursor.execute("SELECT * FROM (%s)", session["vacas"])
+        query = sql.SQL('''
+        SELECT * FROM {}             
+        ''').format(sql.Identifier(session["vacas"]))
+        cursor.execute(query)
         vacas = cursor.fetchall()
         colunas = [desc[0] for desc in cursor.description]  # Nomes das colunas
         return render_template("vacas.html", colunas=colunas, vacas=vacas)
@@ -175,20 +191,30 @@ def cadastro():
     peso = request.form.get("peso")
 
     # Inserir nova vaca na tabela vacas
-    nova_vaca = '''
-    INSERT INTO (%s) (raca, nasc, peso) VALUES ((%s), (%s), (%s))
-    '''
-    nova_vaca_values = (session["vacas"], raca, nasc, peso)
+    nova_vaca = sql.SQL('''
+    INSERT INTO {} (raca, nasc, peso) VALUES ((%s), (%s), (%s))
+    ''').format(sql.Identifier(session["vacas"]))
+    nova_vaca_values = (raca, nasc, peso)
     cursor.execute(nova_vaca, nova_vaca_values)
     conn.commit()
 
     # Criar tabela para nova vaca
-    session["num_vacas"] = session["num_vacas"] + 1
-    nova_tab = f'vaca{session["num_vacas"]}_{session["username"]}'
-    create_table = '''
-    CREATE TABLE (%s) (dia INTEGER, consumo_alimento FLOAT, leite_quantidade FLOAT, leite_temperatura FLOAT, leite_ph FLOAT, )
-    '''
-    cursor.execute(create_table, nova_tab)
+    session["num_vacas"] += 1
+    last_id = sql.SQL('''
+    SELECT * FROM {} ORDER BY id DESC LIMIT 1               
+    ''').format(sql.Identifier(session["vacas"]))
+    cursor.execute(last_id)
+    last = int(cursor.fetchall()[0][0])
+    nova_tab = f'vaca{last}_{session["username"]}'
+    create_table = sql.SQL('''
+    CREATE TABLE {} (dia INTEGER, consumo_alimento FLOAT, leite_quantidade FLOAT, leite_temperatura FLOAT, leite_ph FLOAT)
+    ''').format(sql.Identifier(nova_tab))
+    cursor.execute(create_table)
+    conn.commit()
+    insert_query = sql.SQL('''
+    INSERT INTO {} (dia) VALUES ('1')                    
+    ''').format(sql.Identifier(nova_tab))
+    cursor.execute(insert_query)
     conn.commit()
     return redirect("/vacas")
 
@@ -200,23 +226,27 @@ def diario():
 
     # Selecionar vaca
     if request.method == "POST":
-        seletor = request.form.get("selecao_vaca")
-        if seletor < 1 or seletor > session["num_vacas"]:
-            return apology("ID inválido")
+        seletor = int(request.form.get("selecao_vaca"))
         tab = f'vaca{seletor}_{session["username"]}'
-        cursor.execute("SELECT * FROM (%s)", tab)
+        id_query = sql.SQL('''
+        SELECT * FROM {} WHERE id = (%s)
+        ''').format(sql.Identifier(session["vacas"]))
+        cursor.execute(id_query, (seletor,))
+        result = (cursor.fetchall())
+        if not result:
+            return apology("ID inválido")
+        query = sql.SQL('''
+        SELECT * FROM {}           
+        ''').format(sql.Identifier(tab))
+        cursor.execute(query)
         dias = cursor.fetchall()
         colunas = [desc[0] for desc in cursor.description]
         return render_template("diario.html", colunas=colunas, dias=dias)
         
     # Renderizar tabela
     else:
-        default = 'vaca' + '1'
-        default = f'{default}_{session["username"]}'
-        cursor.execute("SELECT * FROM (%s)", default)
-        cursor.fetchall()
+        colunas = []
         dias = []
-        colunas = [desc[0] for desc in cursor.description]  # Nomes das colunas
         return render_template("diario.html", colunas=colunas, dias=dias)
 
 
