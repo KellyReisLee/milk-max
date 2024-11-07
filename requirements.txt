@@ -6,3 +6,4 @@ werkzeug.security
 matplotlib.pyplot
 os
 seaborn
+Jinja2
