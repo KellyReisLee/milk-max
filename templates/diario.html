@@ -4,18 +4,23 @@
 
 {% block main %}
     <h2>Diário</h2>
+    <!-- Selecionar ID vaca para ver seu diário -->
     <div class="container button">
         <form action="/diario" method="post">
             <input min="1" autocomplete="off" autofocus id="selecao_vaca" name="selecao_vaca" placeholder="ID vaca" type="number">
             <button type="submit">Ver diário</button>
         </form>
     </div>
+
+    <!-- Selecionar período -->
     <div class="container button">
         <form action="/diario" method="post">
             <input autocomplete="off" autofocus id="periodo_diario" name="periodo_diario" placeholder="Período" type="number">
             <button type="submit">Selecionar período</button>
         </form>
     </div>
+
+    <!-- Tabela diário -->
     <table class="table">
         <thead>
             <tr>
@@ -34,6 +39,8 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <!-- Registrar no diário -->
     <div class="container button">
         <button style="margin-bottom: 50px;" onclick="registro()">Registrar no diário</button>
         <div>
@@ -49,6 +56,7 @@
         </div>
     </div>
 
+    <!-- Script -->
     <script>
         // Desocultar campos ao clicar em "Adicionar registro"
         function registro() {

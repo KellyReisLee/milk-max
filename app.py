@@ -6,6 +6,8 @@ from flask import Flask, render_template, redirect, session, request
 from flask_session import Session
 import psycopg2
 from psycopg2 import sql
+import pandas as pd
+from sqlalchemy import create_engine
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import apology, login_required
@@ -31,6 +33,9 @@ conn = psycopg2.connect(
     host='localhost',
     port='5432'
 )
+
+# SQLAlchemy
+engine = create_engine('postgresql://postgres:my627267@localhost:5432/milkmax')
 
 # Create cursor
 cursor = conn.cursor()
@@ -290,9 +295,38 @@ def registro():
 def relatorios():
     if request.method == "POST":
 
-        # Recuper dados inputados
+        # Opção selecionada
         option = request.form.get("select")
-        return render_template("relatorios.html", option=option)
+        # Analisar relatórios de uma vaca
+        if option != "all":
+            select = request.form.get("selecao_vaca")
+            # Verificar se id é válido
+            id = int(select)
+            tab = f'vaca{id}_{session["username"]}'
+            id_query = sql.SQL('''
+            SELECT * FROM {} WHERE id = (%s)
+            ''').format(sql.Identifier(session["vacas"]))
+            cursor.execute(id_query, (id,))
+            result = (cursor.fetchall())
+            if not result:
+                return apology("ID inválido")
+            # Converter para DataFrame
+            query = sql.SQL('''
+            SELECT * FROM {}
+            ''').format(sql.Identifier(tab))
+            as_str = query.as_string(conn)
+            df = pd.read_sql_query(as_str, conn)
+            ### Descriptive analytics - statistics
+            descriptive = df.describe()
+            descriptive = descriptive.round(2)
+            count = round(descriptive.iloc[0][descriptive.columns[1]])
+            descriptive.drop('count', inplace=True)
+            # Converter para tabela SQL
+            descriptive.to_sql('descriptive', engine, index=True, index_label="parâmetro", if_exists='replace')
+            cursor.execute('''SELECT * FROM descriptive''')
+            linhas = cursor.fetchall()
+            colunas = [desc[0] for desc in cursor.description]
+            return render_template("relatorios.html", colunas=colunas, linhas=linhas, count=count)
     else:
         return render_template("relatorios.html")
 

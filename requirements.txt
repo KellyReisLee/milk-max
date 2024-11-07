@@ -1,2 +1,5 @@
-Flask
-Flask-session
+flask
+flask-session
+psycopg2
+pandas
+werkzeug.security
