@@ -1,4 +1,4 @@
-/* CSS Reset */
+/* -CSS Reset */
 * {
     margin: 0;
     padding: 0;
@@ -11,7 +11,6 @@ html {
 
 body {
     line-height: 1.6;
-    font-family: Arial, sans-serif;
 
 
 }
@@ -53,12 +52,9 @@ a {
     padding: 0;
 }
 
+/* Header Section */
 
-i {
-    color: #1051AB;
-}
-
-/* Header-section ---------------------- */
+/* Header-section */
 .header-container {
     background-color: #1051AB;
     padding: 1rem 0;
@@ -86,13 +82,11 @@ i {
     }
 }
 
+/* Login section */
 
 /* Login section  ---------------------- */
 .login-container {
     display: flex;
-}
-
-.login-container {
     margin: 10px;
 }
 
@@ -157,8 +151,27 @@ input::placeholder {
     color: white;
 }
 
+.form-btn,
+.form-grup {
+    transition: transform 0.3s ease;
+}
+
+.form-btn:hover,
+.form-grup:hover {
+    transform: scale(1.03);
+}
+
+.form-btn:hover {
+    background-color: #5279ae;
+}
+
 .form-grup:nth-child(1) {
     margin-top: 20px;
+    margin-bottom: 12px;
+}
+
+.form-grup:nth-child(2) {
+    margin-top: 0px;
     margin-bottom: 12px;
 }
 
