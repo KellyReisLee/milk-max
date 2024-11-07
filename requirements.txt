@@ -3,3 +3,6 @@ flask-session
 psycopg2
 pandas
 werkzeug.security
+matplotlib.pyplot
+os
+seaborn

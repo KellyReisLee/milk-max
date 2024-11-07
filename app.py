@@ -8,6 +8,10 @@ import psycopg2
 from psycopg2 import sql
 import pandas as pd
 from sqlalchemy import create_engine
+import io
+import base64
+import matplotlib.pyplot as plt
+import seaborn as sns
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import apology, login_required
@@ -251,7 +255,7 @@ def diario():
         dias = []
         return render_template("diario.html", colunas=colunas, dias=dias)
 
-
+## Registro no diário
 @app.route("/registro", methods = ["POST"])
 @login_required
 def registro():
@@ -291,15 +295,17 @@ def registro():
     colunas = [desc[0] for desc in cursor.description]
     return render_template("diario.html", colunas=colunas, dias=dias)
 
+
+## Página de relatórios
 @app.route("/relatorios", methods = ["GET", "POST"])
 def relatorios():
     if request.method == "POST":
-
-        # Opção selecionada
         option = request.form.get("select")
-        # Analisar relatórios de uma vaca
+
+        ## Analisar relatórios de uma vaca
         if option != "all":
             select = request.form.get("selecao_vaca")
+
             # Verificar se id é válido
             id = int(select)
             tab = f'vaca{id}_{session["username"]}'
@@ -310,13 +316,18 @@ def relatorios():
             result = (cursor.fetchall())
             if not result:
                 return apology("ID inválido")
+            
             # Converter para DataFrame
             query = sql.SQL('''
             SELECT * FROM {}
             ''').format(sql.Identifier(tab))
             as_str = query.as_string(conn)
             df = pd.read_sql_query(as_str, conn)
-            ### Descriptive analytics - statistics
+            # Missing values
+            df.isnull()
+            df = df.fillna(0)
+
+            # Descriptive analytics - statistics
             descriptive = df.describe()
             descriptive = descriptive.round(2)
             count = round(descriptive.iloc[0][descriptive.columns[1]])
@@ -326,7 +337,31 @@ def relatorios():
             cursor.execute('''SELECT * FROM descriptive''')
             linhas = cursor.fetchall()
             colunas = [desc[0] for desc in cursor.description]
-            return render_template("relatorios.html", colunas=colunas, linhas=linhas, count=count)
+
+            # Descriptive analytics - univariate visualization
+            img_paths = []
+            len = df.shape[1]
+            columns = []
+            for i in range(len):
+                columns.append(df.columns[i])
+            for column in columns[1:]:
+                filename = f'plot_{column}.png'
+                plt.figure(figsize=(5, 5))
+                sns.histplot(df[column], bins=30, kde=False)
+                plt.title(column)
+                # Salvar a imagem em memória com BytesIO
+                img_io = io.BytesIO()
+                plt.savefig(img_io, format='png')
+                img_io.seek(0)  # Voltar para o início do arquivo
+                
+                # Converter para base64 para poder renderizar na página HTML
+                img_data = base64.b64encode(img_io.getvalue()).decode('utf-8')
+                img_paths.append(f"data:image/png;base64,{img_data}")
+                
+                plt.close()  # Fechar o gráfico
+            # Armazenar os gráficos na sessão
+            session['img_paths'] = img_paths
+            return render_template("relatorios.html", colunas=colunas, linhas=linhas, count=count, img_paths=session["img_paths"])
     else:
         return render_template("relatorios.html")
 
