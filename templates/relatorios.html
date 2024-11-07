@@ -4,6 +4,7 @@
 
 {% block main %}
     <h2>Relatórios</h2>
+    <!--- Selecionar se deseja ver relatórios referentes a todas as vacas ou a apenas uma -->
     <div class="container button">
         <form onsubmit="return ValidateForm()" action="/relatorios" method="post">
             <label class="radio">
@@ -15,9 +16,34 @@
                 Selecionar vaca
             </label>
             <input style="margin-left: 10px;" min="1" autocomplete="off" autofocus id="selecao_vaca" name="selecao_vaca" placeholder="ID vaca" type="hidden">
-            <button style="margin: 10px;" type="submit">Ver relatórios</button>
+            <button onclick="return count()" style="margin: 10px;" type="submit">Ver relatórios</button>
         </form>
     </div>
+
+    <!--- Relatórios  -->
+    <div id="count" class="container-fluid" style="display: none">
+        <p>
+            Número de registros: {{ count }}
+        </p>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                {% for coluna in colunas %}
+                    <th>{{ coluna }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for linha in linhas %}
+                <tr>
+                    {% for item in linha %}
+                        <td>{{ item }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
     <script>
         // Validar formulário "Cadastrar vaca"
@@ -36,6 +62,10 @@
         // Ocultar campo ao selecionar value "all"
         function hide() {
             document.getElementById("selecao_vaca").type = "hidden";
+        }
+        // Desocultar campo count
+        function count() {
+            document.getElementById("count").style.display = "block";
         }
     </script>
 {% endblock %}

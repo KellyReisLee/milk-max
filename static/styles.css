@@ -10,7 +10,7 @@ body {
     font-family: 'League Spartan', 'Calibri', 'Times New Roman';
 }
 
-button, input {
+button, input, label {
     font-size: larger;
     font-family: 'League Spartan', 'Calibri', 'Times New Roman';
 }
@@ -51,6 +51,6 @@ h2 {
 }
 
 .radio {
-    margin: 10px;
+    margin: 10px 0;
     display: block;
 }
