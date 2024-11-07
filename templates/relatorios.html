@@ -21,11 +21,6 @@
     </div>
 
     <!--- Relatórios  -->
-    <div id="count" class="container-fluid" style="display: none">
-        <p>
-            Número de registros: {{ count }}
-        </p>
-    </div>
     <table class="table">
         <thead>
             <tr>
@@ -62,10 +57,6 @@
         // Ocultar campo ao selecionar value "all"
         function hide() {
             document.getElementById("selecao_vaca").type = "hidden";
-        }
-        // Desocultar campo count
-        function count() {
-            document.getElementById("count").style.display = "block";
         }
     </script>
 {% endblock %}
