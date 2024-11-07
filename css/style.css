@@ -58,7 +58,7 @@ i {
     color: #1051AB;
 }
 
-/* Header-section */
+/* Header-section ---------------------- */
 .header-container {
     background-color: #1051AB;
     padding: 1rem 0;
@@ -87,105 +87,7 @@ i {
 }
 
 
-/* Footer */
-.footer-container {
-    background-color: #1051AB;
-    padding: 0.8rem 0;
-    position: fixed;
-    bottom: 0;
-}
-
-.subtitle-footer {
-    color: #e0e0e0;
-    font-size: 1.3rem;
-    margin: 0;
-    align-self: flex-end;
-}
-
-.footer-icon-list {
-    display: flex;
-    gap: 0.7rem;
-}
-
-.icon {
-    background-color: #f6f6f6;
-    padding: 0.4rem 0.6rem;
-    border-radius: 50%;
-}
-
-/* Container flexível para alinhar o input e o botão */
-.subscribe-container {
-    display: flex;
-    align-items: center;
-}
-
-/* Estilizar o campo de entrada */
-.subscribe-input {
-    flex: 1;
-    padding: 6px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-right: none;
-    /* Remove a borda direita para unir com o botão */
-    border-radius: 4px 0 0 4px;
-    /* Bordas arredondadas para o lado esquerdo */
-    outline: none;
-    height: auto;
-}
-
-/* Estilizar o botão */
-.subscribe-button {
-    padding: 6px 20px;
-    font-size: 16px;
-    letter-spacing: 1.1px;
-    border: 1px solid #007bff;
-    background-color: #007bff;
-    color: #ffffff;
-    cursor: pointer;
-    border-radius: 0 4px 4px 0;
-    /* Bordas arredondadas para o lado direito */
-    transition: background-color 0.3s;
-}
-
-/* Efeito de hover para o botão */
-.subscribe-button:hover {
-    background-color: #0056b3;
-}
-
-/* Remover estilos extras no input ao focar */
-.subscribe-input:focus {
-    border-color: #007bff;
-}
-
-.hr-footer {
-    background-color: #ccc;
-    width: 100%;
-}
-
-.footer-nav ul {
-    display: flex;
-    padding-top: 1.5rem;
-    padding-bottom: 3rem;
-}
-
-.nav-links-footer {
-    color: #e0e0e0;
-    border-right: 1px solid #e0e0e0;
-    padding: 0 1.4rem;
-    cursor: pointer;
-}
-
-.nav-links-footer a {
-    color: #e0e0e0;
-}
-
-.copyright {
-    margin: 0;
-    color: #e0e0e0;
-    font-size: 12px;
-}
-
-/* Login section */
+/* Login section  ---------------------- */
 .login-container {
     display: flex;
 }
@@ -303,4 +205,106 @@ input::placeholder {
     .form-container p {
         text-align: center;
     }
+}
+
+
+/* Footer ---------------------- */
+.footer-container {
+    background-color: #1051AB;
+    padding: 0.8rem 0;
+    position: fixed;
+    bottom: 0;
+}
+
+.subtitle-footer {
+    color: #e0e0e0;
+    font-size: 1.3rem;
+    margin: 0;
+    align-self: flex-center;
+
+}
+
+.footer-icon-list {
+    display: flex;
+    gap: 0.7rem;
+}
+
+.icon {
+    background-color: #f6f6f6;
+    padding: 0.4rem 0.6rem;
+    border-radius: 50%;
+}
+
+/* Container flexível para alinhar o input e o botão */
+.subscribe-container {
+    display: flex;
+    align-items: center;
+    width: 75%;
+}
+
+/* Estilizar o campo de entrada */
+.subscribe-input {
+    flex: 1;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-right: none;
+    /* Remove a borda direita para unir com o botão */
+    border-radius: 4px 0 0 4px;
+    /* Bordas arredondadas para o lado esquerdo */
+    outline: none;
+    height: auto;
+}
+
+/* Estilizar o botão */
+.subscribe-button {
+    padding: 8px 20px;
+    font-size: 16px;
+    letter-spacing: 1.1px;
+    border: 1px solid #007bff;
+    background-color: #007bff;
+    color: #ffffff;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+    /* Bordas arredondadas para o lado direito */
+    transition: background-color 0.3s;
+}
+
+/* Efeito de hover para o botão */
+.subscribe-button:hover {
+    background-color: #0056b3;
+}
+
+/* Remover estilos extras no input ao focar */
+.subscribe-input:focus {
+    border-color: #007bff;
+}
+
+.hr-footer {
+    background-color: #ccc;
+    width: 100%;
+}
+
+.footer-nav ul {
+    display: flex;
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
+}
+
+.nav-links-footer {
+    color: #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    padding: 0 1.4rem;
+    cursor: pointer;
+}
+
+.nav-links-footer a {
+    color: #e0e0e0;
+}
+
+.copyright {
+    margin: 0;
+    color: #e0e0e0;
+    font-size: 11px;
+    margin-bottom: 0.4rem;
 }
