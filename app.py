@@ -239,7 +239,7 @@ def diario():
         cursor.execute(id_query, (seletor,))
         result = (cursor.fetchall())
         if not result:
-            return apology("ID inválido")
+            return apology("Não há registros no diário dessa vaca")
         # Renderizar tabela
         query = sql.SQL('''
         SELECT * FROM {} ORDER BY dia       
@@ -276,7 +276,7 @@ def registro():
     cursor.execute(id_query, (id,))
     result = (cursor.fetchall())
     if not result:
-        return apology("ID inválido")
+        return apology("Não há registros no diário dessa vaca")
     
     # Adicionar registro na tabela vaca{id}_{username}
     insert_query = sql.SQL('''
@@ -315,7 +315,7 @@ def relatorios():
             cursor.execute(id_query, (id,))
             result = (cursor.fetchall())
             if not result:
-                return apology("ID inválido")
+                return apology("Não há registros no diário dessa vaca")
             
             # Converter para DataFrame
             query = sql.SQL('''
