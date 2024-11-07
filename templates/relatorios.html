@@ -20,7 +20,7 @@
         </form>
     </div>
 
-    <!--- Relatórios  -->
+    <!--- Estatísticas  -->
     <table class="table">
         <thead>
             <tr>
@@ -39,6 +39,13 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <!-- Gráficos -->
+    <div class="container graph">
+        {% for img in img_paths %}
+            <img src="{{ img }}">
+        {% endfor %}
+    </div>
 
     <script>
         // Validar formulário "Cadastrar vaca"
