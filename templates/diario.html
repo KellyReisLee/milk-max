@@ -6,9 +6,14 @@
     <h2>Diário</h2>
     <div class="container button">
         <form action="/diario" method="post">
-            Vaca:
             <input min="1" autocomplete="off" autofocus id="selecao_vaca" name="selecao_vaca" placeholder="ID vaca" type="number">
             <button type="submit">Ver diário</button>
+        </form>
+    </div>
+    <div class="container button">
+        <form action="/diario" method="post">
+            <input autocomplete="off" autofocus id="periodo_diario" name="periodo_diario" placeholder="Período" type="number">
+            <button type="submit">Selecionar período</button>
         </form>
     </div>
     <table class="table">
@@ -30,6 +35,45 @@
         </tbody>
     </table>
     <div class="container button">
-        <button style="margin-bottom: 50px;">Adicionar registro</button>
+        <button style="margin-bottom: 50px;" onclick="registro()">Registrar no diário</button>
+        <div>
+            <form onsubmit="return ValidateForm()" action="/registro", method="post">
+                <input autofocus autocomplete="off" id="id_vaca" name="id_vaca" placeholder="ID vaca" type="hidden">
+                <input autocomplete="off" id="dia" name="dia" placeholder="Dia (aaaa-mm-dd)" type="hidden">
+                <input autocomplete="off" id="ciclo" name="ciclo" placeholder="Ciclo reprodutivo" type="hidden">
+                <input autocomplete="off" id="leite_qtdd" name="leite_qtdd" placeholder="Quantidade de leite" type="hidden">
+                <input autocomplete="off" id="leite_temp" name="leite_temp" placeholder="Temperatura do leite" type="hidden">
+                <input autocomplete="off" id="leite_ph" name="leite_ph" placeholder="pH do leite" type="hidden">
+                <button id="registrar" type="submit" style="display: none;">Adicionar registro</button>
+            </form>
+        </div>
     </div>
+
+    <script>
+        // Desocultar campos ao clicar em "Adicionar registro"
+        function registro() {
+            document.getElementById("id_vaca").type = "number";
+            document.getElementById("dia").type = "text";
+            document.getElementById("ciclo").type = "text";
+            document.getElementById("leite_qtdd").type = "text";
+            document.getElementById("leite_temp").type = "text";
+            document.getElementById("leite_ph").type = "text";
+            document.getElementById("registrar").style.display = "inline";
+        }
+
+        // Validar formulário "Cadastrar vaca"
+        function ValidateForm() {
+            let id = document.getElementById("id_vaca").value
+            let dia = document.getElementById("dia").value
+            let ciclo = document.getElementById("ciclo").value
+            let qtdd = document.getElementById("leite_qtdd").value
+            let temp = document.getElementById("leite_temp").value
+            let ph = document.getElementById("leite_ph").value
+            if (id == "" || dia == "" || ciclo == "" || qtdd == "" || temp == "" || ph == "") {
+                alert("Preencha todos os campos.")
+                return false;
+            }
+            return true;
+        }
+    </script>
 {% endblock %}

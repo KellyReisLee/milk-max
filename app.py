@@ -207,14 +207,9 @@ def cadastro():
     last = int(cursor.fetchall()[0][0])
     nova_tab = f'vaca{last}_{session["username"]}'
     create_table = sql.SQL('''
-    CREATE TABLE {} (dia INTEGER, consumo_alimento FLOAT, leite_quantidade FLOAT, leite_temperatura FLOAT, leite_ph FLOAT)
+    CREATE TABLE {} (dia DATE, fase_ciclo VARCHAR(50), leite_quantidade FLOAT, leite_temperatura FLOAT, leite_ph FLOAT)
     ''').format(sql.Identifier(nova_tab))
     cursor.execute(create_table)
-    conn.commit()
-    insert_query = sql.SQL('''
-    INSERT INTO {} (dia) VALUES ('1')                    
-    ''').format(sql.Identifier(nova_tab))
-    cursor.execute(insert_query)
     conn.commit()
     return redirect("/vacas")
 
@@ -226,6 +221,7 @@ def diario():
 
     # Selecionar vaca
     if request.method == "POST":
+        # Verificar se ID é válido
         seletor = int(request.form.get("selecao_vaca"))
         tab = f'vaca{seletor}_{session["username"]}'
         id_query = sql.SQL('''
@@ -235,6 +231,7 @@ def diario():
         result = (cursor.fetchall())
         if not result:
             return apology("ID inválido")
+        # Renderizar tabela
         query = sql.SQL('''
         SELECT * FROM {}           
         ''').format(sql.Identifier(tab))
@@ -249,6 +246,45 @@ def diario():
         dias = []
         return render_template("diario.html", colunas=colunas, dias=dias)
 
+
+@app.route("/registro", methods = ["POST"])
+@login_required
+def registro():
+
+    # Recuper dados inputados
+    id = int(request.form.get("id_vaca"))
+    dia = request.form.get("dia")
+    ciclo = request.form.get("ciclo")
+    qtdd = request.form.get("leite_qtdd")
+    temp = request.form.get("leite_temp")
+    ph = request.form.get("leite_ph")
+
+    # Verificar se id é válido
+    tab = f'vaca{id}_{session["username"]}'
+    id_query = sql.SQL('''
+    SELECT * FROM {} WHERE id = (%s)
+    ''').format(sql.Identifier(session["vacas"]))
+    cursor.execute(id_query, (id,))
+    result = (cursor.fetchall())
+    if not result:
+        return apology("ID inválido")
+    
+    # Adicionar registro na tabela vaca{id}_{username}
+    insert_query = sql.SQL('''
+    INSERT INTO {} (dia, fase_ciclo, leite_quantidade, leite_temperatura, leite_ph) VALUES ((%s), (%s), (%s), (%s), (%s))                    
+    ''').format(sql.Identifier(tab))
+    values = (dia, ciclo, qtdd, temp, ph)
+    cursor.execute(insert_query, values)
+    conn.commit()
+
+    # Renderizar tabela
+    query = sql.SQL('''
+    SELECT * FROM {}           
+    ''').format(sql.Identifier(tab))
+    cursor.execute(query)
+    dias = cursor.fetchall()
+    colunas = [desc[0] for desc in cursor.description]
+    return render_template("diario.html", colunas=colunas, dias=dias)
 
 @app.route("/relatorios")
 def relatorios():
