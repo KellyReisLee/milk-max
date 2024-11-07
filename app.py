@@ -233,7 +233,7 @@ def diario():
             return apology("ID inválido")
         # Renderizar tabela
         query = sql.SQL('''
-        SELECT * FROM {}           
+        SELECT * FROM {} ORDER BY dia       
         ''').format(sql.Identifier(tab))
         cursor.execute(query)
         dias = cursor.fetchall()
@@ -279,7 +279,7 @@ def registro():
 
     # Renderizar tabela
     query = sql.SQL('''
-    SELECT * FROM {}           
+    SELECT * FROM {} ORDER BY dia          
     ''').format(sql.Identifier(tab))
     cursor.execute(query)
     dias = cursor.fetchall()
