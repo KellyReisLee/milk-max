@@ -286,9 +286,15 @@ def registro():
     colunas = [desc[0] for desc in cursor.description]
     return render_template("diario.html", colunas=colunas, dias=dias)
 
-@app.route("/relatorios")
+@app.route("/relatorios", methods = ["GET", "POST"])
 def relatorios():
-    return render_template("relatorios.html")
+    if request.method == "POST":
+
+        # Recuper dados inputados
+        option = request.form.get("select")
+        return render_template("relatorios.html", option=option)
+    else:
+        return render_template("relatorios.html")
 
 ###############################################################################3
 

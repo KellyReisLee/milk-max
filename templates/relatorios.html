@@ -3,5 +3,39 @@
 {% block title %} Relatórios {% endblock %}
 
 {% block main %}
-    
+    <h2>Relatórios</h2>
+    <div class="container button">
+        <form onsubmit="return ValidateForm()" action="/relatorios" method="post">
+            <label class="radio">
+                <input onclick="return hide()" type="radio" name="select" value="all">
+                Panorâma geral: todas as vacas
+            </label>
+            <label class="radio">
+                <input onclick="return appear()" type="radio" name="select" value="select">
+                Selecionar vaca
+            </label>
+            <input style="margin-left: 10px;" min="1" autocomplete="off" autofocus id="selecao_vaca" name="selecao_vaca" placeholder="ID vaca" type="hidden">
+            <button style="margin: 10px;" type="submit">Ver relatórios</button>
+        </form>
+    </div>
+
+    <script>
+        // Validar formulário "Cadastrar vaca"
+        function ValidateForm() {
+            let selected = document.querySelector("input[name='select']:checked");
+            if (selected == null) {   
+                alert("Escolha uma opção.")
+                return false;
+            }
+            return true;
+        }
+        // Desocultar campo ao selecionar value "select"
+        function appear() {
+            document.getElementById("selecao_vaca").type = "number";
+        }
+        // Ocultar campo ao selecionar value "all"
+        function hide() {
+            document.getElementById("selecao_vaca").type = "hidden";
+        }
+    </script>
 {% endblock %}
