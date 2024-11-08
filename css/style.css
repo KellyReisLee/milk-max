@@ -298,6 +298,23 @@ input::placeholder {
     object-fit: cover;
 }
 
+/* Feature ---------------------- */
+
+.icon-feature {
+    color: #007bff;
+    padding: 1.3rem;
+    background-color: #ececec;
+    border-radius: 6px;
+}
+
+.card-title {
+    color: #007bff;
+}
+
+
+.card-text {
+    color: #7b7b7c;
+}
 /* Contact ---------------------- */
 .title-form{
         display: flex;
