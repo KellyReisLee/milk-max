@@ -129,7 +129,7 @@ a {
     margin-top: 5px;
 }
 
-.form-grup {
+.form-group {
     margin-bottom: 25px;
 }
 
@@ -154,12 +154,12 @@ input::placeholder {
 }
 
 .form-btn,
-.form-grup {
+.form-group {
     transition: transform 0.3s ease;
 }
 
 .form-btn:hover,
-.form-grup:hover {
+.form-group:hover {
     transform: scale(1.03);
 }
 
@@ -167,12 +167,14 @@ input::placeholder {
     background-color: #5279ae;
 }
 
-.form-grup:nth-child(1) {
+.form-group:nth-child(1) {
     margin-top: 20px;
     margin-bottom: 12px;
 }
 
-.form-grup:nth-child(2) {
+.form-group:nth-child(2),
+.form-group:nth-child(3),
+.form-group:nth-child(4) {
     margin-top: 0px;
     margin-bottom: 12px;
 }
@@ -296,6 +298,21 @@ input::placeholder {
     object-fit: cover;
 }
 
+/* Contact ---------------------- */
+.title-form{
+        display: flex;
+        justify-content: center;
+        margin-top: 25px;
+        color: #0056b3;
+        font-size: 2.3rem;
+        font-weight: 700;
+}
+
+.contact-group{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
 
 /* Footer ---------------------- */
 .footer-container {
