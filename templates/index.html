@@ -3,215 +3,162 @@
 {% block title %} Home {% endblock %}
 
 {% block main %}
-  <!-- Hero section ------ -->
-  <section class="container-hero container-fluid d-flex justify-content-center pb-lg-5 pb-0">
-    <div class="container d-flex flex-lg-row flex-column">
-      <div
-        class=" col-lg-5 col-md-12 d-flex flex-column bg-light order-lg-1 order-2 justify-content-lg-start justify-content-center  px-5 py-4 text-center text-lg-start">
-        <h1 class="title-hero ">Controle completo da sua criação, produção e do financeiro</h1>
-        <p class="content-hero">Software de gestão de criação de gado e produção leiteira, ajudando pequenos produtores
-          no acompanhamento da produção. </p>
-        <button class="btn-hero align-self-lg-start align-self-center w-75">
-          <a href="/pages/signup.html"></a>
-          Comece Agora!
-        </button>
+    <!-- Hero section ------ -->
+    <section class="container-hero container-fluid d-flex justify-content-center pb-lg-5 pb-0">
+      <div class="container d-flex flex-lg-row flex-column">
+        <div
+          class=" col-lg-5 col-md-12 d-flex flex-column bg-light order-lg-1 order-2 justify-content-lg-start justify-content-center  px-5 py-4 text-center text-lg-start">
+          <h1 class="title-hero ">Controle completo da sua criação, produção e do financeiro</h1>
+          <p class="content-hero">Software de gestão de criação de gado e produção leiteira, ajudando pequenos produtores
+            no acompanhamento da produção. </p>
+          <button class="btn-hero align-self-lg-start align-self-center w-75">
+            <a href="/pages/signup.html"></a>
+            Comece Agora!
+          </button>
+        </div>
+        <div class="col-lg-6 col-md-12  order-lg-2 order-1 d-flex justify-content-center align-items-center">
+          <img class="img-fluid w-100 h-100" src="/static/img/hero-image.jpg" alt="" style="object-fit: cover; height: 100%;">
+        </div>
       </div>
-      <div class="col-lg-6 col-md-12  order-lg-2 order-1 d-flex justify-content-center align-items-center">
-        <img class="img-fluid w-100 h-100" src="/static/img/hero-image.jpg" alt="" style="object-fit: cover; height: 100%;">
+
+    </section>
+
+    <!-- Sponsors ------ -->
+    <section class="sponsors-container">
+      <div class="container-fluid">
+        <p class="title-sponsors text-center my-0">Parceiros</p>
+        <div class="row justify-content-center align-items-center gap-2">
+          <div class="col-2 d-flex ">
+            <img class="img-fluid " src="/static/img/sponsors/farmers-market.png" alt="farmers-market-logo">
+          </div>
+          <div class="col-2 d-flex justify-content-center">
+            <img class="img-fluid " src="/static/img/sponsors/milky-cafe.png" alt="milky-cafe-logo">
+          </div>
+          <div class="col-2 d-flex justify-content-center">
+            <img class="img-fluid " src="/static/img/sponsors/farm-2022.png" alt="farmer-2022-logo">
+          </div>
+          <div class="col-2 d-flex justify-content-center">
+            <img class="img-fluid " src="/static/img/sponsors/farmers.png" alt="farmers-logo">
+          </div>
+          <div class="col-2 d-flex justify-content-center">
+            <img class="img-fluid " src="/static/img/sponsors/farmer-green-house.png" alt="farmer-green-house-logo">
+          </div>
+
+        </div>
       </div>
-    </div>
 
-  </section>
+    </section>
 
-  <!-- Sponsors ------ -->
-  <section class="sponsors-container">
-    <div class="container-fluid">
-      <p class="title-sponsors text-center my-0">Parceiros</p>
-      <div class="row justify-content-center align-items-center gap-2">
-        <div class="col-2 d-flex ">
-          <img class="img-fluid " src="/static/img/sponsors/farmers-market.png" alt="farmers-market-logo">
-        </div>
-        <div class="col-2 d-flex justify-content-center">
-          <img class="img-fluid " src="/static/img/sponsors/milky-cafe.png" alt="milky-cafe-logo">
-        </div>
-        <div class="col-2 d-flex justify-content-center">
-          <img class="img-fluid " src="/static/img/sponsors/farm-2022.png" alt="farmer-2022-logo">
-        </div>
-        <div class="col-2 d-flex justify-content-center">
-          <img class="img-fluid " src="/static/img/sponsors/farmers.png" alt="farmers-logo">
-        </div>
-        <div class="col-2 d-flex justify-content-center">
-          <img class="img-fluid " src="/static/img/sponsors/farmer-green-house.png" alt="farmer-green-house-logo">
-        </div>
+    <!-- Features ------ -->
+    <section class="features-container container">
+      <div class="row py-5">
+        <!-- Card 1 -->
+        <div class="col-6 col-md-4 mb-4">
+          <div class="h-100">
+            <div class="row justify-content-center">
+              <div class="col-1 py-3  h-100   d-flex justify-content-center ">
+                <h5 class="card-title"><i class="icon-feature fa-solid fa-check fa-lg"></i> </h5>
 
-      </div>
-    </div>
-
-  </section>
-
-  <!-- Features ------ -->
-  <section class="features-container container">
-    <div class="row py-5">
-      <!-- Card 1 -->
-      <div class="col-6 col-md-4 mb-4">
-        <div class="h-100">
-          <div class="row justify-content-center">
-            <div class="col-1 py-3  h-100   d-flex justify-content-center ">
-              <h5 class="card-title"><i class="icon-feature fa-solid fa-check fa-lg"></i> </h5>
-
+              </div>
+              <div class="col-8 ml-0">
+                <div class="card-body">
+                  <h5 class="card-title">Gestão de Ordenha</h5>
+                  <p class="card-text">Controle detalhado da ordenha, incluindo produção diária por animal e qualidade do
+                    leite.</p>
+                </div>
+              </div>
             </div>
-            <div class="col-8 ml-0">
-              <div class="card-body">
-                <h5 class="card-title">Gestão de Ordenha</h5>
-                <p class="card-text">Controle detalhado da ordenha, incluindo produção diária por animal e qualidade do
-                  leite.</p>
+          </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="col-6 col-md-4 mb-4">
+          <div class=" h-100">
+            <div class="row justify-content-center">
+              <div class="col-1 py-3  h-100   d-flex justify-content-center ">
+                <h5 class="card-title"><i class="icon-feature fas fa-hand-holding-heart fa-lg"></i>
+
+                </h5>
+              </div>
+              <div class="col-8">
+                <div class="card-body">
+                  <h5 class="card-title">Gestão da Saúde</h5>
+                  <p class="card-text">Registre dados de saúde e vacinas de cada animal, incluindo exames e tratamentos.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="col-6 col-md-4 mb-4">
+          <div class="h-100">
+            <div class="row justify-content-center">
+              <div class="col-1 py-3  h-100 d-flex justify-content-center ">
+                <h5 class="card-title"><i class="icon-feature fas fa-shield fa-lg "></i> </h5>
+              </div>
+              <div class="col-8">
+                <div class="card-body">
+                  <h5 class="card-title">Alimentação e Nutrição</h5>
+                  <p class="card-text">
+                    Controle a alimentação e a suplementação de cada vaca.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="col-6 col-md-4 mb-4">
+          <div class=" h-100">
+            <div class="row justify-content-center">
+              <div class="col-1 py-3  h-100 d-flex justify-content-center ">
+                <h5 class="card-title"><i class="icon-feature  fas fa-medal fa-lg"></i> </h5>
+              </div>
+              <div class="col-8">
+                <div class="card-body">
+                  <h5 class="card-title">Qualidade do Leite</h5>
+                  <p class="card-text">Registre e acompanhe os parâmetros de qualidade do leite, como teor de gordura e
+                    proteína. </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="col-6 col-md-4 mb-4">
+          <div class=" h-100">
+            <div class="row justify-content-center">
+              <div class="col-1 py-3  h-100  d-flex justify-content-center ">
+                <h5 class="card-title"><i class="icon-feature fas fa-chart-line fa-lg"></i> </h5>
+              </div>
+              <div class="col-8">
+                <div class="card-body">
+                  <h5 class="card-title">Análises Financeiras</h5>
+                  <p class="card-text">Gere relatórios financeiros e de produtividade para tomada de decisão.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="col-6 col-md-4 mb-4">
+          <div class="h-100">
+            <div class="row justify-content-center">
+              <div class="col-1 py-3  h-100 d-flex justify-content-center ">
+                <h5 class="card-title"><i class="icon-feature  fas fa-chart-column fa-lg"></i> </h5>
+              </div>
+              <div class="col-8">
+                <div class="card-body">
+                  <h5 class="card-title">Produção Diária</h5>
+                  <p class="card-text">Monitore a quantidade de leite produzido diariamente por cada vaca ou grupo.</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- Card 2 -->
-      <div class="col-6 col-md-4 mb-4">
-        <div class=" h-100">
-          <div class="row justify-content-center">
-            <div class="col-1 py-3  h-100   d-flex justify-content-center ">
-              <h5 class="card-title"><i class="icon-feature fas fa-hand-holding-heart fa-lg"></i>
-
-              </h5>
-            </div>
-            <div class="col-8">
-              <div class="card-body">
-                <h5 class="card-title">Gestão da Saúde</h5>
-                <p class="card-text">Registre dados de saúde e vacinas de cada animal, incluindo exames e tratamentos.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Card 3 -->
-      <div class="col-6 col-md-4 mb-4">
-        <div class="h-100">
-          <div class="row justify-content-center">
-            <div class="col-1 py-3  h-100 d-flex justify-content-center ">
-              <h5 class="card-title"><i class="icon-feature fas fa-shield fa-lg "></i> </h5>
-            </div>
-            <div class="col-8">
-              <div class="card-body">
-                <h5 class="card-title">Alimentação e Nutrição</h5>
-                <p class="card-text">
-                  Controle a alimentação e a suplementação de cada vaca.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="col-6 col-md-4 mb-4">
-        <div class=" h-100">
-          <div class="row justify-content-center">
-            <div class="col-1 py-3  h-100 d-flex justify-content-center ">
-              <h5 class="card-title"><i class="icon-feature  fas fa-medal fa-lg"></i> </h5>
-            </div>
-            <div class="col-8">
-              <div class="card-body">
-                <h5 class="card-title">Qualidade do Leite</h5>
-                <p class="card-text">Registre e acompanhe os parâmetros de qualidade do leite, como teor de gordura e
-                  proteína. </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 5 -->
-      <div class="col-6 col-md-4 mb-4">
-        <div class=" h-100">
-          <div class="row justify-content-center">
-            <div class="col-1 py-3  h-100  d-flex justify-content-center ">
-              <h5 class="card-title"><i class="icon-feature fas fa-chart-line fa-lg"></i> </h5>
-            </div>
-            <div class="col-8">
-              <div class="card-body">
-                <h5 class="card-title">Análises Financeiras</h5>
-                <p class="card-text">Gere relatórios financeiros e de produtividade para tomada de decisão.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 6 -->
-      <div class="col-6 col-md-4 mb-4">
-        <div class="h-100">
-          <div class="row justify-content-center">
-            <div class="col-1 py-3  h-100 d-flex justify-content-center ">
-              <h5 class="card-title"><i class="icon-feature  fas fa-chart-column fa-lg"></i> </h5>
-            </div>
-            <div class="col-8">
-              <div class="card-body">
-                <h5 class="card-title">Produção Diária</h5>
-                <p class="card-text">Monitore a quantidade de leite produzido diariamente por cada vaca ou grupo.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-
-
-  <!-- Footer ------ -->
-  <footer class=" footer-container container-fluid d-flex justify-content-center flex-column align-items-center">
-    <div
-      class="row container d-flex py-3 px-0 gap-lg-0  gap-2  align-items-center justify-content-between flex-column flex-lg-row ">
-      <div
-        class="col-lg-4 col-md-12 d-flex align-items-center py-2 order-1 order-md-1 gap-3 py-md-2  justify-content-lg-end justify-content-center  justify-content-end ">
-        <h3 class="subtitle-footer d-flex align-self-end   ">Follow us</h3>
-        <div class="footer-icon-list">
-          <a href="#" class="icon" aria-label="Facebook" aria-hidden="true">
-            <i class="fa-brands fa-facebook fa-md"></i>
-          </a>
-          <a href="#" class="icon" aria-label="Instagram" aria-hidden="true">
-            <i class="fa-brands fa-instagram fa-md"></i>
-          </a>
-          <a href="#" class="icon" aria-label="Twitter" aria-hidden="true">
-            <i class="fa-brands fa-twitter fa-md"></i>
-          </a>
-          <a href="#" class="icon" aria-label="YouTube" aria-hidden="true">
-            <i class="fa-brands fa-youtube fa-md"></i>
-          </a>
-        </div>
-
-      </div>
-      <div
-        class="col-lg-7 col-md-12 d-flex  py-2  justify-content-start flex-lg-row flex-column d-flex align-items-center gap-3 gap-sm-2 ">
-        <h3 class="subtitle-footer d-flex align-self-center  align-self-lg-end">
-          Get the NewsLetter
-        </h3>
-        <div class="subscribe-container">
-          <input type="email" class="subscribe-input" placeholder="Your email address" aria-label="Email address"
-            required>
-          <button class="subscribe-button" type="button">Subscribe</button>
-        </div>
-      </div>
-    </div>
-
-    <hr class="hr-footer">
-
-    <nav class="footer-nav">
-      <ul>
-        <li class="nav-links-footer"><a href="#">Features</a></li>
-        <li class="nav-links-footer"><a href="#">About</a></li>
-        <li class="nav-links-footer"><a href="#">Testimonials</a></li>
-        <li class="nav-links-footer"><a href="#">Contact</a></li>
-      </ul>
-    </nav>
-
-    <p class="copyright"> © 2024 Milkmax. All rights reserved.</p>
-  </footer>
+    </section>
 {% endblock %}

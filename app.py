@@ -70,10 +70,13 @@ def after_request(response):
 def index():
     return render_template("index.html")
 
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
 
 ## Register page
-@app.route("/register", methods=["GET", "POST"])
-def register():
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
 
     # Formulário de registro submetido
     if request.method == "POST":
@@ -106,7 +109,7 @@ def register():
 
     # Renderizar formulário de registro
     else:
-        return render_template("register.html")
+        return render_template("signup.html")
 
 
 ## Sair da sessão
