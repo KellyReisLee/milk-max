@@ -47,7 +47,8 @@ conn = psycopg2.connect(
 )
 
 # SQLAlchemy
-engine = create_engine('postgresql://db_user:db_password@localhost:5432/db_name')
+url = f'postgresql://{db_user}:{db_password}@{db_host}:5432/{db_name}'
+engine = create_engine(url)
 
 # Create cursor
 cursor = conn.cursor()
