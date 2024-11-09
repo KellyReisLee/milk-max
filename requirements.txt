@@ -1,9 +1,7 @@
-flask
-flask-session
-psycopg2
-pandas
-werkzeug.security
-matplotlib.pyplot
-os
-seaborn
-Jinja2
+Flask==3.0.3
+matplotlib==3.8.4
+pandas==2.2.3
+psycopg2==2.9.10
+seaborn==0.13.2
+SQLAlchemy==2.0.30
+Werkzeug==3.1.3
