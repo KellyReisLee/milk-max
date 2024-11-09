@@ -3,56 +3,58 @@
 {% block title %} Diário {% endblock %}
 
 {% block main %}
-    <h2>Diário</h2>
-    <!-- Selecionar ID vaca para ver seu diário -->
-    <div class="container button">
-        <form action="/diario" method="post">
-            <input min="1" autocomplete="off" autofocus id="selecao_vaca" name="selecao_vaca" placeholder="ID vaca" type="number">
-            <button type="submit">Ver diário</button>
-        </form>
-    </div>
+    <div class="container mt-5 mb-5">
+        <h2 class="text-center mb-4"><strong>Diário</strong></h2>
+        <!-- Selecionar ID vaca para ver seu diário -->
+        <div class="container button">
+            <form action="/diario" method="post">
+                <input min="1" autocomplete="off" autofocus id="selecao_vaca" name="selecao_vaca" placeholder="ID vaca" type="number">
+                <button class="btn-login" type="submit">Ver diário</button>
+            </form>
+        </div>
 
-    <!-- Selecionar período -->
-    <div class="container button">
-        <form action="/diario" method="post">
-            <input autocomplete="off" autofocus id="periodo_diario" name="periodo_diario" placeholder="Período" type="number">
-            <button type="submit">Selecionar período</button>
-        </form>
-    </div>
+        <!-- Selecionar período -->
+        <div class="container button">
+            <form action="/diario" method="post">
+                <input autocomplete="off" autofocus id="periodo_diario" name="periodo_diario" placeholder="Período" type="number">
+                <button class="btn-login" type="submit">Selecionar período</button>
+            </form>
+        </div>
 
-    <!-- Tabela diário -->
-    <table class="table">
-        <thead>
-            <tr>
-                {% for coluna in colunas %}
-                    <th>{{ coluna }}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for linha in dias %}
+        <!-- Tabela diário -->
+        <table class="table">
+            <thead>
                 <tr>
-                    {% for item in linha %}
-                        <td>{{ item }}</td>
+                    {% for coluna in colunas %}
+                        <th>{{ coluna }}</th>
                     {% endfor %}
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for linha in dias %}
+                    <tr>
+                        {% for item in linha %}
+                            <td>{{ item }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-    <!-- Registrar no diário -->
-    <div class="container button">
-        <button style="margin-bottom: 50px;" onclick="registro()">Registrar no diário</button>
-        <div>
-            <form onsubmit="return ValidateForm()" action="/registro", method="post">
-                <input autofocus autocomplete="off" id="id_vaca" name="id_vaca" placeholder="ID vaca" type="hidden">
-                <input autocomplete="off" id="dia" name="dia" placeholder="Dia (aaaa-mm-dd)" type="hidden">
-                <input autocomplete="off" id="ciclo" name="ciclo" placeholder="Ciclo reprodutivo" type="hidden">
-                <input autocomplete="off" id="leite_qtdd" name="leite_qtdd" placeholder="Quantidade de leite" type="hidden">
-                <input autocomplete="off" id="leite_temp" name="leite_temp" placeholder="Temperatura do leite" type="hidden">
-                <input autocomplete="off" id="leite_ph" name="leite_ph" placeholder="pH do leite" type="hidden">
-                <button id="registrar" type="submit" style="display: none;">Adicionar registro</button>
-            </form>
+        <!-- Registrar no diário -->
+        <div class="container button">
+            <button class="btn-login" onclick="registro()">Registrar no diário</button>
+            <div>
+                <form onsubmit="return ValidateForm()" action="/registro", method="post">
+                    <input autofocus autocomplete="off" id="id_vaca" name="id_vaca" placeholder="ID vaca" type="hidden">
+                    <input autocomplete="off" id="dia" name="dia" placeholder="Dia (aaaa-mm-dd)" type="hidden">
+                    <input autocomplete="off" id="ciclo" name="ciclo" placeholder="Ciclo reprodutivo" type="hidden">
+                    <input autocomplete="off" id="leite_qtdd" name="leite_qtdd" placeholder="Quantidade de leite" type="hidden">
+                    <input autocomplete="off" id="leite_temp" name="leite_temp" placeholder="Temperatura do leite" type="hidden">
+                    <input autocomplete="off" id="leite_ph" name="leite_ph" placeholder="pH do leite" type="hidden">
+                    <button id="registrar" type="submit" style="display: none;">Adicionar registro</button>
+                </form>
+            </div>
         </div>
     </div>
 

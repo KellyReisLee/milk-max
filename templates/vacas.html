@@ -3,45 +3,47 @@
 {% block title %} cart {% endblock %}
 
 {% block main %}
-    <h2>Minhas vacas</h2>
-    <!-- Botão novo atributo -->
-    <div class="container button">
-        <form action="/vacas" method="post">
-            <input autocomplete="off" autofocus id="periodo_vacas" name="periodo_vacas" placeholder="Período" type="text">
-            <button type="submit" onclick="add_column()">Selecionar período</button>
-        </form>
-    </div>
-
-    <!-- Tabela com todas as vacas -->
-    <table class="table">
-        <thead>
-            <tr>
-                {% for coluna in colunas %}
-                    <th>{{ coluna }}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for linha in vacas %}
+    <div class="container mt-5 mb-5">
+        <h2 class="text-center mb-4"><strong>Minhas vacas</strong></h2>
+        <!-- Botão novo atributo -->
+        <div class="container button">
+            <form action="/vacas" method="post">
+                <input autocomplete="off" autofocus id="periodo_vacas" name="periodo_vacas" placeholder="Período" type="text">
+                <button class="btn-login" type="submit" onclick="add_column()">Selecionar período</button>
+            </form>
+        </div>
+    
+        <!-- Tabela com todas as vacas -->
+        <table class="table">
+            <thead>
                 <tr>
-                    {% for item in linha %}
-                        <td>{{ item }}</td>
+                    {% for coluna in colunas %}
+                        <th>{{ coluna }}</th>
                     {% endfor %}
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <!-- Cadastrar nova vaca -->
-    <div class="container button">
-        <button style="margin-bottom: 50px;" onclick="cadastro()">Cadastrar vaca</button>
-        <div>
-            <form onsubmit="return ValidateForm()" action="/cadastro", method="post">
-                <input autocomplete="off" id="raca" name="raca" placeholder="Raça" type="hidden">
-                <input autocomplete="off" id="nasc" name="nasc" placeholder="Nascimento(aaaa-mm-dd)" type="hidden">
-                <input autocomplete="off" id="peso" name="peso" placeholder="Peso" type="hidden">
-                <button id="cadastrar" type="submit" style="display: none;">Cadastrar</button>
-            </form>
+            </thead>
+            <tbody>
+                {% for linha in vacas %}
+                    <tr>
+                        {% for item in linha %}
+                            <td>{{ item }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    
+        <!-- Cadastrar nova vaca -->
+        <div class="container button">
+            <button class="btn-login" onclick="cadastro()">Cadastrar vaca</button>
+            <div>
+                <form onsubmit="return ValidateForm()" action="/cadastro", method="post">
+                    <input autocomplete="off" id="raca" name="raca" placeholder="Raça" type="hidden">
+                    <input autocomplete="off" id="nasc" name="nasc" placeholder="Nascimento(aaaa-mm-dd)" type="hidden">
+                    <input autocomplete="off" id="peso" name="peso" placeholder="Peso" type="hidden">
+                    <button class="btn-login" id="cadastrar" type="submit" style="display: none;">Cadastrar</button>
+                </form>
+            </div>
         </div>
     </div>
 
