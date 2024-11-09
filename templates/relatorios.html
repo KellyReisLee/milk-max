@@ -3,48 +3,50 @@
 {% block title %} Relatórios {% endblock %}
 
 {% block main %}
-    <h2>Relatórios</h2>
-    <!--- Selecionar se deseja ver relatórios referentes a todas as vacas ou a apenas uma -->
-    <div class="container button">
-        <form onsubmit="return ValidateForm()" action="/relatorios" method="post">
-            <label class="radio">
-                <input onclick="return hide()" type="radio" name="select" value="all">
-                Panorâma geral: todas as vacas
-            </label>
-            <label class="radio">
-                <input onclick="return appear()" type="radio" name="select" value="select">
-                Selecionar vaca
-            </label>
-            <input style="margin-left: 10px;" min="1" autocomplete="off" autofocus id="selecao_vaca" name="selecao_vaca" placeholder="ID vaca" type="hidden">
-            <button onclick="return count()" style="margin: 10px;" type="submit">Ver relatórios</button>
-        </form>
-    </div>
+    <div class="container mt-5 mb-5">
+        <h2 class="text-center mb-4"><strong>Relatórios</strong></h2>
+        <!--- Selecionar se deseja ver relatórios referentes a todas as vacas ou a apenas uma -->
+        <div class="container button">
+            <form onsubmit="return ValidateForm()" action="/relatorios" method="post">
+                <label class="radio">
+                    <input class="form-check-input" onclick="return hide()" type="radio" name="select" value="all">
+                    Panorâma geral: todas as vacas
+                </label>
+                <label class="radio">
+                    <input class="form-check-input" onclick="return appear()" type="radio" name="select" value="select">
+                    Selecionar vaca
+                </label>
+                <input style="margin-left: 10px;" min="1" autocomplete="off" autofocus id="selecao_vaca" name="selecao_vaca" placeholder="ID vaca" type="hidden">
+                <button class="btn-login" onclick="return count()" type="submit">Ver relatórios</button>
+            </form>
+        </div>
 
-    <!--- Estatísticas  -->
-    <table class="table">
-        <thead>
-            <tr>
-                {% for coluna in colunas %}
-                    <th>{{ coluna }}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for linha in linhas %}
+        <!--- Estatísticas  -->
+        <table class="table">
+            <thead>
                 <tr>
-                    {% for item in linha %}
-                        <td>{{ item }}</td>
+                    {% for coluna in colunas %}
+                        <th>{{ coluna }}</th>
                     {% endfor %}
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for linha in linhas %}
+                    <tr>
+                        {% for item in linha %}
+                            <td>{{ item }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-    <!-- Gráficos -->
-    <div class="container graph">
-        {% for img in img_paths %}
-            <img src="{{ img }}">
-        {% endfor %}
+        <!-- Gráficos -->
+        <div class="container graph">
+            {% for img in img_paths %}
+                <img src="{{ img }}">
+            {% endfor %}
+        </div>
     </div>
 
     <script>

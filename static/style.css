@@ -452,3 +452,12 @@ input::placeholder {
     flex-wrap: wrap;
     margin-top: 50;
 }
+
+.btn-login {
+    background-color: #1051ab;
+    color: #ffffff;
+    border-radius: .25rem;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    margin-top: 20px;
+}
