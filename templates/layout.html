@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/static/img/LOGO.png" type="image/x-icon">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/static/style.css">
     <title>Milkmax: {% block title %}{% endblock %}</title>
 
     <!-- LEAGUE SPARTAN (GOOGLE FONTS) - HEADERS, TÍTULOS E BOTÕES  -->
@@ -73,12 +73,12 @@
     </header>
     
     <!-- Main ------- -->
-    <main>
+    <div class="main">
         {% block main %} {% endblock %}
-    </main>
+    </div>
 
     <!-- Footer ------ -->
-    <footer>
+    <footer class=" footer-container container-fluid d-flex justify-content-center flex-column align-items-center">
         <div
         class="row container d-flex py-3 px-0 gap-lg-0  gap-2  align-items-center justify-content-between flex-column flex-lg-row ">
         <div
