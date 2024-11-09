@@ -432,3 +432,23 @@ input::placeholder {
     font-size: 11px;
     margin-bottom: 0.4rem;
 }
+
+.table {
+    text-align: center;
+}
+
+.button {
+    margin: 50px 0;
+}
+
+.radio {
+    margin: 10px 0;
+    display: block;
+}
+
+.graph {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 50;
+}
