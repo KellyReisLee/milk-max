@@ -18,6 +18,16 @@ body {
 
 }
 
+#logo {
+    background-image: url("/img/logo.png");
+    height: 100px;
+    width: 270px;
+    vertical-align: middle;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+
 h1,
 h2,
 h3,
