@@ -1,6 +1,7 @@
 ## BIBLIOTECAS ##
 
 import os
+from dotenv import load_dotenv
 
 from flask import Flask, render_template, redirect, session, request
 from flask_session import Session
@@ -29,17 +30,24 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+# Carrega as variáveis do arquivo .env
+load_dotenv()
+db_host = os.getenv("DB_HOST")
+db_name = os.getenv("DB_NAME")
+db_user = os.getenv("DB_USER")
+db_password = os.getenv("DB_PASSWORD")
+
 # Connect to the PostgreSQL database
 conn = psycopg2.connect(
-    dbname='milkmax',
-    user='postgres',
-    password='milkmax#470',
-    host='localhost',
+    dbname=db_name,
+    user=db_user,
+    password=db_password,
+    host=db_host,
     port='5432'
 )
 
 # SQLAlchemy
-engine = create_engine('postgresql://postgres:milkmax#470@localhost:5432/milkmax')
+engine = create_engine('postgresql://db_user:db_password@localhost:5432/db_name')
 
 # Create cursor
 cursor = conn.cursor()
