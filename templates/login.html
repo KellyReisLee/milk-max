@@ -1,33 +1,43 @@
 {% extends "layout.html" %}
 
-{% block title %} Login {% endblock %}
+{% block title %} Register {% endblock %}
 
 {% block main %}
-    <!-- Login form -->
-    <p style="text-align: center;">Se você ainda não tem uma conta: <a href="/signup">Registre-se</a></p>
-    <div class="d-flex justify-content-center">
-        <form onsubmit="return ValidateForm()" action="/login" method="post" class="d-flex flex-column align-items-center">
-            <div class="mb-3">
-                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username" name="username" placeholder="Nome de usuário" type="text">
-            </div>
-            <div class="mb-3">
-                <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Senha" type="password">
-            </div>
-            <button class="btn btn-primary" type="submit">Log In</button>
-        </form>
+    <!-- Imagem ilustrativa -->
+    <div class="login-container">
+        <div class="login-img">
+            <img src="/static/img/logo-reduzida-azul.png" alt="">
+        </div>
+        <div class="divisor"></div>
+        <!--Formulário de Login-->
+        <div class="form-container">
+            <h2>Log In</h2>
+            <p>Se você ainda não tem uma conta: <a href="/signup">Registre-se</a></p>
+            <form onsubmit="return ValidateForm()" action="/login" method="post">
+                <div class="form-group">
+                    <label for="username"></label>
+                    <input id="username" name="username" placeholder="Nome de usuário" type="text">
+                </div>
+                <div class="form-group">
+                    <label for="password"></label>
+                    <input id="password" name="password" placeholder="Senha" type="password">
+                </div>
+                <button class="form-btn" type="submit"><strong>ENTRAR</strong></button>
+            </form>
+        </div>  
     </div>
 
     <!-- Script -->
     <script>
-        // Validar formulário de Login
-        function ValidateForm() {
-            let username = document.getElementById("username").value
-            let password = document.getElementById("password").value
-            if (username == "" || password == "") {
-                alert("Preencha todos os campos.")
-                return false;
-            }
-            return true;
+    // Validar formulário de Login
+    function ValidateForm() {
+        let username = document.getElementById("username").value
+        let password = document.getElementById("password").value
+        if (username == "" || password == "") {
+            alert("Preencha todos os campos.")
+            return false;
         }
-    </script>
+        return true;
+    }
+</script>
 {% endblock %}
