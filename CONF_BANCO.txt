@@ -35,7 +35,6 @@ No terminal: \c my_database
     
 10. Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
 
-```bash
 DB_HOST=localhost
 DB_NAME=meu_banco
 DB_USER=usuario
