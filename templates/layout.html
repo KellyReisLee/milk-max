@@ -38,44 +38,93 @@
 
         <!-- Navbar com Menu Hambúrguer e Dropdown -->
         <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container text-center main-container">
-            <div class="logo">
-            <a id="logo" class="navbar-brand" href="/"></a>
-            <!--<img id="logo" class="img-fluid" src="/static/img/logo-branco-sem-fundo.png" alt="Logo Milkmax"> -->
+            <div class="container text-center main-container">
+                <div class="logo">
+                    <a href="/"><img id="logo" class="img-fluid" src="/static/img/logo.png" alt="Logo Milkmax"></a>
+                </div>
+    
+                <!--Menu Hambúrguer-->
+                <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!--Centralizar os links no mobile -->
+                    {% if session["username"] %}
+                        <ul class="navbar-nav me-auto mt-2">
+                            <li class="nav-item"><a class="nav-link" href="/relatorios">Relatórios</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/vacas">Vacas</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/diario">Diário</a></li>
+                        </ul>
+                        <ul class="navbar-nav ms-auto mt-2">
+                            <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+                        </ul>
+                    {% else %}
+                        <ul class="navbar-nav ms-auto mt-2">
+                            <li class="nav-item"><a class="nav-link" href="/contact">Contato</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/signup">Registrar-se</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+                        </ul>
+                    {% endif %}
+                </div>
             </div>
-
-            <!-- Menu Hambúrguer -->
-            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Centralizar os links no mobile -->
-            <ul class="navbar-nav mx-auto  mb-lg-0 justify-content-center ">
-                <li class="nav-item">
-                <a class=" nav-link active" aria-current="page" href="#">Features</a>
-                </li>
-                <li class="nav-item  ">
-                <a class=" nav-link active " aria-current="page" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                <a class="  nav-link active " aria-current="page" href="#">Testimonials</a>
-                </li>
-                <li class="nav-item">
-                <a class=" nav-link active " aria-current="page" href="#">Price</a>
-                </li>
-                <li class="nav-item">
-                <a class=" nav-link active " aria-current="page" href="#">Contact</a>
-                </li>
-            </ul>
-            <button class="btn btn-light text-primary btn-login" type="button">Log in</button>
-            </div>
-        </div>
         </nav>
     </header>
-    <div id="main">
+    
+    <!-- Main ------- -->
+    <main>
         {% block main %} {% endblock %}
-    </div>
+    </main>
+
+    <!-- Footer ------ -->
+    <footer>
+        <div
+        class="row container d-flex py-3 px-0 gap-lg-0  gap-2  align-items-center justify-content-between flex-column flex-lg-row ">
+        <div
+            class="col-lg-4 col-md-12 d-flex align-items-center py-2 order-1 order-md-1 gap-3 py-md-2  justify-content-lg-end justify-content-center  justify-content-end ">
+            <h3 class="subtitle-footer d-flex align-self-end   ">Follow us</h3>
+            <div class="footer-icon-list">
+            <a href="#" class="icon" aria-label="Facebook" aria-hidden="true">
+                <i class="fa-brands fa-facebook fa-md"></i>
+            </a>
+            <a href="#" class="icon" aria-label="Instagram" aria-hidden="true">
+                <i class="fa-brands fa-instagram fa-md"></i>
+            </a>
+            <a href="#" class="icon" aria-label="Twitter" aria-hidden="true">
+                <i class="fa-brands fa-twitter fa-md"></i>
+            </a>
+            <a href="#" class="icon" aria-label="YouTube" aria-hidden="true">
+                <i class="fa-brands fa-youtube fa-md"></i>
+            </a>
+            </div>
+
+        </div>
+        <div
+            class="col-lg-7 col-md-12 d-flex  py-2  justify-content-start flex-lg-row flex-column d-flex align-items-center gap-3 gap-sm-2 ">
+            <h3 class="subtitle-footer d-flex align-self-center  align-self-lg-end">
+            Get the NewsLetter
+            </h3>
+            <div class="subscribe-container">
+            <input type="email" class="subscribe-input" placeholder="Your email address" aria-label="Email address"
+                required>
+            <button class="subscribe-button" type="button">Subscribe</button>
+            </div>
+        </div>
+        </div>
+
+        <hr class="hr-footer">
+
+        <nav class="footer-nav">
+        <ul>
+            <li class="nav-links-footer"><a href="#">Features</a></li>
+            <li class="nav-links-footer"><a href="#">About</a></li>
+            <li class="nav-links-footer"><a href="#">Testimonials</a></li>
+            <li class="nav-links-footer"><a href="#">Contact</a></li>
+        </ul>
+        </nav>
+
+        <p class="copyright"> © 2024 Milkmax. All rights reserved.</p>
+    </footer>
 </body>
 </html>
