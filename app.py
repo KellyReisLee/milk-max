@@ -33,13 +33,13 @@ Session(app)
 conn = psycopg2.connect(
     dbname='milkmax',
     user='postgres',
-    password='my627267',
+    password='milkmax#470',
     host='localhost',
     port='5432'
 )
 
 # SQLAlchemy
-engine = create_engine('postgresql://postgres:my627267@localhost:5432/milkmax')
+engine = create_engine('postgresql://postgres:milkmax#470@localhost:5432/milkmax')
 
 # Create cursor
 cursor = conn.cursor()
