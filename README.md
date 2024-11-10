@@ -44,6 +44,8 @@ execute em seu terminal: pip install -r requirements.txt
 por meio do arquivo '.env'
 Observe que no arquivo 'app.py' as suas configurações em '.env' serão requisitadas
 3. Execute no terminal: python app.py para rodar o site
+4. Os códigos html que estão presentes em todas as páginas, contendo a navbar e afins,
+estão dispostos no arquivo "layout.html"
 
 ## Contribuições:
 Agradecemos a todos que colaboraram para o desenvolvimento deste projeto:
