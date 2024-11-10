@@ -41,7 +41,7 @@ COLAR CÓDIGO NO <head> DO HTML
 ## Contribuições:
 Agradecemos a todos que colaboraram para o desenvolvimento deste projeto:
 
-- [Enrique](https://github.com/enrique-fcnr)
+- [Enrique Fernandes](https://github.com/enrique-fcnr)
 - [Gabriel Eduoli](https://github.com/gabrieleduoli)
 - [Gabriel Pacheco](https://linkedin.com/in/username3)
 - [Kelly Reis Lee](https://github.com/KellyReisLee)
