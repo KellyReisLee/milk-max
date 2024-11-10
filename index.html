@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="/img/LOGO.png" type="image/x-icon">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Milkmax</title>
+
+  <!-- LEAGUE SPARTAN (GOOGLE FONTS) - HEADERS, TÍTULOS E BOTÕES  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- OPEN SANS (GOOGLE FONTS) - CORPO DO TEXTO, PARÁGRAFOS, INFORMAÇÕES -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+    rel="stylesheet">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"
+    defer></script>
+
+  <!-- Font Awesome - Icons -->
+  <!-- CDN do Font Awesome versão 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+
+</head>
+
+<body>
+  <!-- Header ------- -->
+  <header class="header-container container-fluid">
+    <!-- Navbar com Menu Hambúrguer e Dropdown -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container text-center main-container">
+        <div class="logo">
+          <a href="/index.html"><img class="img-fluid" src="/img/logo-branco-sem-fundo.png" alt="Logo Milkmax"></a>
+        </div>
+
+        <!-- Menu Hambúrguer -->
+        <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <!-- Centralizar os links no mobile -->
+          <ul class="navbar-nav mx-auto  mb-lg-0 justify-content-center ">
+            <li class="nav-item">
+              <a class=" nav-link text-light active" aria-current="page" href="#features">Funcionalidades</a>
+            </li>
+            <li class="nav-item  ">
+              <a class=" nav-link text-light active " aria-current="page" href="#about">Sobre</a>
+            </li>
+            <li class="nav-item">
+              <a class="  nav-link text-light active " aria-current="page" href="#testimonials">Testemunhos</a>
+            </li>
+            <li class="nav-item">
+              <a class=" nav-link text-light active " aria-current="page" href="#prices">Preços</a>
+            </li>
+            <li class="nav-item">
+              <a class=" nav-link text-light active " href="/pages/contact.html">Contato</a>
+            </li>
+          </ul>
+
+          <a class="btn btn-light text-primary btn-login px-4 py-1" type="button" href="/pages/login.html">Log
+            in</a>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+
+
+  <!-- Hero section ------ -->
+  <section class="container-hero container-fluid d-flex justify-content-center pb-lg-5 pb-0 bg-light">
+    <div class="container d-flex flex-lg-row flex-column">
+      <div
+        class=" col-lg-5 col-md-12 d-flex flex-column bg-light order-lg-1 order-2 justify-content-lg-start justify-content-center  px-5 py-4 text-center text-lg-start">
+        <h1 class="title-hero ">Controle completo da sua criação, produção e do financeiro</h1>
+        <p class="content-hero">Software de gestão de criação de gado e produção leiteira, ajudando pequenos produtores
+          no acompanhamento da produção. </p>
+
+        <a class="btn-hero align-self-lg-start align-self-center w-75 text-center" href="/pages/signup.html">
+          Comece Agora!
+        </a>
+
+
+      </div>
+      <div
+        class="hero-img-container col-lg-6 col-md-12  order-lg-2 order-1 d-flex justify-content-center align-items-center">
+        <img class="img-fluid w-100 h-100" src="/img/hero-image.jpg" alt="" style="object-fit: cover; height: 100%;">
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Sponsors ------ -->
+  <section class="sponsors-container bg-light">
+    <div class="container-fluid">
+      <p class="title-sponsors text-center my-0">Parceiros</p>
+      <div class="row justify-content-center align-items-center gap-2">
+        <div class="col-2 d-flex ">
+          <img class="img-fluid " src="/img/sponsors/farmers-market.png" alt="farmers-market-logo">
+        </div>
+        <div class="col-2 d-flex justify-content-center">
+          <img class="img-fluid " src="/img/sponsors/milky-cafe.png" alt="milky-cafe-logo">
+        </div>
+        <div class="col-2 d-flex justify-content-center">
+          <img class="img-fluid " src="/img/sponsors/farm-2022.png" alt="farmer-2022-logo">
+        </div>
+        <div class="col-2 d-flex justify-content-center">
+          <img class="img-fluid " src="/img/sponsors/farmers.png" alt="farmers-logo">
+        </div>
+        <div class="col-2 d-flex justify-content-center">
+          <img class="img-fluid " src="/img/sponsors/farmer-green-house.png" alt="farmer-green-house-logo">
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Features ------ -->
+  <section id="features" class="features-container container-fluid">
+    <div class="container py-4 py-md-5">
+      <div class="row py-4 py-md-5">
+        <!-- Card 1 -->
+        <div class="col-lg-4 col-md-6 mb-4 ">
+          <div class="h-100">
+            <div class="row justify-content-center">
+              <div class="col-1 py-3  h-100   d-flex justify-content-center ">
+                <h5 class="card-title"><i class="icon-feature fa-solid fa-check fa-lg"></i> </h5>
+
+              </div>
+              <div class="col-8 ml-0">
+                <div class="card-body">
+                  <h5 class="card-title">Gestão de Ordenha</h5>
+                  <p class="card-text">Controle detalhado da ordenha, incluindo produção diária por animal e qualidade
+                    do
+                    leite.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class=" h-100">
+            <div class="row justify-content-center">
+              <div class="col-1 py-3  h-100   d-flex justify-content-center ">
+                <h5 class="card-title"><i class="icon-feature fas fa-hand-holding-heart fa-lg"></i>
+
+                </h5>
+              </div>
+              <div class="col-8">
+                <div class="card-body">
+                  <h5 class="card-title">Gestão da Saúde</h5>
+                  <p class="card-text">Registre dados de saúde e vacinas de cada animal, incluindo exames e tratamentos.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="h-100">
+            <div class="row justify-content-center">
+              <div class="col-1 py-3  h-100 d-flex justify-content-center ">
+                <h5 class="card-title"><i class="icon-feature fas fa-shield fa-lg "></i> </h5>
+              </div>
+              <div class="col-8">
+                <div class="card-body">
+                  <h5 class="card-title">Alimentação e Nutrição</h5>
+                  <p class="card-text">
+                    Controle a alimentação e a suplementação de cada vaca.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class=" h-100">
+            <div class="row justify-content-center">
+              <div class="col-1 py-3  h-100 d-flex justify-content-center ">
+                <h5 class="card-title"><i class="icon-feature  fas fa-medal fa-lg"></i> </h5>
+              </div>
+              <div class="col-8">
+                <div class="card-body">
+                  <h5 class="card-title">Qualidade do Leite</h5>
+                  <p class="card-text">Registre e acompanhe os parâmetros de qualidade do leite, como teor de gordura e
+                    proteína. </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class=" h-100">
+            <div class="row justify-content-center">
+              <div class="col-1 py-3  h-100  d-flex justify-content-center ">
+                <h5 class="card-title"><i class="icon-feature fas fa-chart-line fa-lg"></i> </h5>
+              </div>
+              <div class="col-8">
+                <div class="card-body">
+                  <h5 class="card-title">Análises Financeiras</h5>
+                  <p class="card-text">Gere relatórios financeiros e de produtividade para tomada de decisão.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="h-100">
+            <div class="row justify-content-center">
+              <div class="col-1 py-3  h-100 d-flex justify-content-center ">
+                <h5 class="card-title"><i class="icon-feature  fas fa-chart-column fa-lg"></i> </h5>
+              </div>
+              <div class="col-8">
+                <div class="card-body">
+                  <h5 class="card-title">Produção Diária</h5>
+                  <p class="card-text">Monitore a quantidade de leite produzido diariamente por cada vaca ou grupo.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About the Software Section -->
+  <section id="about" class="about-company  text-center bg-light">
+    <div class="container-fluid  py-5">
+      <div class="container">
+        <h2>Sobre o Software</h2>
+        <p>Nosso software foi desenvolvido especialmente para apoiar pequenos produtores de leite na gestão e no
+          controle de suas produções diárias.</p>
+
+        <!-- 1º Row -->
+        <div class="row justify-content-center text-start  my-5 py-lg-5">
+          <div class="col-lg-5 justify-content-between align-items-center mx-3">
+            <div class="primary-benefit showcase">
+              <img src="/img/about-section/about-2.jpg" alt="image-about-2">
+
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="primary-benefit showcase">
+              <h4 class="about-subtitle">Objetivo</h4>
+              <p>
+                Com uma interface intuitiva e relatórios claros, ajudamos o produtor a tomar decisões mais informadas,
+                a aumentar a produtividade e a garantir a qualidade do leite. Nosso objetivo é oferecer uma solução
+                prática e acessível que faça a tecnologia trabalhar a favor do produtor, aumentando a eficiência e,
+                principalmente, a rentabilidade da produção.
+
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- 2º row -->
+        <div class="row justify-content-center text-start  my-3 py-lg-5">
+          <div class="col-lg-5 justify-content-between align-items-center mx-3 order-2 order-lg-1">
+            <div class="primary-benefit showcase ">
+
+              <h4 class="about-subtitle">Proposta</h4>
+              <p>
+                Sabemos que o dia a dia no campo é desafiador e que cada detalhe na
+                criação de animais e na produção de leite faz a diferença. Nossa ferramenta facilita o acompanhamento da
+                saúde do rebanho, o registro da quantidade de leite produzida, o controle de qualidade e a análise de
+                dados financeiros.
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-5  order-1 order-lg-2">
+            <div class="primary-benefit showcase">
+              <img src="/img/about-section/about-1.jpg" alt="image-about-1">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Testiminials ------ -->
+  <section id="testimonials" class="user-testimonials py-5">
+    <div class="container text-center ">
+      <h2>O que nossos usuários dizem</h2>
+      <div class="row mt-4 py-5 ">
+        <!-- 1 - Card -->
+        <div class="col-lg-4 col-md-12 p-3">
+          <div class="testimonial-card p-3 shadow-sm text-start">
+            <div class="testimonial-header d-flex gap-2 ">
+              <div class="testimonial-img">
+                <img class="img-fluid rounded-circle" src="/img/testimonials-section/face-1.jpg" alt="">
+              </div>
+              <div>
+                <h5 class="m-0">Gregory Jones <i class="fa-solid fa-circle-check"></i></h5>
+                <p class="twitter-text">@twitter_gregoryfarm</p>
+              </div>
+            </div>
+
+            <p class="content-testimonial">"
+              Consigo monitorar a saúde do rebanho, registrar a quantidade de leite produzida e acompanhar os dados
+              financeiros de forma prática e acessível."
+            </p>
+            <p class="footer-testimonial m-0">
+              8:21 PM / Dez 21, 2022
+            </p>
+          </div>
+        </div>
+
+        <!-- 2 - Card -->
+        <div class="col-lg-4 p-3 col-md-12 ">
+          <div class="testimonial-card p-3 shadow-sm text-start">
+            <div class="testimonial-header d-flex gap-2 ">
+              <div class="testimonial-img">
+                <img class="img-fluid rounded-circle" src="/img/testimonials-section/face-3.jpg" alt="">
+              </div>
+              <div>
+                <h5 class="m-0">Sylvia Taylor <i class="fa-solid fa-circle-check  "></i></h5>
+                <p class="twitter-text">@twitter_sylviataygrow</p>
+              </div>
+
+            </div>
+
+            <p class="content-testimonial">"A interface do software é extremamente intuitiva e fácil de usar, o que
+              facilitou muito a adaptação ao dia a dia da fazenda. Antes, era difícil manter um registro detalhado e
+              organizado do rebanho, mas agora tenho controle total sobre cada animal e todas as etapas da produção. "
+            </p>
+            <p class="footer-testimonial m-0">
+              5:36 PM / Nov 07, 2023
+            </p>
+          </div>
+        </div>
+        <!-- 3 - Card -->
+        <div class="col-lg-4 col-md-12 p-3">
+          <div class="testimonial-card p-3 shadow-sm text-start">
+            <div class="testimonial-header d-flex gap-2 ">
+              <div class="testimonial-img">
+                <img class="img-fluid rounded-circle" src="/img/testimonials-section/face-1.jpg" alt="">
+              </div>
+              <div>
+                <h5 class="m-0">Jonathan Gutierrez <i class="fa-solid fa-circle-check  "></i></h5>
+                <p class="twitter-text">@twitter_jonathan372</p>
+              </div>
+
+            </div>
+
+            <p class="content-testimonial"> "Excelente para monitorar a qualidade e produção diária. Me ajudou a
+              controlar melhor o volume de produção. Recomendo!"
+            </p>
+            <p class="footer-testimonial m-0">
+              10:15 AM / Jul 04, 2024
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Plans Section -->
+  <section id="prices" class="pricing-plans py-5 py-md-5 text-center bg-light">
+    <div class="container">
+      <h2 class="price-title m-2">Escolha seu plano</h2>
+      <p class="price-title-content mb-5">Selecione o plano que melhor atende às necessidades de controle e
+        gerenciamento da sua produção de leite.</p>
+
+      <div class="row mt-4 justify-content-center align-items-center">
+        <!-- Plano Básico -->
+        <div class="col-12 col-md-6 col-lg-4 mb-sm-3">
+          <div class="card pricing-card p-4 shadow-sm">
+            <h4 class="card-price-title mb-3">Básico</h4>
+            <h3 class="text-primary">R$9/mês</h3>
+            <!-- <p>Para pequenos produtores que estão começando a digitalizar o controle de produção.</p> -->
+            <ul class="price-list list-unstyled d-flex flex-column gap-2">
+              <li>Relatórios básicos de produção</li>
+              <li>Até 10 cabeças de gado</li>
+              <li>5 GB de armazenamento</li>
+              <li>Suporte por e-mail</li>
+            </ul>
+            <button class="btn btn-primary mt-3">Escolher este plano</button>
+          </div>
+        </div>
+
+        <!-- Plano Profissional -->
+        <div class="col-12 col-md-6 col-lg-4  mb-sm-3">
+          <div class="card pricing-card p-4 shadow-sm">
+            <h4 class="card-price-title mb-3">Profissional</h4>
+            <h3 class="text-primary">R$29/mês</h3>
+            <!-- <p>Para produtores em crescimento que precisam de maior controle e análise de dados.</p> -->
+            <ul class="price-list list-unstyled d-flex flex-column gap-2">
+              <li>Relatórios avançados de produção</li>
+              <li>Até 50 cabeças de gado</li>
+              <li>20 GB de armazenamento</li>
+              <li>Suporte por e-mail e chat</li>
+            </ul>
+            <button class="btn btn-primary mt-3">Escolher este plano</button>
+          </div>
+        </div>
+
+        <!-- Plano Avançado -->
+        <div class="col-12 col-md-6 col-lg-4   mb-sm-3 ">
+          <div class="card pricing-card p-4 shadow-sm">
+            <h4 class="card-price-title mb-3">Avançado</h4>
+            <h3 class="text-primary">R$49/mês</h3>
+            <!-- <p>Para produtores estabelecidos que precisam de uma gestão completa e otimizada.</p> -->
+            <ul class="price-list list-unstyled d-flex flex-column gap-2">
+              <li>Relatórios personalizados e análise financeira</li>
+              <li>Até 200 cabeças de gado</li>
+              <li>50 GB de armazenamento</li>
+              <li>Suporte prioritário 24/7</li>
+            </ul>
+            <button class="btn btn-primary mt-3">Escolher este plano</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Footer ------ -->
+  <footer class=" footer-container container-fluid d-flex justify-content-center flex-column align-items-center">
+    <div
+      class="row container d-flex py-3 px-0 gap-lg-0  gap-2  align-items-center justify-content-between flex-column flex-lg-row ">
+      <div
+        class="col-lg-4 col-md-12 d-flex align-items-center py-2 order-1 order-md-1 gap-3 py-md-2  justify-content-lg-end justify-content-center  justify-content-end ">
+        <h3 class="subtitle-footer d-flex align-self-end   ">Siga-nos</h3>
+        <div class="footer-icon-list">
+          <a href="#" class="icon" aria-label="Facebook" aria-hidden="true">
+            <i class="fa-brands fa-facebook fa-md"></i>
+          </a>
+          <a href="#" class="icon" aria-label="Instagram" aria-hidden="true">
+            <i class="fa-brands fa-instagram fa-md"></i>
+          </a>
+          <a href="#" class="icon" aria-label="Twitter" aria-hidden="true">
+            <i class="fa-brands fa-twitter fa-md"></i>
+          </a>
+          <a href="#" class="icon" aria-label="YouTube" aria-hidden="true">
+            <i class="fa-brands fa-youtube fa-md"></i>
+          </a>
+        </div>
+
+      </div>
+      <div
+        class="col-lg-7 col-md-12 d-flex  py-2  justify-content-start flex-lg-row flex-column d-flex align-items-center gap-lg-3 gap-sm-2 ">
+        <h3 class="subtitle-footer d-flex align-self-center  align-self-lg-end">
+          Newsletter
+        </h3>
+        <div class="subscribe-container">
+          <input type="email" class="subscribe-input" placeholder="Your email address" aria-label="Email address"
+            required>
+          <button class="subscribe-button" type="button">Inscreva-se</button>
+        </div>
+      </div>
+    </div>
+
+    <hr class="hr-footer">
+
+    <nav class="footer-nav">
+      <ul>
+        <li class="nav-links-footer"><a href="#features">Funcionalidades</a></li>
+        <li class="nav-links-footer"><a href="#about">Sobre</a></li>
+        <li class="nav-links-footer"><a href="#testimonials">Testemunhos</a></li>
+        <li class="nav-links-footer"><a href="/pages/contact.html">Contato</a></li>
+      </ul>
+    </nav>
+
+    <p class="copyright"> © 2024 Milkmax. Todos os direitos reservados.</p>
+  </footer>
+
+</body>
+
+</html>

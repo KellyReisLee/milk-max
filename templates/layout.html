@@ -32,6 +32,7 @@
     <!-- CDN do Font Awesome versão 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body>
     <!-- Header ------- -->
     <header class="header-container container-fluid">
@@ -54,26 +55,38 @@
                     {% if session["username"] %}
                         <ul class="navbar-nav mx-auto  mb-lg-0 justify-content-center ">
                             <li class="nav-item">
-                            <a class=" nav-link text-light active" aria-current="page" href="/relatorios">Relatórios</a>
+                                <a class=" nav-link text-light active" aria-current="page" href="/relatorios">Relatórios</a>
                             </li>
                             <li class="nav-item  ">
-                            <a class=" nav-link text-light active " aria-current="page" href="/vacas">Vacas</a>
+                                <a class=" nav-link text-light active " aria-current="page" href="/vacas">Vacas</a>
                             </li>
                             <li class="nav-item">
-                            <a class="  nav-link text-light active " aria-current="page" href="/diario">Diário</a>
+                                <a class="  nav-link text-light active " aria-current="page" href="/diario">Diário</a>
                             </li>
                         </ul>
                         <button onclick="window.location.href='/logout'" type="button" class="btn btn-light text-primary btn-login">Log out</button>
                     {% else %}
                         <ul class="navbar-nav mx-auto  mb-lg-0 justify-content-center ">
                             <li class="nav-item">
-                            <a class=" nav-link text-light active " aria-current="page" href="/contact">Contato</a>
+                                <a class=" nav-link text-light active" aria-current="page" href="#features">Funcionalidades</a>
+                            </li>
+                            <li class="nav-item  ">
+                                <a class=" nav-link text-light active " aria-current="page" href="#about">Sobre</a>
                             </li>
                             <li class="nav-item">
-                            <a class=" nav-link text-light active " aria-current="page" href="/signup">Registrar-se</a>
+                                <a class="  nav-link text-light active " aria-current="page" href="#testimonials">Testemunhos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class=" nav-link text-light active " aria-current="page" href="#prices">Preços</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class=" nav-link text-light active " aria-current="page" href="/contact">Contato</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class=" nav-link text-light active " aria-current="page" href="/signup">Registrar-se</a>
                             </li>
                         </ul>
-                        <button onclick="window.location.href='/login'" type="button" class="btn btn-light text-primary btn-login">Log in</button>
+                        <a class="btn btn-light text-primary btn-login px-4 py-1" type="button" href="/login">Log in</a>
                     {% endif %}
                 </div>
             </div>
@@ -91,7 +104,7 @@
         class="row container d-flex py-3 px-0 gap-lg-0  gap-2  align-items-center justify-content-between flex-column flex-lg-row ">
         <div
             class="col-lg-4 col-md-12 d-flex align-items-center py-2 order-1 order-md-1 gap-3 py-md-2  justify-content-lg-end justify-content-center  justify-content-end ">
-            <h3 class="subtitle-footer d-flex align-self-end   ">Follow us</h3>
+            <h3 class="subtitle-footer d-flex align-self-end   ">Siga-nos</h3>
             <div class="footer-icon-list">
             <a href="#" class="icon" aria-label="Facebook" aria-hidden="true">
                 <i class="fa-brands fa-facebook fa-md"></i>
@@ -109,30 +122,30 @@
 
         </div>
         <div
-            class="col-lg-7 col-md-12 d-flex  py-2  justify-content-start flex-lg-row flex-column d-flex align-items-center gap-3 gap-sm-2 ">
+            class="col-lg-7 col-md-12 d-flex  py-2  justify-content-start flex-lg-row flex-column d-flex align-items-center gap-lg-3 gap-sm-2 ">
             <h3 class="subtitle-footer d-flex align-self-center  align-self-lg-end">
-            Get the NewsLetter
+            NewsLetter
             </h3>
             <div class="subscribe-container">
             <input type="email" class="subscribe-input" placeholder="Your email address" aria-label="Email address"
                 required>
-            <button class="subscribe-button" type="button">Subscribe</button>
+            <button class="subscribe-button" type="button">Inscreva-se</button>
             </div>
         </div>
         </div>
-
+ 
         <hr class="hr-footer">
 
         <nav class="footer-nav">
-        <ul>
-            <li class="nav-links-footer"><a href="#">Features</a></li>
-            <li class="nav-links-footer"><a href="#">About</a></li>
-            <li class="nav-links-footer"><a href="#">Testimonials</a></li>
-            <li class="nav-links-footer"><a href="#">Contact</a></li>
-        </ul>
+          <ul>
+            <li class="nav-links-footer"><a href="#features">Funcionalidades</a></li>
+            <li class="nav-links-footer"><a href="#about">Sobre</a></li>
+            <li class="nav-links-footer"><a href="#testimonials">Testemunhos</a></li>
+            <li class="nav-links-footer"><a href="/contact">Contato</a></li>
+          </ul>
         </nav>
-
-        <p class="copyright"> © 2024 Milkmax. All rights reserved.</p>
+    
+        <p class="copyright"> © 2024 Milkmax. Todos os direitos reservados.</p>
     </footer>
 </body>
 </html>
