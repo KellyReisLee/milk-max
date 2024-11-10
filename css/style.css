@@ -15,8 +15,8 @@ html {
 body {
     line-height: 1.6;
 
-
 }
+
 
 h1,
 h2,
@@ -50,10 +50,12 @@ nav ul li a {
 
 a {
     text-decoration: none;
-    color: inherit;
+    /* Remove o underline */
+    color: white;
     margin: 0;
     padding: 0;
 }
+
 
 /* Header Section */
 
@@ -63,16 +65,18 @@ a {
     padding: 1rem 0;
 }
 
-.btn-login {
-    width: 15%;
-    color: #1051AB;
-    padding: 1rem 0;
 
+.btn-login {
+    cursor: pointer;
 }
+
 
 .logo {
     width: 260px;
 }
+
+
+
 
 
 /* Para telas pequenas (sm) e médias (md) */

@@ -38,12 +38,11 @@
 <body>
   <!-- Header ------- -->
   <header class="header-container container-fluid">
-
     <!-- Navbar com Menu Hambúrguer e Dropdown -->
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container text-center main-container">
         <div class="logo">
-          <img class="img-fluid" src="/img/logo-branco-sem-fundo.png" alt="Logo Milkmax">
+          <a href="/index.html"><img class="img-fluid" src="/img/logo-branco-sem-fundo.png" alt="Logo Milkmax"></a>
         </div>
 
         <!-- Menu Hambúrguer -->
@@ -56,22 +55,25 @@
           <!-- Centralizar os links no mobile -->
           <ul class="navbar-nav mx-auto  mb-lg-0 justify-content-center ">
             <li class="nav-item">
-              <a class=" nav-link text-light active" aria-current="page" href="#">Funcionalidades</a>
+              <a class=" nav-link text-light active" aria-current="page" href="#features">Funcionalidades</a>
             </li>
             <li class="nav-item  ">
-              <a class=" nav-link text-light active " aria-current="page" href="#">Sobre</a>
+              <a class=" nav-link text-light active " aria-current="page" href="#about">Sobre</a>
             </li>
             <li class="nav-item">
-              <a class="  nav-link text-light active " aria-current="page" href="#">Testemunhos</a>
+              <a class="  nav-link text-light active " aria-current="page" href="#testimonials">Testemunhos</a>
             </li>
             <li class="nav-item">
-              <a class=" nav-link text-light active " aria-current="page" href="#">Preços</a>
+              <a class=" nav-link text-light active " aria-current="page" href="#prices">Preços</a>
             </li>
             <li class="nav-item">
-              <a class=" nav-link text-light active " aria-current="page" href="#">Contato</a>
+              <a class=" nav-link text-light active " aria-current="page" href="/pages/contact.html">Contato</a>
             </li>
           </ul>
-          <button class="btn btn-light text-primary btn-login" type="button">Log in</button>
+
+          <a class="btn btn-light text-primary btn-login px-4 py-1" type="button" href="/pages/login.html">Log
+            in</a>
+
         </div>
       </div>
     </nav>
@@ -127,7 +129,7 @@
   </section>
 
   <!-- Features ------ -->
-  <section class="features-container container-fluid">
+  <section id="features" class="features-container container-fluid">
     <div class="container py-4 py-md-5">
       <div class="row py-4 py-md-5">
         <!-- Card 1 -->
@@ -243,7 +245,7 @@
   </section>
 
   <!-- About the Software Section -->
-  <section class="about-company  text-center bg-light">
+  <section id="about" class="about-company  text-center bg-light">
     <div class="container-fluid  py-5">
       <div class="container">
         <h2>Sobre o Software</h2>
@@ -298,7 +300,7 @@
 
 
   <!-- Testiminials ------ -->
-  <section class="user-testimonials py-5">
+  <section id="testimonials" class="user-testimonials py-5">
     <div class="container text-center ">
       <h2>O que nossos usuários dizem</h2>
       <div class="row mt-4 py-5 ">
@@ -375,7 +377,7 @@
   </section>
 
   <!-- Pricing Plans Section -->
-  <section class="pricing-plans py-5 py-md-5 text-center bg-light">
+  <section id="prices" class="pricing-plans py-5 py-md-5 text-center bg-light">
     <div class="container">
       <h2 class="price-title m-2">Escolha seu plano</h2>
       <p class="price-title-content mb-5">Selecione o plano que melhor atende às necessidades de controle e
@@ -465,7 +467,7 @@
         <div class="subscribe-container">
           <input type="email" class="subscribe-input" placeholder="Your email address" aria-label="Email address"
             required>
-          <button class="subscribe-button" type="button">Subscribe</button>
+          <button class="subscribe-button" type="button">Inscreva-se</button>
         </div>
       </div>
     </div>
@@ -474,10 +476,10 @@
 
     <nav class="footer-nav">
       <ul>
-        <li class="nav-links-footer"><a href="#">Funcionalidades</a></li>
-        <li class="nav-links-footer"><a href="#">Sobre</a></li>
-        <li class="nav-links-footer"><a href="#">Testemunhos</a></li>
-        <li class="nav-links-footer"><a href="#">Contato</a></li>
+        <li class="nav-links-footer"><a href="#features">Funcionalidades</a></li>
+        <li class="nav-links-footer"><a href="#about">Sobre</a></li>
+        <li class="nav-links-footer"><a href="#testimonials">Testemunhos</a></li>
+        <li class="nav-links-footer"><a href="/pages/contact.html">Contato</a></li>
       </ul>
     </nav>
 

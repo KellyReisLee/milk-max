@@ -4,7 +4,7 @@
 1. [Sobre o Projeto](#sobre-o-projeto)
 2. [Cores e Fontes](#cores-e-fontes)
 3. [Como Usar](#como-usar)
-4. [Contribuição](#contribuição)
+4. [Contribuição](#contribuições)
 5. [Licença](#licença)
 
 
