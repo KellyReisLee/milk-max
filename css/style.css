@@ -6,15 +6,18 @@
 
 }
 
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
 html {
     scroll-behavior: smooth;
-
-
 }
 
 body {
     line-height: 1.6;
-
 }
 
 
@@ -55,6 +58,21 @@ a {
     margin: 0;
     padding: 0;
 }
+
+/* keeping the footer at the bottom of the page */
+/* Configura o body e a wrapper para ocupar toda a altura da viewport */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* Altura mínima de 100% da viewport */
+}
+
+main {
+    flex: 1;
+    /* Expande o conteúdo principal para preencher o espaço entre o cabeçalho e o rodapé */
+}
+
 
 
 /* Header Section */
