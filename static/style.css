@@ -15,8 +15,8 @@ html {
 body {
     line-height: 1.6;
 
-
 }
+
 
 h1,
 h2,
@@ -50,10 +50,12 @@ nav ul li a {
 
 a {
     text-decoration: none;
-    color: inherit;
+    /* Remove o underline */
+    color: white;
     margin: 0;
     padding: 0;
 }
+
 
 /* Header Section */
 
@@ -63,16 +65,18 @@ a {
     padding: 1rem 0;
 }
 
-.btn-login {
-    width: 15%;
-    color: #1051AB;
-    padding: 1rem 0;
 
+.btn-login {
+    cursor: pointer;
 }
+
 
 .logo {
     width: 260px;
 }
+
+
+
 
 
 /* Para telas pequenas (sm) e médias (md) */
@@ -225,10 +229,8 @@ input::placeholder {
 }
 
 /* Hero ---------------------- */
-
 .container-hero {
     /* height: 37rem; */
-    background-color: #f8f9fa;
     padding: 5rem 0;
 
 }
@@ -274,13 +276,16 @@ input::placeholder {
 
 }
 
+.hero-img-container img {
+    border-radius: 8px;
+}
+
 
 
 /* Sponsors ---------------------- */
-
 .sponsors-container {
     padding: 5rem 0;
-    background-color: #f8f9fa;
+
 }
 
 .title-sponsors {
@@ -292,6 +297,7 @@ input::placeholder {
 
 }
 
+
 .sponsors-container img {
     height: 120px;
     width: 120px;
@@ -299,11 +305,15 @@ input::placeholder {
 }
 
 /* Feature ---------------------- */
+.features-container {
+    background-color: #e7f2ff;
+
+}
 
 .icon-feature {
     color: #007bff;
     padding: 1.3rem;
-    background-color: #ececec;
+    background-color: #ffffff;
     border-radius: 6px;
 }
 
@@ -315,21 +325,143 @@ input::placeholder {
 .card-text {
     color: #7b7b7c;
 }
-/* Contact ---------------------- */
-.title-form{
-        display: flex;
-        justify-content: center;
-        margin-top: 25px;
-        color: #0056b3;
-        font-size: 2.3rem;
-        font-weight: 700;
+
+
+/* About ---------------------- */
+.about-company h2 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+    color: #0056b3;
+
 }
 
-.contact-group{
+.about-subtitle {
+    color: #007bff;
+}
+
+.about-company p {
+    color: #7b7b7c;
+}
+
+.primary-benefit img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.showcase {
+    margin-bottom: 1em;
+}
+
+/* Testimonials ---------------------- */
+
+.testimonial-header {
+    text-align: start;
+}
+
+.testimonial-header h5 {
+    color: #007bff;
+
+}
+
+.twitter-text {
+    color: #abacad;
+    font-size: 0.78rem;
+}
+
+.testimonial-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 3px solid #007bff;
+}
+
+.user-testimonials {
+    background-color: #e7f2ff;
+}
+
+.user-testimonials h2 {
+    font-size: 2em;
+    margin-bottom: 1em;
+    color: #0056b3;
+
+}
+
+.testimonial-card {
+    background: #fff;
+    border-radius: 8px;
+    color: #555;
+}
+
+.content-testimonial {
+    font-size: 0.87rem;
+    color: #6a6a6b;
+    font-style: italic;
+    letter-spacing: 0.8px;
+}
+
+.footer-testimonial {
+    color: #a7a7a7;
+    font-size: 0.8rem;
+}
+
+
+/* Price ---------------------- */
+.price-title {
+    color: #0056b3;
+}
+
+.price-title-content {
+    color: #7b7b7c;
+}
+
+.price-list {
+    color: #6a6a6b
+}
+
+.card-price-title {
+
+    color: #727272;
+
+}
+
+.pricing-plans h2 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+}
+
+.pricing-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.pricing-card h4 {
+    font-size: 1.25em;
+}
+
+.pricing-card h3 {
+    font-size: 1.75em;
+    color: #007bff;
+}
+
+
+/* Contact ---------------------- */
+.title-form {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+    color: #0056b3;
+    font-size: 2.3rem;
+    font-weight: 700;
+}
+
+.contact-group {
     display: flex;
     justify-content: center;
     margin-bottom: 30px;
 }
+
+
+
 
 /* Footer ---------------------- */
 .footer-container {

@@ -175,7 +175,7 @@ def login():
         session["num_vacas"] = int(num_vacas[0][0])
 
         # Redirecionar para homepage
-        return redirect("/")
+        return redirect("/vacas")
 
     # Renderizar formulário de login
     else:
