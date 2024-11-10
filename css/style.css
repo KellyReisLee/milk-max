@@ -292,6 +292,7 @@ input::placeholder {
 
 }
 
+
 .sponsors-container img {
     height: 120px;
     width: 120px;
@@ -315,21 +316,51 @@ input::placeholder {
 .card-text {
     color: #7b7b7c;
 }
-/* Contact ---------------------- */
-.title-form{
-        display: flex;
-        justify-content: center;
-        margin-top: 25px;
-        color: #0056b3;
-        font-size: 2.3rem;
-        font-weight: 700;
+
+
+/* About ---------------------- */
+.about-company h2 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+    color: #0056b3;
 }
 
-.contact-group{
+.about-subtitle {
+    color: #007bff;
+}
+
+.about-company p {
+    color: #7b7b7c;
+}
+
+.primary-benefit img,
+.secondary-benefit img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.showcase {
+    margin-bottom: 1em;
+}
+
+/* Contact ---------------------- */
+.title-form {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+    color: #0056b3;
+    font-size: 2.3rem;
+    font-weight: 700;
+}
+
+.contact-group {
     display: flex;
     justify-content: center;
     margin-bottom: 30px;
 }
+
+
+
 
 /* Footer ---------------------- */
 .footer-container {
