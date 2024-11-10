@@ -146,7 +146,7 @@ def login():
     # Recuperar dados do login
     if request.method == "POST":
 
-        # Garanti que username existe
+        # Garantir que username existe
         if not request.form.get("username"):
             return apology("Inserir nome de usuário")
 
