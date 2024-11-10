@@ -228,7 +228,6 @@ input::placeholder {
 
 .container-hero {
     /* height: 37rem; */
-    background-color: #f8f9fa;
     padding: 5rem 0;
 
 }
@@ -277,10 +276,9 @@ input::placeholder {
 
 
 /* Sponsors ---------------------- */
-
 .sponsors-container {
     padding: 5rem 0;
-    background-color: #f8f9fa;
+
 }
 
 .title-sponsors {
@@ -300,11 +298,15 @@ input::placeholder {
 }
 
 /* Feature ---------------------- */
+.features-container {
+    background-color: #e7f2ff;
+
+}
 
 .icon-feature {
     color: #007bff;
     padding: 1.3rem;
-    background-color: #ececec;
+    background-color: #ffffff;
     border-radius: 6px;
 }
 
@@ -323,6 +325,7 @@ input::placeholder {
     font-size: 2em;
     margin-bottom: 0.5em;
     color: #0056b3;
+
 }
 
 .about-subtitle {
@@ -365,11 +368,15 @@ input::placeholder {
     border: 3px solid #007bff;
 }
 
+.user-testimonials {
+    background-color: #e7f2ff;
+}
 
 .user-testimonials h2 {
     font-size: 2em;
     margin-bottom: 1em;
     color: #0056b3;
+
 }
 
 .testimonial-card {
@@ -388,6 +395,45 @@ input::placeholder {
 .footer-testimonial {
     color: #a7a7a7;
     font-size: 0.8rem;
+}
+
+
+/* Price ---------------------- */
+.price-title {
+    color: #0056b3;
+}
+
+.price-title-content {
+    color: #7b7b7c;
+}
+
+.price-list {
+    color: #6a6a6b
+}
+
+.card-price-title {
+
+    color: #727272;
+
+}
+
+.pricing-plans h2 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+}
+
+.pricing-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.pricing-card h4 {
+    font-size: 1.25em;
+}
+
+.pricing-card h3 {
+    font-size: 1.75em;
+    color: #007bff;
 }
 
 
