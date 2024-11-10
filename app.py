@@ -93,6 +93,12 @@ def signup():
         password = request.form.get("password")
         confirm = request.form.get("confirm")
 
+        # Retornar apology se nome de usuário ou senha não existem
+        if not username:
+            return apology("Inserir nome de usuário")   
+        elif not password:
+            return apology("Inserir senha")
+
         # Retornar apology se nome de usuário já existe
         query_register = '''
         SELECT * FROM users WHERE username = (%s)
@@ -104,8 +110,8 @@ def signup():
         
         # Retornar apology se senhas não coincidem
         if password != confirm:
-            return apology("passwords don't match")
-
+            return apology("Senhas não coincidem")
+        
         # Inserir novo usuário na tabela users
         hash = generate_password_hash(password, method='pbkdf2', salt_length=16) # Gerar versão criptografada da senha
         query = '''
@@ -139,6 +145,14 @@ def login():
 
     # Recuperar dados do login
     if request.method == "POST":
+
+        # Garanti que username existe
+        if not request.form.get("username"):
+            return apology("Inserir nome de usuário")
+
+        # Garantir que senha existe
+        elif not request.form.get("password"):
+            return apology("Inserir senha")
 
         # Consultar tabela users por username
         query = '''
@@ -242,6 +256,7 @@ def diario():
 
     # Selecionar vaca
     if request.method == "POST":
+
         # Verificar se ID é válido
         seletor = int(request.form.get("selecao_vaca"))
         tab = f'vaca{seletor}_{session["username"]}'
@@ -251,7 +266,8 @@ def diario():
         cursor.execute(id_query, (seletor,))
         result = (cursor.fetchall())
         if not result:
-            return apology("Não há registros no diário dessa vaca")
+            return apology("ID inválido")
+        
         # Renderizar tabela
         query = sql.SQL('''
         SELECT * FROM {} ORDER BY dia       
@@ -288,7 +304,7 @@ def registro():
     cursor.execute(id_query, (id,))
     result = (cursor.fetchall())
     if not result:
-        return apology("Não há registros no diário dessa vaca")
+        return apology("ID inválido")
     
     # Adicionar registro na tabela vaca{id}_{username}
     insert_query = sql.SQL('''
@@ -317,6 +333,8 @@ def relatorios():
         ## Analisar relatórios de uma vaca
         if option != "all":
             select = request.form.get("selecao_vaca")
+            if select == "":
+                return apology("Nenhum ID selecionado")
 
             # Verificar se id é válido
             id = int(select)
@@ -327,7 +345,7 @@ def relatorios():
             cursor.execute(id_query, (id,))
             result = (cursor.fetchall())
             if not result:
-                return apology("Não há registros no diário dessa vaca")
+                return apology("ID inválido")
             
             # Converter para DataFrame
             query = sql.SQL('''
