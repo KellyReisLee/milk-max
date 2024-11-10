@@ -41,10 +41,11 @@ COLAR CÓDIGO NO <head> DO HTML
 ## Contribuições:
 Agradecemos a todos que colaboraram para o desenvolvimento deste projeto:
 
-- [Kelly Reis Lee](https://github.com/KellyReisLee)
+- [Enrique](https://github.com/enrique-fcnr)
 - [Gabriel Eduoli](https://github.com/gabrieleduoli)
-- [Nome do Contribuidor 3](https://linkedin.com/in/username3)
-- [Nome do Contribuidor 4](https://github.com/username4)
+- [Gabriel Pacheco](https://linkedin.com/in/username3)
+- [Kelly Reis Lee](https://github.com/KellyReisLee)
+- [Millene Russo](https://github.com/millennium164)
 
 
 
