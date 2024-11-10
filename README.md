@@ -48,10 +48,11 @@ Observe que no arquivo 'app.py' as suas configurações em '.env' serão requisi
 ## Contribuições:
 Agradecemos a todos que colaboraram para o desenvolvimento deste projeto:
 
-- [Kelly Reis Lee](https://github.com/KellyReisLee)
+- [Enrique Fernandes](https://github.com/enrique-fcnr)
 - [Gabriel Eduoli](https://github.com/gabrieleduoli)
-- [Nome do Contribuidor 3](https://linkedin.com/in/username3)
-- [Nome do Contribuidor 4](https://github.com/username4)
+- [Gabriel Pacheco](https://linkedin.com/in/username3)
+- [Kelly Reis Lee](https://github.com/KellyReisLee)
+- [Millene Russo](https://github.com/millennium164)
 
 
 
