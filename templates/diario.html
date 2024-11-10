@@ -43,16 +43,18 @@
 
         <!-- Registrar no diário -->
         <div class="container button">
-            <button class="btn-login" onclick="registro()">Registrar no diário</button>
+            <div class="container button">
+                <button class="btn-login" onclick="registro()">Registrar no diário</button>
+            </div>
             <div>
                 <form onsubmit="return ValidateForm()" action="/registro", method="post">
                     <input autofocus autocomplete="off" id="id_vaca" name="id_vaca" placeholder="ID vaca" type="hidden">
-                    <input autocomplete="off" id="dia" name="dia" placeholder="Dia (aaaa-mm-dd)" type="hidden">
+                    <input autocomplete="off" id="dia" name="dia" placeholder="Data (aaaa-mm-dd)" type="hidden">
                     <input autocomplete="off" id="ciclo" name="ciclo" placeholder="Ciclo reprodutivo" type="hidden">
                     <input autocomplete="off" id="leite_qtdd" name="leite_qtdd" placeholder="Quantidade de leite" type="hidden">
                     <input autocomplete="off" id="leite_temp" name="leite_temp" placeholder="Temperatura do leite" type="hidden">
                     <input autocomplete="off" id="leite_ph" name="leite_ph" placeholder="pH do leite" type="hidden">
-                    <button id="registrar" type="submit" style="display: none;">Adicionar registro</button>
+                    <button class="btn-login" id="registrar" type="submit" style="display: none;">Adicionar registro</button>
                 </form>
             </div>
         </div>

@@ -26,18 +26,4 @@
             </form>
         </div>  
     </div>
-
-    <!-- Script -->
-    <script>
-    // Validar formulário de Login
-    function ValidateForm() {
-        let username = document.getElementById("username").value
-        let password = document.getElementById("password").value
-        if (username == "" || password == "") {
-            alert("Preencha todos os campos.")
-            return false;
-        }
-        return true;
-    }
-</script>
 {% endblock %}

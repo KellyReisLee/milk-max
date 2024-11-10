@@ -53,6 +53,9 @@ engine = create_engine(url)
 # Create cursor
 cursor = conn.cursor()
 
+# Configure o backend do Matplotlib para evitar GUIs
+plt.switch_backend('Agg')
+
 # Função para ser processada após cada solicitação e antes de enviar resposta
 @app.after_request # Garantir respostas atualizadas
 def after_request(response):
@@ -132,6 +135,7 @@ def signup():
 def logout():
 
     # Encerrar sessão
+    conn.close()
     session.clear()
     return redirect("/")
 
@@ -141,6 +145,7 @@ def logout():
 def login():
 
     # Sair de qualquer sessão aberta
+    conn.close()
     session.clear()
 
     # Recuperar dados do login
@@ -306,13 +311,28 @@ def registro():
     if not result:
         return apology("ID inválido")
     
-    # Adicionar registro na tabela vaca{id}_{username}
-    insert_query = sql.SQL('''
-    INSERT INTO {} (dia, fase_ciclo, leite_quantidade, leite_temperatura, leite_ph) VALUES ((%s), (%s), (%s), (%s), (%s))                    
+    # Verificar se data já foi inserida
+    dia_query = sql.SQL('''
+    SELECT * FROM {} WHERE dia = (%s)                 
     ''').format(sql.Identifier(tab))
-    values = (dia, ciclo, qtdd, temp, ph)
-    cursor.execute(insert_query, values)
-    conn.commit()
+    cursor.execute(dia_query, (dia, ))
+    result = cursor.fetchall()
+    if result:
+        # Modificar registro existente
+        update_query = sql.SQL('''
+        UPDATE {} SET fase_ciclo = (%s), leite_quantidade = (%s), leite_temperatura = (%s), leite_ph = (%s) WHERE dia = (%s)                    
+        ''').format(sql.Identifier(tab))
+        values = (ciclo, qtdd, temp, ph, dia)
+        cursor.execute(update_query, values)
+        conn.commit()
+    else:
+        # Adicionar registro na tabela vaca{id}_{username}
+        insert_query = sql.SQL('''
+        INSERT INTO {} (dia, fase_ciclo, leite_quantidade, leite_temperatura, leite_ph) VALUES ((%s), (%s), (%s), (%s), (%s))                    
+        ''').format(sql.Identifier(tab))
+        values = (dia, ciclo, qtdd, temp, ph)
+        cursor.execute(insert_query, values)
+        conn.commit()
 
     # Renderizar tabela
     query = sql.SQL('''
@@ -352,7 +372,7 @@ def relatorios():
             SELECT * FROM {}
             ''').format(sql.Identifier(tab))
             as_str = query.as_string(conn)
-            df = pd.read_sql_query(as_str, conn)
+            df = pd.read_sql_query(as_str, engine)
             # Missing values
             df.isnull()
             df = df.fillna(0)
