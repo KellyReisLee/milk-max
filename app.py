@@ -378,14 +378,28 @@ def relatorios():
             df.isnull()
             df = df.fillna(0)
 
-            # Descriptive analytics - statistics
+            ## Descriptive analytics - statistics
             descriptive = df.describe()
             descriptive = descriptive.round(2)
             count = descriptive.iloc[0,1]
             descriptive.drop('count', inplace=True)
-            # Converter para tabela SQL
-            descrip_format = f'descriptive_vaca{id}_{session["vacas"]}'
-            descriptive.to_sql(descrip_format, con=engine, index=True, index_label="parâmetro", if_exists='replace')
+
+            # Verificar se tabela SQL já existe
+            descrip_format = f'descriptive_vaca{id}_{session["username"]}'
+            descrip_exists = sql.SQL('''
+            SELECT EXISTS (
+            SELECT 1 FROM information_schema.tables
+            WHERE table_schema = 'public'
+            AND table_name = (%s)                         
+            )''')
+            cursor.execute(descrip_exists, (descrip_format, ))
+            exists = cursor.fetchone()[0]
+
+            # Criar tabela SQL, caso tabela não exista
+            if not exists:
+                descriptive.to_sql(descrip_format, con=engine, index=True, index_label="parâmetro", if_exists='replace')
+
+            # Retornar consulta na tabela
             query_descrip = sql.SQL('''
             SELECT * FROM {}
             ''').format(sql.Identifier(descrip_format))
@@ -393,7 +407,7 @@ def relatorios():
             linhas = cursor.fetchall()
             colunas = [desc[0] for desc in cursor.description]
 
-            # Descriptive analytics - univariate visualization
+            ## Descriptive analytics - univariate visualization
             img_paths = []
             len = df.shape[1]
             columns = []
