@@ -134,8 +134,6 @@ def signup():
 @app.route("/logout")
 def logout():
 
-    # Encerrar sessão
-    conn.close()
     session.clear()
     return redirect("/")
 
@@ -145,7 +143,6 @@ def logout():
 def login():
 
     # Sair de qualquer sessão aberta
-    conn.close()
     session.clear()
 
     # Recuperar dados do login
@@ -395,7 +392,6 @@ def relatorios():
             for i in range(len):
                 columns.append(df.columns[i])
             for column in columns[1:]:
-                filename = f'plot_{column}.png'
                 plt.figure(figsize=(5, 5))
                 sns.histplot(df[column], bins=30, kde=False)
                 plt.title(column)
