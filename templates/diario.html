@@ -7,7 +7,7 @@
         <h2 class="text-center mb-4"><strong>Diário</strong></h2>
         <!-- Selecionar ID vaca para ver seu diário -->
         <div class="container button">
-            <form action="/diario" method="post">
+            <form id="selecaoForm" action="/diario" method="post">
                 <input min="1" autocomplete="off" autofocus id="selecao_vaca" name="selecao_vaca" placeholder="ID vaca" type="number">
                 <button class="btn-login" type="submit">Ver diário</button>
             </form>
@@ -15,7 +15,7 @@
 
         <!-- Selecionar período -->
         <div class="container button">
-            <form action="/diario" method="post">
+            <form id="periodo2Form"action="/diario" method="post">
                 <input autocomplete="off" autofocus id="periodo_diario" name="periodo_diario" placeholder="Período" type="number">
                 <button class="btn-login" type="submit">Selecionar período</button>
             </form>
@@ -47,7 +47,7 @@
                 <button class="btn-login" onclick="registro()">Registrar no diário</button>
             </div>
             <div>
-                <form onsubmit="return ValidateForm()" action="/registro", method="post">
+                <form id="diarioForm" onsubmit="return ValidateForm()" action="/registro", method="post">
                     <input autofocus autocomplete="off" id="id_vaca" name="id_vaca" placeholder="ID vaca" type="hidden">
                     <input autocomplete="off" id="dia" name="dia" placeholder="Data (aaaa-mm-dd)" type="hidden">
                     <input autocomplete="off" id="ciclo" name="ciclo" placeholder="Ciclo reprodutivo" type="hidden">
