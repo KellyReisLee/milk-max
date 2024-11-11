@@ -13,7 +13,7 @@
         <div class="form-container">
             <h2>Log In</h2>
             <p>Se você ainda não tem uma conta: <a href="/signup">Registre-se</a></p>
-            <form onsubmit="return ValidateForm()" action="/login" method="post">
+            <form id="loginForm" onsubmit="return ValidateForm()" action="/login" method="post">
                 <div class="form-group">
                     <label for="username"></label>
                     <input id="username" name="username" placeholder="Nome de usuário" type="text">

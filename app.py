@@ -368,6 +368,10 @@ def relatorios():
             query = sql.SQL('''
             SELECT * FROM {}
             ''').format(sql.Identifier(tab))
+            cursor.execute(query)
+            result = cursor.fetchall()
+            if not result:
+                return apology("Não há nenhum registro no diário dessa vaca")
             as_str = query.as_string(conn)
             df = pd.read_sql_query(as_str, engine)
             # Missing values
@@ -377,11 +381,15 @@ def relatorios():
             # Descriptive analytics - statistics
             descriptive = df.describe()
             descriptive = descriptive.round(2)
-            count = round(descriptive.iloc[0][descriptive.columns[1]])
+            count = descriptive.iloc[0,1]
             descriptive.drop('count', inplace=True)
             # Converter para tabela SQL
-            descriptive.to_sql('descriptive', engine, index=True, index_label="parâmetro", if_exists='replace')
-            cursor.execute('''SELECT * FROM descriptive''')
+            descrip_format = f'descriptive_vaca{id}_{session["vacas"]}'
+            descriptive.to_sql(descrip_format, con=engine, index=True, index_label="parâmetro", if_exists='replace')
+            query_descrip = sql.SQL('''
+            SELECT * FROM {}
+            ''').format(sql.Identifier(descrip_format))
+            cursor.execute(query_descrip)
             linhas = cursor.fetchall()
             colunas = [desc[0] for desc in cursor.description]
 

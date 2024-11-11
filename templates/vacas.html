@@ -7,7 +7,7 @@
         <h2 class="text-center mb-4"><strong>Minhas vacas</strong></h2>
         <!-- Botão novo atributo -->
         <div class="container button">
-            <form action="/vacas" method="post">
+            <form id="periodoForm" action="/vacas" method="post">
                 <input autocomplete="off" autofocus id="periodo_vacas" name="periodo_vacas" placeholder="Período" type="text">
                 <button class="btn-login" type="submit" onclick="add_column()">Selecionar período</button>
             </form>
@@ -37,7 +37,7 @@
         <div class="container button">
             <button class="btn-login" onclick="cadastro()">Cadastrar vaca</button>
             <div>
-                <form onsubmit="return ValidateForm()" action="/cadastro", method="post">
+                <form id="cadastrarForm" onsubmit="return ValidateForm()" action="/cadastro", method="post">
                     <input autocomplete="off" id="raca" name="raca" placeholder="Raça" type="hidden">
                     <input autocomplete="off" id="nasc" name="nasc" placeholder="Nascimento(aaaa-mm-dd)" type="hidden">
                     <input autocomplete="off" id="peso" name="peso" placeholder="Peso" type="hidden">

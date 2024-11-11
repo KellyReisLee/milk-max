@@ -7,7 +7,7 @@
         <h2 class="text-center mb-4"><strong>Relatórios</strong></h2>
         <!--- Selecionar se deseja ver relatórios referentes a todas as vacas ou a apenas uma -->
         <div class="container button">
-            <form onsubmit="return ValidateForm()" action="/relatorios" method="post">
+            <form id="ValidateForm" onsubmit="return ValidateForm()" action="/relatorios" method="post">
                 <label class="radio">
                     <input class="form-check-input" onclick="return hide()" type="radio" name="select" value="all">
                     Panorâma geral: todas as vacas
