@@ -64,7 +64,10 @@ a {
 .wrapper {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 60vh;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     /* Altura mínima de 100% da viewport */
 }
 
