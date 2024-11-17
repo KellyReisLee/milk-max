@@ -38,13 +38,35 @@ COLAR CÓDIGO NO <head> DO HTML
  - OPEN SANS (GOOGLE FONTS) - CORPO DO TEXTO, PARÁGRAFOS, INFORMAÇÕES <head> DO HTML
 
 ## Como usar
-1. Para instalar bibliotecas necessárias,
-execute em seu terminal: pip install -r requirements.txt
-2. Leia o arquivo 'CONF_BANCO' para entender como criar um banco de dados conectado ao site,
-por meio do arquivo '.env'
+1. Abra o VSCode no seu computador.
+Se ainda não instalado, instale em: https://code.visualstudio.com
+
+2. Certifique-se de quem tem instalado o controlador de versionamento local Git e que ele está conectado à sua conta no Github
+
+3. Busque os arquivos dentro do repositório milkmax, no endereço: https://github.com/KellyReisLee/milk-max
+Você pode utilizar o comando: git clone https://github.com/KellyReisLee/milk-max
+
+4. Certifique-se de que tem instalado o python em sua máquina.
+4.1. Verifique a instalação com o comando: python --version ou python3 --version
+4.2. Caso não apareça a versão python instalada, baixe no site oficial: https://www.python.org/downloads/.
+No instalador, certifique-se de marcar a opção "Add Python to PATH".
+Certifique-se também de que a opção install pip está marcada.
+4.4. Verifique a instalação: python --version
+4.5. Verifique a instalação do pip: pip --version
+
+5. Crie um ambiente virtual dentro da pasta milkmax.
+5.1. Digite o comando: python -m venv venv
+5.2. Ative o venv. No windows: venv\Scripts\activate
+
+6. Instale os pacotes necessários para o projeto.
+Execute em seu terminal: pip install -r requirements.txt
+
+7. Leia o arquivo 'CONF_BANCO' para entender como criar um banco de dados conectado ao site.
 Observe que no arquivo 'app.py' as suas configurações em '.env' serão requisitadas
-3. Execute no terminal: python app.py para rodar o site
-4. Os códigos html que estão presentes em todas as páginas, contendo a navbar e afins,
+
+8. Execute no terminal: python app.py para rodar o site
+
+9. Os códigos html que estão presentes em todas as páginas, contendo a navbar e afins,
 estão dispostos no arquivo "layout.html"
 
 ## Contribuições:
