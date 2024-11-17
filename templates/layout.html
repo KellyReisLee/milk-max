@@ -41,113 +41,117 @@
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container text-center main-container">
                 <div class="logo">
-                    <a href="/"><img id="logo" class="img-fluid" src="/static/img/logo-branco-sem-fundo.png" alt="Logo Milkmax"></a>
+                    <a href="/"><img id="logo" class="img-fluid" src="/static/img/logo-branco-sem-fundo.png"
+                            alt="Logo Milkmax"></a>
                 </div>
-    
+
                 <!--Menu Hambúrguer-->
                 <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <!--Centralizar os links no mobile -->
+                    <!--Centralizar os links no mobile -->
                     {% if session["username"] %}
-                        <ul class="navbar-nav mx-auto  mb-lg-0 justify-content-center ">
-                            <li class="nav-item">
-                                <a class=" nav-link text-light active" aria-current="page" href="/relatorios">Relatórios</a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a class=" nav-link text-light active " aria-current="page" href="/vacas">Vacas</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="  nav-link text-light active " aria-current="page" href="/diario">Diário</a>
-                            </li>
-                        </ul>
-                        <button onclick="window.location.href='/logout'" type="button" class="btn btn-light text-primary btn-login">Log out</button>
+                    <ul class="navbar-nav mx-auto  mb-lg-0 justify-content-center ">
+                        <li class="nav-item">
+                            <a class=" nav-link text-light active" aria-current="page" href="/relatorios">Relatórios</a>
+                        </li>
+                        <li class="nav-item  ">
+                            <a class=" nav-link text-light active " aria-current="page" href="/vacas">Vacas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="  nav-link text-light active " aria-current="page" href="/diario">Diário</a>
+                        </li>
+                    </ul>
+                    <button onclick="window.location.href='/logout'" type="button"
+                        class="btn btn-light text-primary btn-login">Log out</button>
                     {% else %}
-                        <ul class="navbar-nav mx-auto  mb-lg-0 justify-content-center ">
-                            <li class="nav-item">
-                                <a class=" nav-link text-light active" aria-current="page" href="#features">Funcionalidades</a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a class=" nav-link text-light active " aria-current="page" href="#about">Sobre</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="  nav-link text-light active " aria-current="page" href="#testimonials">Testemunhos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class=" nav-link text-light active " aria-current="page" href="#prices">Preços</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class=" nav-link text-light active " aria-current="page" href="/contact">Contato</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class=" nav-link text-light active " aria-current="page" href="/signup">Registrar-se</a>
-                            </li>
-                        </ul>
-                        <a class="btn btn-light text-primary btn-login px-4 py-1" type="button" href="/login">Log in</a>
+                    <ul class="navbar-nav mx-auto  mb-lg-0 justify-content-center ">
+                        <li class="nav-item">
+                            <a class=" nav-link text-light active" aria-current="page"
+                                href="#features">Funcionalidades</a>
+                        </li>
+                        <li class="nav-item  ">
+                            <a class=" nav-link text-light active " aria-current="page" href="#about">Sobre</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="  nav-link text-light active " aria-current="page"
+                                href="#testimonials">Testemunhos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class=" nav-link text-light active " aria-current="page" href="#prices">Preços</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class=" nav-link text-light active " aria-current="page" href="/contact">Contato</a>
+                        </li>
+
+                    </ul>
+                    <a class="btn btn-light text-primary btn-login px-4 py-1" type="button" href="/login">Log in</a>
                     {% endif %}
                 </div>
             </div>
         </nav>
     </header>
-    
+
     <!-- Main ------- -->
     <main>
         {% block main %} {% endblock %}
-    <main>
+        <main>
 
-    <!-- Footer ------ -->
-    <footer class=" footer-container container-fluid d-flex justify-content-center flex-column align-items-center">
-        <div
-        class="row container d-flex py-3 px-0 gap-lg-0  gap-2  align-items-center justify-content-between flex-column flex-lg-row ">
-        <div
-            class="col-lg-4 col-md-12 d-flex align-items-center py-2 order-1 order-md-1 gap-3 py-md-2  justify-content-lg-end justify-content-center  justify-content-end ">
-            <h3 class="subtitle-footer d-flex align-self-end   ">Siga-nos</h3>
-            <div class="footer-icon-list">
-            <a href="#" class="icon" aria-label="Facebook" aria-hidden="true">
-                <i class="fa-brands fa-facebook fa-md"></i>
-            </a>
-            <a href="#" class="icon" aria-label="Instagram" aria-hidden="true">
-                <i class="fa-brands fa-instagram fa-md"></i>
-            </a>
-            <a href="#" class="icon" aria-label="Twitter" aria-hidden="true">
-                <i class="fa-brands fa-twitter fa-md"></i>
-            </a>
-            <a href="#" class="icon" aria-label="YouTube" aria-hidden="true">
-                <i class="fa-brands fa-youtube fa-md"></i>
-            </a>
-            </div>
+            <!-- Footer ------ -->
+            <footer
+                class=" footer-container container-fluid d-flex justify-content-center flex-column align-items-center">
+                <div
+                    class="row container d-flex py-3 px-0 gap-lg-0  gap-2  align-items-center justify-content-between flex-column flex-lg-row ">
+                    <div
+                        class="col-lg-4 col-md-12 d-flex align-items-center py-2 order-1 order-md-1 gap-3 py-md-2  justify-content-lg-end justify-content-center  justify-content-end ">
+                        <h3 class="subtitle-footer d-flex align-self-end   ">Siga-nos</h3>
+                        <div class="footer-icon-list">
+                            <a href="#" class="icon" aria-label="Facebook" aria-hidden="true">
+                                <i class="fa-brands fa-facebook fa-md"></i>
+                            </a>
+                            <a href="#" class="icon" aria-label="Instagram" aria-hidden="true">
+                                <i class="fa-brands fa-instagram fa-md"></i>
+                            </a>
+                            <a href="#" class="icon" aria-label="Twitter" aria-hidden="true">
+                                <i class="fa-brands fa-twitter fa-md"></i>
+                            </a>
+                            <a href="#" class="icon" aria-label="YouTube" aria-hidden="true">
+                                <i class="fa-brands fa-youtube fa-md"></i>
+                            </a>
+                        </div>
 
-        </div>
-        <div
-            class="col-lg-7 col-md-12 d-flex  py-2  justify-content-start flex-lg-row flex-column d-flex align-items-center gap-lg-3 gap-sm-2 ">
-            <h3 class="subtitle-footer d-flex align-self-center  align-self-lg-end">
-            NewsLetter
-            </h3>
-            <div class="subscribe-container">
-                <form id="subscribeForm">
-                    <input type="email" class="subscribe-input" name="subscribeInput" placeholder="Your email address" aria-label="Email address"
-                    required>
-                    <button class="subscribe-button" type="button">Inscreva-se</button>
-                </form>
-            </div>
-        </div>
-        </div>
- 
-        <hr class="hr-footer">
+                    </div>
+                    <div
+                        class="col-lg-7 col-md-12 d-flex  py-2  justify-content-start flex-lg-row flex-column d-flex align-items-center gap-lg-3 gap-sm-2 ">
+                        <h3 class="subtitle-footer d-flex align-self-center  align-self-lg-end">
+                            NewsLetter
+                        </h3>
+                        <div class="subscribe-container">
+                            <form id="subscribeForm">
+                                <input type="email" class="subscribe-input" name="subscribeInput"
+                                    placeholder="Your email address" aria-label="Email address" required>
+                                <button class="subscribe-button" type="button">Inscreva-se</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
-        <nav class="footer-nav">
-          <ul>
-            <li class="nav-links-footer"><a href="#features">Funcionalidades</a></li>
-            <li class="nav-links-footer"><a href="#about">Sobre</a></li>
-            <li class="nav-links-footer"><a href="#testimonials">Testemunhos</a></li>
-            <li class="nav-links-footer"><a href="/contact">Contato</a></li>
-          </ul>
-        </nav>
-    
-        <p class="copyright"> © 2024 Milkmax. Todos os direitos reservados.</p>
-    </footer>
+                <hr class="hr-footer">
+
+                <nav class="footer-nav">
+                    <ul>
+                        <li class="nav-links-footer"><a href="#features">Funcionalidades</a></li>
+                        <li class="nav-links-footer"><a href="#about">Sobre</a></li>
+                        <li class="nav-links-footer"><a href="#testimonials">Testemunhos</a></li>
+                        <li class="nav-links-footer"><a href="/contact">Contato</a></li>
+                    </ul>
+                </nav>
+
+                <p class="copyright"> © 2024 Milkmax. Todos os direitos reservados.</p>
+            </footer>
 </body>
+
 </html>
