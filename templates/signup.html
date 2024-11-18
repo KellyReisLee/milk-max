@@ -13,20 +13,32 @@
         <div class="form-container">
             <h2>Registre-se</h2>
             <p>Se você já tem uma conta: <a href="/login">Log In</a></p>
-            <form id="signupForm" onsubmit="return ValidateForm()" action="/register" method="post">
+            <form class="was-validated" id="signupForm" action="/signup" method="post">
+                <div class="form-group">
+                    <label for="email"></label>
+                    <input id="email" name="email" placeholder="E-mail" type="text" required>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback">Insira seu melhor e-mail.</div>
+                </div>
                 <div class="form-group">
                     <label for="username"></label>
-                    <input id="username" name="username" placeholder="Nome de Usuário" type="text">
+                    <input id="username" name="username" placeholder="Nome de Usuário" type="text" required>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback">Insira um nome de usuário.</div>
                 </div>
                 <div class="form-group">
                     <label for="password"></label>
-                    <input id="password" name="password" placeholder="Senha" type="password">
+                    <input id="password" name="password" placeholder="Senha" type="password" required>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback">Insira uma senha.</div>
                 </div>
                 <div class="form-group">
                     <label for="confirm"></label>
-                    <input id="confirm" name="confirm" placeholder="Confirmar senha" type="password">
+                    <input id="confirm" name="confirm" placeholder="Confirmar senha" type="password" required>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback">Confirme a senha.</div>
                 </div>
-                <button class="form-btn" type="submit"><strong>REGISTRAR</strong></button>
+                <button class="form-btn mt-4" type="submit"><strong>REGISTRAR</strong></button>
             </form>
         </div>
     </div>

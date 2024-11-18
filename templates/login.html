@@ -14,7 +14,7 @@
         <div class="form-container">
             <h2>Log In</h2>
             <p>Se você ainda não tem uma conta: <a href="/signup">Registre-se</a></p>
-            <form class="was-validated" id="loginForm" onsubmit="return ValidateForm()" action="/login" method="post">
+            <form class="was-validated" id="loginForm" action="/login" method="post">
                 <div class="form-group">
                     <label for="username"></label>
                     <input id="username" name="username" placeholder="Nome de usuário" type="text" required>
@@ -26,6 +26,9 @@
                     <input id="password" name="password" placeholder="Senha" type="password" required>
                     <div class="valid-feedback"></div>
                     <div class="invalid-feedback">Preencha a senha.</div>
+                </div>
+                <div class="text-center mb-4">
+                    <a href="#" class="text-muted">Esqueci minha senha</a>
                 </div>
                 <button class="form-btn" type="submit"><strong>ENTRAR</strong></button>
             </form>
