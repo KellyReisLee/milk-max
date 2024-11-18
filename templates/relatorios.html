@@ -16,33 +16,35 @@
                     <input class="form-check-input" onclick="return appear()" type="radio" name="select" value="select">
                     Selecionar vaca
                 </label>
-                <input style="margin-left: 10px;" min="1" autocomplete="off" autofocus id="selecao_vaca" name="selecao_vaca" placeholder="ID vaca" type="hidden">
+                <input min="1" autocomplete="off" autofocus id="selecao_vaca" name="selecao_vaca" placeholder="ID vaca" type="hidden">
                 <button class="btn-login" type="submit">Ver relatórios</button>
             </form>
         </div>
 
         <!--- Estatísticas  -->
-        <table class="table">
-            <thead>
-                <tr>
-                    {% for coluna in colunas %}
-                        <th>{{ coluna }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for linha in linhas %}
+        <div class="container mt-5">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
                     <tr>
-                        {% for item in linha %}
-                            <td>{{ item }}</td>
+                        {% for coluna in colunas %}
+                            <th>{{ coluna }}</th>
                         {% endfor %}
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for linha in linhas %}
+                        <tr>
+                            {% for item in linha %}
+                                <td>{{ item }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
         <!-- Gráficos -->
-        <div class="container graph">
+        <div class="container mt-5 graph">
             {% for img in img_paths %}
                 <img src="{{ img }}">
             {% endfor %}
