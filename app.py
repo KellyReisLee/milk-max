@@ -91,8 +91,16 @@ def contact():
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
 
+    # Criar tabela de users se não existe
+    create = '''
+    CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, username VARCHAR(50), hash VARCHAR(255), email VARCHAR(100))
+    '''
+    cursor.execute(create)
+    conn.commit()
+
     # Formulário de registro submetido
     if request.method == "POST":
+        email = request.form.get("email")
         username = request.form.get("username")
         password = request.form.get("password")
         confirm = request.form.get("confirm")
@@ -102,6 +110,10 @@ def signup():
             return apology("Inserir nome de usuário")   
         elif not password:
             return apology("Inserir senha")
+        elif not confirm:
+            return apology("Inserir confirmação de senha")
+        elif not email:
+            return apology("Inserir e-mail")
 
         # Retornar apology se nome de usuário já existe
         query_register = '''
@@ -112,6 +124,15 @@ def signup():
         if len(usr) != 0:
             return apology("Nome de usuário já existe")
         
+        # Retornar apology se e-mail já está cadastrado
+        query_email = '''
+        SELECT * FROM users WHERE email = (%s)
+        '''
+        cursor.execute(query_email, (email,))
+        em = cursor.fetchall()
+        if len(em) != 0:
+            return apology("E-mail já cadastrado")
+             
         # Retornar apology se senhas não coincidem
         if password != confirm:
             return apology("Senhas não coincidem")
@@ -119,9 +140,9 @@ def signup():
         # Inserir novo usuário na tabela users
         hash = generate_password_hash(password, method='pbkdf2', salt_length=16) # Gerar versão criptografada da senha
         query = '''
-        INSERT INTO users (username, hash) VALUES ((%s), (%s))
+        INSERT INTO users (username, hash, email) VALUES ((%s), (%s), (%s))
         '''
-        values = (username, hash)
+        values = (username, hash, email)
         cursor.execute(query, values)
         conn.commit()
         return redirect("/login")
@@ -178,7 +199,7 @@ def login():
         tabela_vacas = f'vacas_{session["username"]}'
         session["vacas"] = tabela_vacas # guardar nome da tabela na sessão do usuário
         create_query = sql.SQL('''
-        CREATE TABLE IF NOT EXISTS {} (id SERIAL PRIMARY KEY, raca VARCHAR(50), nasc DATE, peso FLOAT);
+        CREATE TABLE IF NOT EXISTS {} (id SERIAL PRIMARY KEY, raca VARCHAR(50), nasc DATE, peso FLOAT)
         ''').format(sql.Identifier(tabela_vacas)) # Comando SQL dinâmico para nome da tabela
         cursor.execute(create_query)
         conn.commit()
