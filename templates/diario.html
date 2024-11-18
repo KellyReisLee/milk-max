@@ -7,12 +7,12 @@
         <h2 class="text-center mb-4"><strong>Diário</strong></h2>
         <div class="container button">
             <!-- Selecionar ID vaca para ver seu diário -->
-            <form id="selecaoForm" action="/diario" method="post">
+            <form id="selecaoForm" onsubmit="return ValidateForm()" action="/diario" method="post">
                 <input min="1" autocomplete="off" autofocus id="selecao_vaca" name="selecao_vaca" placeholder="ID vaca" type="number">
                 <button class="btn-login" type="submit">Ver diário</button>
             </form>
             <!-- Selecionar período -->
-            <form id="periodo2Form"action="/diario" method="post">
+            <form id="periodo2Form" onsubmit="return ValidateForm()" action="/diario" method="post">
                 <input autocomplete="off" autofocus id="periodo_diario" name="periodo_diario" placeholder="Período" type="number">
                 <button class="btn-login" type="submit">Selecionar período</button>
             </form>
