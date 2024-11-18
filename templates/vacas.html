@@ -7,7 +7,7 @@
         <h2 class="text-center mb-4"><strong>Minhas vacas</strong></h2>
         <!-- Botão novo atributo -->
         <div class="container button">
-            <form id="periodoForm" action="/vacas" method="post">
+            <form id="periodoForm" onsubmit="return ValidateForm()" action="/vacas" method="post">
                 <input autocomplete="off" autofocus id="periodo_vacas" name="periodo_vacas" placeholder="Período" type="text">
                 <button class="btn-login" type="submit" onclick="add_column()">Selecionar período</button>
             </form>
