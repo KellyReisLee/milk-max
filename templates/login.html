@@ -3,36 +3,38 @@
 {% block title %} Register {% endblock %}
 
 {% block main %}
-<!-- Imagem ilustrativa -->
-<main class="wrapper">
-    <div class="login-container">
-        <div class="login-img">
-            <img src="/static/img/logo-reduzida-azul.png" alt="">
-        </div>
-        <div class="divisor"></div>
-        <!--Formulário de Login-->
-        <div class="form-container">
-            <h2>Log In</h2>
-            <p>Se você ainda não tem uma conta: <a href="/signup">Registre-se</a></p>
-            <form class="was-validated" id="loginForm" action="/login" method="post">
-                <div class="form-group">
-                    <label for="username"></label>
-                    <input id="username" name="username" placeholder="Nome de usuário" type="text" required>
-                    <div class="valid-feedback"></div>
-                    <div class="invalid-feedback">Preencha o dado do usuário.</div>
-                </div>
-                <div class="form-group">
-                    <label for="password"></label>
-                    <input id="password" name="password" placeholder="Senha" type="password" required>
-                    <div class="valid-feedback"></div>
-                    <div class="invalid-feedback">Preencha a senha.</div>
-                </div>
-                <div class="text-center mb-4">
-                    <a href="#" class="text-muted">Esqueci minha senha</a>
-                </div>
-                <button class="form-btn" type="submit"><strong>ENTRAR</strong></button>
-            </form>
+    <!-- Imagem ilustrativa -->
+    <div class="wrapper">
+        <div class="login-container">
+            <div class="login-img">
+                <img src="/static/img/logo-reduzida-azul.png" alt="">
+            </div>
+            <div class="divisor"></div>
+            <!--Formulário de Login-->
+            <div class="form-container">
+                <h2>Log In</h2>
+                <p>Se você ainda não tem uma conta: <a href="/signup">Registre-se</a></p>
+                <form class="was-validated" id="loginForm" action="/login" method="post">
+                    <div class="form-group">
+                        <label for="username"></label>
+                        <input id="username" name="username" placeholder="Nome de usuário" type="text" required>
+                        <div class="valid-feedback"></div>
+                        <div class="invalid-feedback">Preencha o dado do usuário.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password"></label>
+                        <input id="password" name="password" placeholder="Senha" type="password" required>
+                        <div class="valid-feedback"></div>
+                        <div class="invalid-feedback">Preencha a senha.</div>
+                    </div>
+                    <div class="text-center mb-4">
+                        <p class="mt-4 mb-2 text-muted">Esqueci</p>
+                        <a href="/forgot?value=usuario" class="text-muted">Usuário</a> /
+                        <a href="/forgot?value=senha" class="text-muted">Senha</a>
+                    </div>
+                    <button class="form-btn" type="submit"><strong>ENTRAR</strong></button>
+                </form>
+            </div>
         </div>
     </div>
-</main>
 {% endblock %}
