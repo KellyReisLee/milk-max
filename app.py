@@ -3,7 +3,7 @@
 import os
 from dotenv import load_dotenv
 
-from flask import Flask, render_template, redirect, session, request
+from flask import Flask, render_template, redirect, session, request, jsonify
 from flask_session import Session
 import psycopg2
 from psycopg2 import sql
@@ -73,6 +73,7 @@ def after_request(response):
 # username do usuário -> session["username"]
 # nome da tabela com todas as vacas -> session["vacas"]
 # número de vacas cadastradas -> session["num_vacas"]
+# session["authenticated"]
 
 ############################################################################
 
@@ -218,6 +219,60 @@ def login():
     # Renderizar formulário de login
     else:
         return render_template("login.html")
+
+
+## Página "Esqueci minha senha"
+@app.route("/forgot", methods=["GET", "POST"])
+def forgot():
+
+    if request.method == "POST":
+
+        # Recuperar dados inputados
+        email = request.form.get("email")
+        password = request.form.get("password")
+        new_user = request.form.get("new_user")
+
+        # Alterar nome de usuário
+        if new_user:
+            email = request.form.get("hidden_input")
+            # Garantir que email e senha foram inseridos
+            if not session.get('authenticated'):
+                return "Unauthorized", 403
+            update_query = '''
+            UPDATE users SET username = (%s) WHERE email = (%s)                    
+            '''
+            values = (new_user, email)
+            cursor.execute(update_query, values)
+            conn.commit()
+            return redirect("/login")
+        
+        # email e senha inseridos
+        else:
+            
+            # Garantir que email e senha foram inseridos 
+            if not email or not password:
+                return jsonify({"success": False, "message": "Email or password missing"}), 400
+            
+            # Consultar tabela users
+            query = '''
+            SELECT * FROM users WHERE email = (%s)
+            '''
+            value = request.form.get("email")
+            cursor.execute(query, (value,))
+            rows = cursor.fetchall()
+
+            # Garantir que username existe e senha está correta
+            if len(rows) != 1 or not check_password_hash(
+                rows[0][2], request.form.get("password")
+            ):
+                return jsonify({"success": False, "message": "Invalid credentials"}), 401
+            session["authenticated"] = True
+            return jsonify({"success": True})
+    else:
+        value = request.args.get('value')
+        string = f'{value}.html'
+        return render_template(string)
+
 
 ## Página "Vacas"
 @app.route("/vacas", methods=["GET", "POST"])

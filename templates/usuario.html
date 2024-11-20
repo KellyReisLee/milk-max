@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block title %} Forgot {% endblock %}
+
+{% block main %}
+    <!-- Imagem ilustrativa -->
+    <div class="wrapper">
+        <div class="login-container">
+            <div class="login-img">
+                <img src="/static/img/logo-reduzida-azul.png" alt="">
+            </div>
+            <div class="divisor"></div>
+            <!--Formulário de Login-->
+            <div class="form-container">
+                <h2>Esqueci meu usuário</h2>
+                <p>Para refinir seu usuário, preencha com seu e-mail e senha </p>
+                <form class="was-validated" id="loginForm" action="/forgot" method="post">
+                    <div class="form-group">
+                        <label for="email"></label>
+                        <input id="email" name="email" placeholder="E-mail" type="text" required>
+                        <div class="valid-feedback"></div>
+                        <div class="invalid-feedback">Insira seu e-mail cadastrado.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password"></label>
+                        <input id="password" name="password" placeholder="Senha" type="password" required>
+                        <div class="valid-feedback"></div>
+                        <div class="invalid-feedback">Insira sua senha.</div>
+                    </div>
+                    <button class="form-btn" type="submit"><strong>VALIDAR</strong></button>
+                </form>
+                <div class="form-group mt-5" id="extra-input" style="display: none;">
+                    <form action="/forgot" method="post">
+                        <label for="password">Insira seu novo nome de usuário: </label>
+                        <input type="hidden" id="hidden_input" name="hidden_input">
+                        <input id="new_user" name="new_user" placeholder="Nome de Usuário" type="text" required>
+                        <button class="form-btn mt-3" type="submit"><strong>REDEFINIR</strong></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function (e) {
+            e.preventDefault(); // Prevent the form from submitting normally
+        
+            const formData = new FormData(this);
+            fetch("/forgot", { // JavaScript intercepta form ao invés dele ser enviado direto pro servidor. Faz a requisição
+                method: "POST",
+                body: formData,
+            })
+            .then(response => response.json()) // JavaScript faz a comunicação com o servidor por meio de arquivos json. Envia resposta
+            .then(data => {
+                if (data.success) {
+                    const email = document.getElementById("email").value;
+                    document.getElementById("hidden_input").value = email; // Pass value to second form
+                    document.getElementById("extra-input").style.display = "block";
+                } else {
+                    alert(data.message); // Display error message
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        });
+    </script>    
+{% endblock %}
