@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %} Forgot {% endblock %}
+{% block title %} Esqueci nome de usuário {% endblock %}
 
 {% block main %}
     <!-- Imagem ilustrativa -->
@@ -29,13 +29,8 @@
                     </div>
                     <button class="form-btn" type="submit"><strong>VALIDAR</strong></button>
                 </form>
-                <div class="form-group mt-5" id="extra-input" style="display: none;">
-                    <form action="/forgot" method="post">
-                        <label for="password">Insira seu novo nome de usuário: </label>
-                        <input type="hidden" id="hidden_input" name="hidden_input">
-                        <input id="new_user" name="new_user" placeholder="Nome de Usuário" type="text" required>
-                        <button class="form-btn mt-3" type="submit"><strong>REDEFINIR</strong></button>
-                    </form>
+                <div class="mt-3" id="extra" style="display: none;">
+                    <p>O nome de usuário foi enviado no seu e-mail.</p>
                 </div>
             </div>
         </div>
@@ -54,9 +49,7 @@
             .then(response => response.json()) // JavaScript faz a comunicação com o servidor por meio de arquivos json. Envia resposta
             .then(data => {
                 if (data.success) {
-                    const email = document.getElementById("email").value;
-                    document.getElementById("hidden_input").value = email; // Pass value to second form
-                    document.getElementById("extra-input").style.display = "block";
+                    document.getElementById("extra").style.display = "block";
                 } else {
                     alert(data.message); // Display error message
                 }
