@@ -3,7 +3,9 @@
 import os
 from dotenv import load_dotenv
 
-from flask import Flask, render_template, redirect, session, request, jsonify
+from flask import Flask, render_template, redirect, session, request, jsonify, url_for
+from flask_mail import Mail, Message
+from itsdangerous import URLSafeTimedSerializer
 from flask_session import Session
 import psycopg2
 from psycopg2 import sql
@@ -22,21 +24,37 @@ from helpers import apology, login_required
 
 ## CONFIGURAÇÕES ##
 
+# Carrega as variáveis do arquivo .env
+load_dotenv()
+key = os.getenv('SECRET_KEY')
+db_host = os.getenv("DB_HOST")
+db_name = os.getenv("DB_NAME")
+db_user = os.getenv("DB_USER")
+db_password = os.getenv("DB_PASSWORD")
+email = os.getenv("EMAIL")
+senha = os.getenv("PASSWORD")
+
 # Configure app
 app = Flask(__name__)
-app.secret_key = os.getenv('SECRET_KEY', 'default_secret_key')
+app.config['SECRET_KEY'] = key
 
 # Configurar sessão para que armazenamento de dados seja feito no servidor, e não através de cookies (navegador)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-# Carrega as variáveis do arquivo .env
-load_dotenv()
-db_host = os.getenv("DB_HOST")
-db_name = os.getenv("DB_NAME")
-db_user = os.getenv("DB_USER")
-db_password = os.getenv("DB_PASSWORD")
+# Configurações de e-mail
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Servidor de e-mail
+app.config['MAIL_PORT'] = 587                # Porta do servidor
+app.config['MAIL_USE_TLS'] = True            # TLS para segurança
+app.config['MAIL_USERNAME'] = email
+app.config['MAIL_PASSWORD'] = senha
+app.config['MAIL_DEFAULT_SENDER'] = email
+
+mail = Mail(app)
+
+# Configurar serializer para gerar e validar tokens
+serializer = URLSafeTimedSerializer(app.config['MAIL_PASSWORD'])
 
 # Connect to the PostgreSQL database
 conn = psycopg2.connect(
@@ -222,7 +240,7 @@ def login():
         return render_template("login.html")
 
 
-## Página "Esqueci minha senha"
+## Esqueci usuário/senha
 @app.route("/forgot", methods=["GET", "POST"])
 def forgot():
 
@@ -261,7 +279,7 @@ def forgot():
 
             # Garantir que email foi inserido
             if not email:
-                return jsonify({"success": False, "message": "Email or password missing"}), 400
+                return jsonify({"success": False, "message": "Email missing"}), 400
             
             # Consultar tabela users pelo email do usuário
             query = '''
@@ -271,16 +289,60 @@ def forgot():
             rows = cursor.fetchall()
             if len(rows) != 1:
                 return jsonify({"success": False, "message": "Invalid credentials"}), 401
-            return jsonify({"success": True})
             
             # Enviar e-mail com link para redefinir senha
-
+            token = serializer.dumps(email, salt='password-reset-salt')
+            reset_link = url_for('reset_password', token=token, _external=True) # link para redefinir
+            msg = Message('Redefinir sua senha', recipients=[email]) # título
+            msg.body = f'Clique no link para redefinir sua senha: {reset_link}' # corpo da mensagem
+            mail.send(msg)
+            return jsonify({"success": True})
             
     else:
-        # Clique na opção esqueci usuário ou esqueci senha
+        # Após clique na opção esqueci usuário ou esqueci senha
         value = request.args.get('value')
         string = f'{value}.html'
         return render_template(string)
+
+
+## Redefinir senha
+@app.route('/reset_password/<token>', methods=["GET", "POST"])
+def reset_password(token):
+
+    try:
+        # Valida o token e obtém o e-mail
+        email = serializer.loads(token, salt='password-reset-salt', max_age=600)  # 10 min de validade
+    except:
+        return "Token inválido ou expirado.", 400
+    
+    if request.method == 'POST':
+        password = request.form.get("password")
+        confirm = request.form.get("confirm")
+
+        # Retornar apology se nome de usuário ou senha não existem
+        if not password:
+            return apology("Inserir senha")
+        elif not confirm:
+            return apology("Inserir confirmação de senha")
+             
+        # Retornar apology se senhas não coincidem
+        if password != confirm:
+            return apology("Senhas não coincidem")
+        
+        # Atualizar nova senha na tabela users
+        hash = generate_password_hash(password, method='pbkdf2', salt_length=16) # Gerar versão criptografada da senha
+        # Modificar registro existente
+        query = '''
+        UPDATE users SET hash = (%s) WHERE email = (%s)              
+        '''
+        values = (hash, email)
+        cursor.execute(query, values)
+        conn.commit()
+        return redirect("/login")
+    else:
+        return render_template('redef_senha.html', token=token)  # Formulário para nova senha
+
+
 
 
 ## Página "Vacas"
