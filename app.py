@@ -171,20 +171,21 @@ def login():
     # Recuperar dados do login
     if request.method == "POST":
 
+        username = request.form.get("username")
+        password = request.form.get("password")
         # Garantir que username existe
-        if not request.form.get("username"):
+        if not username:
             return apology("Inserir nome de usuário")
 
         # Garantir que senha existe
-        elif not request.form.get("password"):
+        elif not password:
             return apology("Inserir senha")
 
         # Consultar tabela users por username
         query = '''
         SELECT * FROM users WHERE username = (%s)
         '''
-        value = request.form.get("username")
-        cursor.execute(query, (value,))
+        cursor.execute(query, (username,))
         rows = cursor.fetchall()
 
         # Garantir que username existe e senha está correta
@@ -230,45 +231,53 @@ def forgot():
         # Recuperar dados inputados
         email = request.form.get("email")
         password = request.form.get("password")
-        new_user = request.form.get("new_user")
 
-        # Alterar nome de usuário
-        if new_user:
-            email = request.form.get("hidden_input")
-            # Garantir que email e senha foram inseridos
-            if not session.get('authenticated'):
-                return "Unauthorized", 403
-            update_query = '''
-            UPDATE users SET username = (%s) WHERE email = (%s)                    
-            '''
-            values = (new_user, email)
-            cursor.execute(update_query, values)
-            conn.commit()
-            return redirect("/login")
-        
-        # email e senha inseridos
-        else:
-            
+        # Esqueci usuário
+        if password:
+
             # Garantir que email e senha foram inseridos 
             if not email or not password:
-                return jsonify({"success": False, "message": "Email or password missing"}), 400
+                return jsonify({"success": False, "message": "Username or password missing"}), 400
             
             # Consultar tabela users
             query = '''
             SELECT * FROM users WHERE email = (%s)
             '''
-            value = request.form.get("email")
-            cursor.execute(query, (value,))
+            cursor.execute(query, (email,))
             rows = cursor.fetchall()
 
-            # Garantir que username existe e senha está correta
+            # Garantir que email e senha estão corretos
             if len(rows) != 1 or not check_password_hash(
                 rows[0][2], request.form.get("password")
             ):
                 return jsonify({"success": False, "message": "Invalid credentials"}), 401
-            session["authenticated"] = True
             return jsonify({"success": True})
+        
+            # Enviar e-mail com nome de usuário
+             
+        
+        # Esqueci senha
+        else:
+
+            # Garantir que email foi inserido
+            if not email:
+                return jsonify({"success": False, "message": "Email or password missing"}), 400
+            
+            # Consultar tabela users pelo email do usuário
+            query = '''
+            SELECT username FROM users WHERE email = (%s)
+            '''
+            cursor.execute(query, (email,))
+            rows = cursor.fetchall()
+            if len(rows) != 1:
+                return jsonify({"success": False, "message": "Invalid credentials"}), 401
+            return jsonify({"success": True})
+            
+            # Enviar e-mail com link para redefinir senha
+
+            
     else:
+        # Clique na opção esqueci usuário ou esqueci senha
         value = request.args.get('value')
         string = f'{value}.html'
         return render_template(string)
