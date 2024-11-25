@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %} Esqueci senha {% endblock %}
+
+{% block main %}
+    <!-- Imagem ilustrativa -->
+    <div class="wrapper">
+        <div class="login-container">
+            <div class="login-img">
+                <img src="/static/img/logo-reduzida-azul.png" alt="">
+            </div>
+            <div class="divisor"></div>
+            <!--Formulário de Login-->
+            <div class="form-container">
+                <h2>Redefinir senha</h2>
+                <form class="was-validated" id="loginForm" action="/reset_password/{{ token }}" method="post">
+                    <div class="form-group">
+                        <label for="password"></label>
+                        <input id="password" name="password" placeholder="Senha" type="password" required>
+                        <div class="valid-feedback"></div>
+                        <div class="invalid-feedback">Insira uma senha.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm"></label>
+                        <input id="confirm" name="confirm" placeholder="Confirmar senha" type="password" required>
+                        <div class="valid-feedback"></div>
+                        <div class="invalid-feedback">Confirme a senha.</div>
+                    </div>
+                    <button class="form-btn" type="submit"><strong>REDEFINIR</strong></button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
