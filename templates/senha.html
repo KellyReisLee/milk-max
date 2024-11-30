@@ -23,6 +23,10 @@
                     </div>
                     <button class="form-btn" type="submit"><strong>REDEFINIR</strong></button>
                 </form>
+                <!-- Ícone de carregamento -->
+                <div id="loading" style="display: none;">
+                    <img src="/static/img/loading.gif" alt="Carregando...">
+                </div>
                 <div class="mt-3" id="extra" style="display: none;">
                     <p>Um link para redefinição de senha foi enviado no seu e-mail.</p>
                 </div>
@@ -32,26 +36,5 @@
 
     <!-- Script -->
     <script src="{{ url_for('static', filename='js/validateform.js') }}"></script>
-    <script>
-        document.getElementById("loginForm").addEventListener("submit", function (e) {
-            e.preventDefault(); // Prevent the form from submitting normally
-        
-            const formData = new FormData(this);
-            fetch("/forgot", { // JavaScript intercepta form ao invés dele ser enviado direto pro servidor. Faz a requisição
-                method: "POST",
-                body: formData,
-            })
-            .then(response => response.json()) // JavaScript faz a comunicação com o servidor por meio de arquivos json. Envia resposta
-            .then(data => {
-                if (data.success) {
-                    document.getElementById("extra").style.display = "block";
-                } else {
-                    alert(data.message); // Display error message
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-        });
-    </script> 
+    <script src="{{ url_for('static', filename='js/forgot.js') }}"></script>
 {% endblock %}

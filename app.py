@@ -261,7 +261,7 @@ def forgot():
 
             # Garantir que email e senha foram inseridos 
             if not email or not password:
-                return jsonify({"success": False, "message": "Username or password missing"}), 400
+                return apology("Inserir e-mail e/ou senha")
             
             # Consultar tabela users
             query = '''
@@ -274,10 +274,17 @@ def forgot():
             if len(rows) != 1 or not check_password_hash(
                 rows[0][2], request.form.get("password")
             ):
-                return jsonify({"success": False, "message": "Invalid credentials"}), 401
-            return jsonify({"success": True})
+                return jsonify({"success": False, "message": "Credenciais inválidas"}), 401
         
+            # Recuperar nome de usuário
+            usr = rows[0][1]
+
             # Enviar e-mail com nome de usuário
+            login_link = url_for('login', _external=True) # link para login
+            msg = Message('Seu nome de usuário', recipients=[email]) # título
+            msg.body = f'Seu nome de usuário é: {usr}\n\nIr pra página de login: {login_link}' # corpo da mensagem
+            mail.send(msg)
+            return jsonify({"success": True})
              
         
         # Esqueci senha
@@ -285,7 +292,7 @@ def forgot():
 
             # Garantir que email foi inserido
             if not email:
-                return jsonify({"success": False, "message": "Email missing"}), 400
+                return apology("Inserir e-mail")
             
             # Consultar tabela users pelo email do usuário
             query = '''
@@ -293,12 +300,14 @@ def forgot():
             '''
             cursor.execute(query, (email,))
             rows = cursor.fetchall()
+
+            # Garantir que email e senha estão corretos
             if len(rows) != 1:
-                return jsonify({"success": False, "message": "Invalid credentials"}), 401
+                return jsonify({"success": False, "message": "Credenciais inválidas"}), 401
             
             # Enviar e-mail com link para redefinir senha
             token = serializer.dumps(email, salt='password-reset-salt')
-            reset_link = url_for('reset_password', token=token, _external=True) # link para redefinir
+            reset_link = url_for('reset_password', token=token, _external=True) # link para login
             msg = Message('Redefinir sua senha', recipients=[email]) # título
             msg.body = f'Clique no link para redefinir sua senha: {reset_link}' # corpo da mensagem
             mail.send(msg)
