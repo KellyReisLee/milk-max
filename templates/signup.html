@@ -13,10 +13,10 @@
             <div class="form-container">
                 <h2>Registre-se</h2>
                 <p>Se você já tem uma conta: <a href="/login">Log In</a></p>
-                <form class="was-validated" id="signupForm" action="/signup" method="post">
+                <form class="needs-validation" id="signupForm" action="/signup" method="post" novalidate>
                     <div class="form-group">
                         <label for="email"></label>
-                        <input id="email" name="email" placeholder="E-mail" type="text" required>
+                        <input id="email" name="email" placeholder="E-mail" type="email" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" required>
                         <div class="valid-feedback"></div>
                         <div class="invalid-feedback">Insira seu melhor e-mail.</div>
                     </div>
@@ -43,4 +43,7 @@
             </div>
         </div>
     </div>
+
+    <!-- Script -->
+    <script src="{{ url_for('static', filename='js/validateform.js') }}"></script>
 {% endblock %}

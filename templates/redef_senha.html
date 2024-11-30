@@ -13,7 +13,7 @@
             <!--Formulário de Login-->
             <div class="form-container">
                 <h2>Redefinir senha</h2>
-                <form class="was-validated" id="loginForm" action="/reset_password/{{ token }}" method="post">
+                <form class="needs-validation" id="loginForm" action="/reset_password/{{ token }}" method="post"  novalidate>
                     <div class="form-group">
                         <label for="password"></label>
                         <input id="password" name="password" placeholder="Senha" type="password" required>
@@ -31,4 +31,7 @@
             </div>
         </div>
     </div>
+
+    <!-- Script -->
+    <script src="{{ url_for('static', filename='js/validateform.js') }}"></script>
 {% endblock %}

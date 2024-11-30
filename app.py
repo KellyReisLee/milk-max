@@ -102,9 +102,15 @@ def after_request(response):
 def index():
     return render_template("index.html")
 
-@app.route("/contact")
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
-    return render_template("contact.html")
+
+    # Formulário de contato enviado
+    if request.method == "POST":
+        return render_template("contact.html")
+    # Renderizar página
+    else:    
+        return render_template("contact.html")
 
 ## Register page
 @app.route("/signup", methods=["GET", "POST"])
@@ -232,7 +238,7 @@ def login():
         num_vacas = cursor.fetchall()
         session["num_vacas"] = int(num_vacas[0][0])
 
-        # Redirecionar para homepage
+        # Redirecionar para tabela vacas
         return redirect("/vacas")
 
     # Renderizar formulário de login
