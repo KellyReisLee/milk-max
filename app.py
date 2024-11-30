@@ -91,7 +91,6 @@ def after_request(response):
 # username do usuário -> session["username"]
 # nome da tabela com todas as vacas -> session["vacas"]
 # número de vacas cadastradas -> session["num_vacas"]
-# session["authenticated"]
 
 ############################################################################
 
@@ -356,8 +355,6 @@ def reset_password(token):
         return redirect("/login")
     else:
         return render_template('redef_senha.html', token=token)  # Formulário para nova senha
-
-
 
 
 ## Página "Vacas"
