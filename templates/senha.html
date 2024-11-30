@@ -14,10 +14,10 @@
             <div class="form-container">
                 <h2>Esqueci minha senha</h2>
                 <p>Para refinir sua senha, preencha com seu e-mail </p>
-                <form class="was-validated" id="loginForm" action="/forgot" method="post">
+                <form class="needs-validation" id="loginForm" action="/forgot" method="post" novalidate>
                     <div class="form-group">
                         <label for="email"></label>
-                        <input id="email" name="email" placeholder="E-mail" type="text" required>
+                        <input id="email" name="email" placeholder="E-mail" type="email" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" required>
                         <div class="valid-feedback"></div>
                         <div class="invalid-feedback">Insira seu e-mail cadastrado.</div>
                     </div>
@@ -31,6 +31,7 @@
     </div>
 
     <!-- Script -->
+    <script src="{{ url_for('static', filename='js/validateform.js') }}"></script>
     <script>
         document.getElementById("loginForm").addEventListener("submit", function (e) {
             e.preventDefault(); // Prevent the form from submitting normally

@@ -165,6 +165,12 @@ input {
     border-radius: 5px;
 }
 
+textarea {
+    width: 400px;
+    border: 1.5px solid #b4b5b7;
+    border-radius: 5px;
+}
+
 input::placeholder {
     padding-left: 5px;
 }
