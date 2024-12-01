@@ -4,12 +4,10 @@
 
 {% block main %}
     <!-- Formulário-->
-    <main class="wrapper">
-        <div class="title-container">
-            <h1 class="title-form">ENTRE EM CONTATO!</h1>
-        </div>
-        <div class="contact-group">
-            <form class="needs-validation" action="/contact" method="post" novalidate>
+    <div class="wrapper mt-5 mb-5">
+        <div class="form-container">
+            <h1 class="title-form">ENTRE EM CONTATO</h1>
+            <form class="needs-validation" id="loginForm" action="/contact" method="post" novalidate>
                 <div class="form-group">
                     <label for="assunto"></label>
                     <input type="text" id="assunto" name="assunto" placeholder="Assunto" required>
@@ -30,21 +28,28 @@
                 </div>
                 <div class="form-group">
                     <label for="telefone"></label>
-                    <input type="tel" id="telefone" name="telefone" placeholder="(XX) XXXXX-XXXX" pattern="^\(\d{2}\)\s?\d{4,5}-\d{4}$" required>
+                    <input type="tel" id="telefone" name="telefone" placeholder="(XX) XXXXX-XXXX" pattern="^\d{2}\s?\d{4,5}\d{4}$" required>
                     <div class="valid-feedback"></div>
                     <div class="invalid-feedback">Preencha seu número de telefone.</div>
                 </div>
                 <div class="form-group">
                     <label for="mensagem"></label>
-                    <textarea rows="5" id="mensagem" placeholder=" Mensagem" name="text" type=text minlength="30" maxlength="500" required></textarea>
+                    <textarea rows="5" id="mensagem" placeholder=" Mensagem" name="mensagem" type=text minlength="30" maxlength="500" required></textarea>
                     <div class="valid-feedback"></div>
                     <div class="invalid-feedback">A mensagem deve ter entre 30 e 500 caracteres.</div>
                 </div>
                 <button class="form-btn" type="submit"><strong>ENVIAR</strong></button>
             </form>
+            <div id="loading" style="display: none;">
+                <img id="loadingimg" src="/static/img/loading.gif" alt="Carregando...">
+            </div>
+            <div class="mt-3" id="extra" style="display: none;">
+                <p>E-mail enviado com sucesso.</p>
+            </div>
         </div>
-    </main>
+    </div>
 
     <!-- Script -->
     <script src="{{ url_for('static', filename='js/validateform.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/forgot.js') }}"></script> 
 {% endblock %}

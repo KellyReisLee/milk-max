@@ -12,7 +12,7 @@
             <div class="divisor"></div>
             <!-- Formulário de Login -->
             <div class="form-container">
-                <h2>Esqueci meu usuário</h2>
+                <h2 class="title-form">Esqueci meu usuário</h2>
                 <p>Para redefinir seu usuário, preencha com seu e-mail e senha </p>
                 <form class="needs-validation" id="loginForm" action="/forgot" method="post" novalidate>
                     <div class="form-group">
@@ -31,7 +31,7 @@
                 </form>
                 <!-- Ícone de carregamento -->
                 <div id="loading" style="display: none;">
-                    <img src="/static/img/loading.gif" alt="Carregando...">
+                    <img id="loadingimg" src="/static/img/loading.gif" alt="Carregando...">
                 </div>
                 <div class="mt-3" id="extra" style="display: none;">
                     <p>O nome de usuário foi enviado no seu e-mail.</p>

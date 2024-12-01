@@ -106,7 +106,33 @@ def contact():
 
     # Formulário de contato enviado
     if request.method == "POST":
-        return render_template("contact.html")
+        assunto = request.form.get("assunto")
+        nome = request.form.get("name")
+        email = request.form.get("email")
+        telefone = request.form.get("telefone")
+        mensagem = request.form.get("mensagem")
+
+        # Return apology se existem campos vazios
+        if not assunto or not nome or not email or not telefone or not mensagem:
+            return apology("Preencher todos os campos")
+        
+        # Criar email para envio
+        msg = Message(
+            subject=assunto,
+            sender=email,
+            recipients=[app.config['MAIL_USERNAME']],  # Destinatário é o email configurado no app.config
+            body=f'''
+            Mensagem de: {nome}
+            Email: {email}
+            Telefone: {telefone}
+            
+            Mensagem:
+            {mensagem}
+            '''
+        )
+        mail.send(msg)
+        return jsonify({'success': True})
+
     # Renderizar página
     else:    
         return render_template("contact.html")
@@ -191,11 +217,12 @@ def login():
     # Sair de qualquer sessão aberta
     session.clear()
 
-    # Recuperar dados do login
     if request.method == "POST":
 
+        # Recuperar dados do login
         username = request.form.get("username")
         password = request.form.get("password")
+
         # Garantir que username existe
         if not username:
             return apology("Inserir nome de usuário")

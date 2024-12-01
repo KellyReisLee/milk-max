@@ -481,14 +481,10 @@ input::placeholder {
     font-weight: 700;
 }
 
-.contact-group {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 30px;
+#loadingimg {
+    height: 100px;
+    width: 100px;
 }
-
-
-
 
 /* Footer ---------------------- */
 .footer-container {
