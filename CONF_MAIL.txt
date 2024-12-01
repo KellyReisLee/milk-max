@@ -1,0 +1,9 @@
+### Configuração de e-mail
+
+1. Em uma conta google, vá em Minha Conta.
+
+2. Na aba Segurança, certifique-se de que a verificação em duas etapas está ativa.
+
+3. Gere uma senha para seu app Flask no link: https://myaccount.google.com/apppasswords
+
+4. Adicione no arquivo .env as variáveis EMAIL e PASSWORD
