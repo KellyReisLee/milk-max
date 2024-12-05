@@ -16,8 +16,6 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
     .then(data => {
         if (data.success) {
             document.getElementById("extra").style.display = "block";
-        } else {
-            alert(data.message); // Display error message
         }
     })
     .catch(error => {

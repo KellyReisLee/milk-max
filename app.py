@@ -534,7 +534,7 @@ def relatorios():
     if request.method == "POST":
         option = request.form.get("select")
 
-        ## Analisar relatórios de uma vaca
+        # Analisar relatórios de uma vaca
         if option != "all":
             select = request.form.get("selecao_vaca")
             if select == "":
