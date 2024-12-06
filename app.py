@@ -240,7 +240,7 @@ def login():
 
         # Garantir que username existe e senha está correta
         if len(rows) != 1 or not check_password_hash(
-            rows[0][2], request.form.get("password")
+            rows[0][2], password
         ):
             return apology("Nome de usuário e/ou senha inválido")
 
@@ -286,8 +286,8 @@ def forgot():
         if password:
 
             # Garantir que email e senha foram inseridos 
-            if not email or not password:
-                return apology("Inserir e-mail e/ou senha")
+            if not email:
+                return apology("Inserir e-mail")
             
             # Consultar tabela users
             query = '''
@@ -298,9 +298,9 @@ def forgot():
 
             # Garantir que email e senha estão corretos
             if len(rows) != 1 or not check_password_hash(
-                rows[0][2], request.form.get("password")
+                rows[0][2], password
             ):
-                return jsonify({"success": False, "message": "Credenciais inválidas"}), 401
+                return jsonify({"success": False, "message": "E-mail e/ou senha inválido"})
         
             # Recuperar nome de usuário
             usr = rows[0][1]
@@ -327,9 +327,9 @@ def forgot():
             cursor.execute(query, (email,))
             rows = cursor.fetchall()
 
-            # Garantir que email e senha estão corretos
+            # Garantir que email está correto
             if len(rows) != 1:
-                return jsonify({"success": False, "message": "Credenciais inválidas"}), 401
+                return jsonify({"success": False, "message": "Email inválido"})
             
             # Enviar e-mail com link para redefinir senha
             token = serializer.dumps(email, salt='password-reset-salt')
