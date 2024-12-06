@@ -18,7 +18,7 @@ import seaborn as sns
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 
-from helpers import apology, login_required
+from helpers import login_required
 
 ############################################################################
 
@@ -442,7 +442,7 @@ def diario():
         cursor.execute(id_query, (seletor,))
         result = (cursor.fetchall())
         if not result:
-            return apology("ID inválido")
+            return jsonify({"success": False, "message": "ID inválido"})
         
         # Renderizar tabela
         query = sql.SQL('''
@@ -480,7 +480,7 @@ def registro():
     cursor.execute(id_query, (id,))
     result = (cursor.fetchall())
     if not result:
-        return apology("ID inválido")
+        return jsonify({"success": False, "message": "ID inválido"})
     
     # Verificar se data já foi inserida
     dia_query = sql.SQL('''
@@ -525,7 +525,7 @@ def relatorios():
         if option != "all":
             select = request.form.get("selecao_vaca")
             if select == "":
-                return apology("Nenhum ID selecionado")
+                return jsonify({"success": False, "message": "Nenhum ID inserido"})
 
             # Verificar se id é válido
             id = int(select)
@@ -536,7 +536,7 @@ def relatorios():
             cursor.execute(id_query, (id,))
             result = (cursor.fetchall())
             if not result:
-                return apology("ID inválido")
+                return jsonify({"success": False, "message": "ID inválido"})
             
             # Converter para DataFrame
             query = sql.SQL('''
@@ -545,7 +545,7 @@ def relatorios():
             cursor.execute(query)
             result = cursor.fetchall()
             if not result:
-                return apology("Não há nenhum registro no diário dessa vaca")
+                return jsonify({"success": False, "message": "Não há registros no diário dessa vaca"})
             as_str = query.as_string(conn)
             df = pd.read_sql_query(as_str, engine)
             # Missing values

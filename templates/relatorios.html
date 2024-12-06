@@ -70,4 +70,34 @@
             document.getElementById("selecao_vaca").type = "hidden";
         }
     </script>
+    <script>
+        document.getElementById("ValidateForm").addEventListener("submit", function (e) {
+            e.preventDefault(); // Prevent the form from submitting normally
+
+            // Dados do formulário
+            const formData = new FormData(this);
+
+            // Requisição AJAX com fetch
+            fetch("/relatorios", { 
+                method: "POST",
+                body: formData,
+            })
+            .then(response => {
+                if (response.redirected) {
+                    // Redireciona para a página especificada pelo servidor
+                    window.location.href = response.url;
+                } else {
+                    return response.json(); // Processa resposta JSON se não houver redirecionamento
+                }
+            }) 
+            .then(data => {
+                if (data && !data.success) {
+                    alert(data.message); // Display error message
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            })
+        });
+    </script>
 {% endblock %}
