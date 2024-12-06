@@ -114,7 +114,7 @@ def contact():
 
         # Return apology se existem campos vazios
         if not assunto or not nome or not email or not telefone or not mensagem:
-            return apology("Preencher todos os campos")
+            return jsonify({"success": False, "message": "Preencher todos os campos"})
         
         # Criar email para envio
         msg = Message(
@@ -156,14 +156,8 @@ def signup():
         confirm = request.form.get("confirm")
 
         # Retornar apology se nome de usuário ou senha não existem
-        if not username:
-            return apology("Inserir nome de usuário")   
-        elif not password:
-            return apology("Inserir senha")
-        elif not confirm:
-            return apology("Inserir confirmação de senha")
-        elif not email:
-            return apology("Inserir e-mail")
+        if not username or not password or not confirm or not email:
+            return jsonify({"success": False, "message": "Preencher todos os campos"})   
 
         # Retornar apology se nome de usuário já existe
         query_register = '''
@@ -172,7 +166,7 @@ def signup():
         cursor.execute(query_register, (username,))
         usr = cursor.fetchall()
         if len(usr) != 0:
-            return apology("Nome de usuário já existe")
+            return jsonify({"success": False, "message": "Nome de usuário já existe"})
         
         # Retornar apology se e-mail já está cadastrado
         query_email = '''
@@ -181,11 +175,11 @@ def signup():
         cursor.execute(query_email, (email,))
         em = cursor.fetchall()
         if len(em) != 0:
-            return apology("E-mail já cadastrado")
+            return jsonify({"success": False, "message": "E-mail já cadastrado"})
              
         # Retornar apology se senhas não coincidem
         if password != confirm:
-            return apology("Senhas não coincidem")
+            return jsonify({"success": False, "message": "Senhas não coincidem"})
         
         # Inserir novo usuário na tabela users
         hash = generate_password_hash(password, method='pbkdf2', salt_length=16) # Gerar versão criptografada da senha
@@ -225,11 +219,11 @@ def login():
 
         # Garantir que username existe
         if not username:
-            return apology("Inserir nome de usuário")
+            return jsonify({"success": False, "message": "Inserir nome de usuário"})
 
         # Garantir que senha existe
         elif not password:
-            return apology("Inserir senha")
+            return jsonify({"success": False, "message": "Inserir senha"})
 
         # Consultar tabela users por username
         query = '''
@@ -242,7 +236,7 @@ def login():
         if len(rows) != 1 or not check_password_hash(
             rows[0][2], password
         ):
-            return apology("Nome de usuário e/ou senha inválido")
+            return jsonify({"success": False, "message": "Nome de usuário e/ou senha inválido"})
 
         # Criar sessão de usuário logado, armazenando como "key" seu username
         session["username"] = rows[0][1]
@@ -282,13 +276,13 @@ def forgot():
         email = request.form.get("email")
         password = request.form.get("password")
 
+        # Garantir que email e senha foram inseridos 
+        if not email:
+            return jsonify({"success": False, "message": "Inserir e-mail"})
+            
         # Esqueci usuário
         if password:
 
-            # Garantir que email e senha foram inseridos 
-            if not email:
-                return apology("Inserir e-mail")
-            
             # Consultar tabela users
             query = '''
             SELECT * FROM users WHERE email = (%s)
@@ -311,14 +305,9 @@ def forgot():
             msg.body = f'Seu nome de usuário é: {usr}\n\nIr pra página de login: {login_link}' # corpo da mensagem
             mail.send(msg)
             return jsonify({"success": True})
-             
         
         # Esqueci senha
         else:
-
-            # Garantir que email foi inserido
-            if not email:
-                return apology("Inserir e-mail")
             
             # Consultar tabela users pelo email do usuário
             query = '''
@@ -361,14 +350,12 @@ def reset_password(token):
         confirm = request.form.get("confirm")
 
         # Retornar apology se nome de usuário ou senha não existem
-        if not password:
-            return apology("Inserir senha")
-        elif not confirm:
-            return apology("Inserir confirmação de senha")
+        if not password or not confirm:
+            return jsonify({"success": False, "message": "Preencher todos os campos"})
              
         # Retornar apology se senhas não coincidem
         if password != confirm:
-            return apology("Senhas não coincidem")
+            return jsonify({"success": False, "message": "Senhas não coincidem"})
         
         # Atualizar nova senha na tabela users
         hash = generate_password_hash(password, method='pbkdf2', salt_length=16) # Gerar versão criptografada da senha
