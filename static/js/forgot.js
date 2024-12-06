@@ -1,9 +1,12 @@
 document.getElementById("loginForm").addEventListener("submit", function (e) {
     e.preventDefault(); // Prevent the form from submitting normally
+
     // Mostra o ícone de carregamento
     document.getElementById("loading").style.display = "block";
+
     // Dados do formulário
     const formData = new FormData(this);
+    
     // Requisição AJAX com fetch
     fetch("/forgot", { 
         method: "POST",

@@ -4,8 +4,9 @@
 1. [Sobre o Projeto](#sobre-o-projeto)
 2. [Cores e Fontes](#cores-e-fontes)
 3. [Como Usar](#como-usar)
-4. [Contribuição](#contribuições)
-5. [Licença](#licença)
+4. [Erro: Failed building wheel for msgspec](#erro)
+5. [Contribuições](#contribuições)
+6. [Licença](#licença)
 
 
 ## Sobre o Projeto
@@ -70,6 +71,10 @@ Observe que no arquivo 'app.py' as suas configurações em '.env' serão requisi
 
 10. Os códigos html que estão presentes em todas as páginas, contendo a navbar e afins,
 estão dispostos no arquivo "layout.html"
+
+## Erro msgspec
+Quando você executa app.py, caso apareça o erro: 'ERROR: Failed building wheel for msgspec',
+execute em seu terminal: pip install git+https://github.com/jcrist/msgspec.git
 
 ## Contribuições:
 Agradecemos a todos que colaboraram para o desenvolvimento deste projeto:

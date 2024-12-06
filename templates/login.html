@@ -39,5 +39,31 @@
     </div>
 
     <!-- Script -->
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function (e) {
+            e.preventDefault(); // Prevent the form from submitting normally
+
+            // Dados do formulário
+            const formData = new FormData(this);
+
+            // Requisição AJAX com fetch
+            fetch("/login", { 
+                method: "POST",
+                body: formData,
+            })
+            .then(response => response.json()) 
+            .then(data => {
+                if (data.success) {
+                    // Deixa o servidor gerenciar o redirecionamento
+                    window.location.reload();
+                } else {
+                    alert(data.message); // Display error message
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            })
+        });
+    </script>
     <script src="{{ url_for('static', filename='js/validateform.js') }}"></script>
 {% endblock %}

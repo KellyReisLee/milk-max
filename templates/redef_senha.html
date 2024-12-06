@@ -33,5 +33,35 @@
     </div>
 
     <!-- Script -->
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function (e) {
+            e.preventDefault(); // Prevent the form from submitting normally
+
+            // Dados do formulário
+            const formData = new FormData(this);
+
+            // Requisição AJAX com fetch
+            fetch("/reset_password/{{token}}", { 
+                method: "POST",
+                body: formData,
+            })
+            .then(response => {
+                if (response.redirected) {
+                    // Redireciona para a página especificada pelo servidor
+                    window.location.href = response.url;
+                } else {
+                    return response.json(); // Processa resposta JSON se não houver redirecionamento
+                }
+            }) 
+            .then(data => {
+                if (data && !data.success) {
+                    alert(data.message); // Display error message
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            })
+        });
+    </script>
     <script src="{{ url_for('static', filename='js/validateform.js') }}"></script>
 {% endblock %}
