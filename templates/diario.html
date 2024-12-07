@@ -43,7 +43,7 @@
         <!-- Registrar no diário -->
         <div class="container button">
             <button class="btn-login" onclick="registro()">Registrar no diário</button>
-            <form id="diarioForm" onsubmit="return ValidateForm()" action="/registro", method="post">
+            <form id="diarioForm" onsubmit="return ValidateForm2()" action="/registro", method="post">
                 <input autofocus autocomplete="off" id="id_vaca" name="id_vaca" placeholder="ID vaca" type="hidden">
                 <input autocomplete="off" id="dia" name="dia" placeholder="Data (aaaa-mm-dd)" type="hidden">
                 <input autocomplete="off" id="ciclo" name="ciclo" placeholder="Ciclo reprodutivo" type="hidden">
@@ -71,7 +71,7 @@
         }
 
         // Validar formulário
-        function ValidateForm() {
+        function ValidateForm2() {
             let id = document.getElementById("id_vaca").value
             let dia = document.getElementById("dia").value
             let ciclo = document.getElementById("ciclo").value
@@ -85,7 +85,7 @@
             return true;
         }
     </script>
-    <script>
+    <!--<script>
         document.getElementById("selecaoForm").addEventListener("submit", function (e) {
             e.preventDefault(); // Prevent the form from submitting normally
 
@@ -114,5 +114,5 @@
                 console.error("Error:", error);
             })
         });
-    </script>
+    </script>-->
 {% endblock %}
