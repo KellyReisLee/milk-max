@@ -60,7 +60,7 @@ serializer = URLSafeTimedSerializer(app.config['MAIL_PASSWORD'])
 conn = psycopg2.connect(
     dbname=db_name,
     user=db_user,
-    password=db_password,
+    password=db_password, # excluir para testes
     host=db_host,
     port='5432'
 )
