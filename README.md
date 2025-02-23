@@ -54,17 +54,17 @@ Desça até a seção Files e veja a versão recomendada. Clique no respectivo l
 No instalador, certifique-se de marcar a opção "Add Python to PATH".
 Certifique-se também de que a opção install pip está marcada.
 Escolha um diretório diferente de onde sua versão padrão python está instalada
-4.4. Verifique a instalação: python3.12 --version
+4.4. Verifique a instalação: python --version
 4.5. Verifique a instalação do pip: pip --version
 
 5. Crie um ambiente virtual dentro da pasta milkmax.
 5.1. No VSCode, clique em: File -> Open Folder -> localize o diretorio do projeto milk-max
 5.2. Digite o comando: python3.12 -m venv venv
-5.3. Ative o venv. No windows: venv\Scripts\activate
-5.3. Aperte o atalho: Ctrl + Shift + P e digite: Python: Select Interpreter
-5.4. Escolha a versão 3.12.4, localizada no venv. Se não estiver aparecendo,
-clique em 'Enter Interpreter path...' e digite o caminho para o venv (ex.: milkmax/venv)
-5.5. Agora todo terminal que você abrir no diretório do projeto deve estar com o venv automaticamente ativo
+5.3. Ative o venv. No windows: venv\Scripts\activate ; No Linux source venv/bin/activate
+5.4. Aperte o atalho: Ctrl + Shift + P e digite: Python: Select Interpreter
+5.5. Escolha a versão 3.12.4, localizada no venv. Se não estiver aparecendo,
+clique em 'Enter Interpreter path...' e digite o caminho para o interpretador python (ex.: milkmax/venv)
+5.6. Agora todo terminal que você abrir no diretório do projeto deve estar com o venv automaticamente ativo
 
 6. Instale os pacotes necessários para o projeto.
 Execute em seu terminal: pip install -r requirements.txt
