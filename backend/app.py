@@ -109,14 +109,18 @@ def after_request(response):
 def contato():
 
     # Formulário de contato enviado
-    data = request.json # Recebe os dados do front-end como JSON
+    data = request.get_json()
+
+    if not data:
+        return jsonify({"success": False, "message": "Dados não recebidos"}), 400
+    
     assunto = data.get("assunto")
     nome = data.get("nome")
     email = data.get("email")
     telefone = data.get("telefone")
     mensagem = data.get("mensagem")
 
-    # Return apology se existem campos vazios
+    # Campos vazios
     if not assunto or not nome or not email or not telefone or not mensagem:
         return jsonify({"success": False, "message": "Preencher todos os campos"}), 400
     
@@ -142,6 +146,21 @@ def contato():
 @app.route("/signup", methods=["POST"])
 def signup():
 
+    # Recuperar dados do cadastro
+    data = request.get_json()
+
+    if not data:
+        return jsonify({"success": False, "message": "Dados não recebidos"}), 400
+    
+    email = data.get("email")
+    username = data.get("username")
+    password = data.get("password")
+    confirm = data.get("confirm")
+
+    # Campos vazios
+    if not username or not password or not confirm or not email:
+        return jsonify({"success": False, "message": "Preencher todos os campos"}) 
+
     # Criar tabela de users se não existe
     with conn.cursor() as cursor:
         create = '''
@@ -149,17 +168,6 @@ def signup():
         '''
         cursor.execute(create)
         conn.commit()
-
-    # Formulário de registro submetido
-    data = request.json
-    email = data.get("email")
-    username = data.get("username")
-    password = data.get("password")
-    confirm = data.get("confirm")
-
-    # Retornar apology se nome de usuário ou senha não existem
-    if not username or not password or not confirm or not email:
-        return jsonify({"success": False, "message": "Preencher todos os campos"})   
 
     # Retornar apology se nome de usuário já existe
     with conn.cursor() as cursor:
@@ -196,28 +204,25 @@ def signup():
         conn.commit()
 
     # Redirecionar para login
-    return jsonify({"success": True, "redirect": "/login"})
+    return jsonify({"success": True, "message": "Cadastro realizado com sucesso"})
 
 
 ## Login page
 @app.route("/login", methods=["POST"])
 def login():
 
-    # Sair de qualquer sessão aberta
-    session.clear()
-
     # Recuperar dados do login
-    data = request.json
-    username = data.get("username")
-    password = data.get("password")
+    data = request.get_json()
 
-    # Garantir que username existe
-    if not username:
-        return jsonify({"success": False, "message": "Inserir nome de usuário"})
+    if not data:
+        return jsonify({"success": False, "message": "Dados não recebidos"}), 400
+    
+    username = data.get('username')
+    password = data.get('password')
 
-    # Garantir que senha existe
-    if not password:
-        return jsonify({"success": False, "message": "Inserir senha"})
+    # Campos vazios
+    if not username or not password:
+        return jsonify({"success": False, "message": "Username e password são obrigatórios"}), 400
 
     # Consultar tabela users por username
     with conn.cursor() as cursor:
@@ -254,14 +259,18 @@ def login():
         session["num_vacas"] = int(num_vacas[0][0])
 
         # Redirecionar para tabela vacas
-        return jsonify({"success": True, "redirect": "/vacas"})
+        return jsonify({"success": True, "message": "Login efetuado com sucesso."})
 
 ## Esqueci senha
 @app.route("/forgot/password", methods=["POST"])
 def forgot_password():
 
     # Recuperar dados inputados
-    data = request.json
+    data = request.get_json()
+
+    if not data:
+        return jsonify({"success": False, "message": "Dados não recebidos"}), 400
+    
     email = data.get("email")
 
     # Garantir que email e senha foram inseridos 
@@ -293,7 +302,12 @@ def forgot_password():
 @app.route('/reset_password', methods=["POST"])
 def reset_password(token):
     
-    data = request.json
+    # Recuperar dados inputados
+    data = request.get_json()
+
+    if not data:
+        return jsonify({"success": False, "message": "Dados não recebidos"}), 400
+    
     token = data.get("token")
     password = data.get("password")
     confirm = data.get("confirm")
@@ -328,7 +342,11 @@ def reset_password(token):
 def forgot_username():
 
     # Recuperar dados inputados
-    data = request.json
+    data = request.get_json()
+
+    if not data:
+        return jsonify({"success": False, "message": "Dados não recebidos"}), 400
+    
     email = data.get("email")
     password = data.get("password")
 
@@ -388,8 +406,12 @@ def vacas():
 @login_required
 def cadastro():
 
-    # Recuper dados inputados
-    data = request.json
+    # Recuperar dados da nova vaca
+    data = request.get_json()
+
+    if not data:
+        return jsonify({"success": False, "message": "Dados não recebidos"}), 400
+    
     raca = data.get("raca")
     nasc = data.get("nasc")
     peso = data.get("peso")
@@ -429,14 +451,21 @@ def diario():
 
     # Selecionar vaca
     if request.method == "POST":
-        # Verificar se ID foi inputado
-        seletor = request.json.get("selecao_vaca")
+
+        # Recuperar dados inputados
+        data = request.get_json()
+
+        if not data:
+            return jsonify({"success": False, "message": "Dados não recebidos"}), 400
+        
+        seletor = request.json.get("seletor")
+
         if not seletor:
             return jsonify({"success": False, "message": "ID não fornecido"}), 400
 
         # Verificar se ID é válido
         with conn.cursor() as cursor:
-            seletor = int(request.form.get("selecao_vaca"))
+            seletor = int(data.get("selecao_vaca"))
             tab = f'vaca{seletor}_{session["username"]}'
             id_query = sql.SQL('''
             SELECT * FROM {} WHERE id = (%s)
@@ -465,8 +494,12 @@ def diario():
 @login_required
 def registro():
 
-    # Recuper dados inputados
-    data = request.json
+    # Recuperar dados inputados
+    data = request.get_json()
+
+    if not data:
+        return jsonify({"success": False, "message": "Dados não recebidos"}), 400
+    
     id = data.get("id_vaca")
     dia = data.get("dia")
     ciclo = data.get("ciclo")
@@ -525,10 +558,14 @@ def registro():
 @app.route("/relatorios", methods = ["POST"])
 def relatorios():
 
-    # Recuper dados inputados
-    data = request.json
-    option = data.get("select")
-    select = data.get("selecao_vaca")
+    # Recuperar dados inputados
+    data = request.get_json()
+
+    if not data:
+        return jsonify({"success": False, "message": "Dados não recebidos"}), 400
+    
+    option = data.get("option")
+    select = data.get("select")
 
     if not option:
         return jsonify({"success": False, "message": "Escolha uma opção"}), 400

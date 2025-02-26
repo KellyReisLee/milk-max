@@ -7,6 +7,7 @@ function Contato() {
     const [telefone, setTelefone] = useState('');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
+    const route = '/contato';
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -14,33 +15,41 @@ function Contato() {
         // Validação do formulário
         const form = e.target;
         if (!form.checkValidity()) {
-          e.stopPropagation();
-          form.classList.add('was-validated');
-          return;
+            e.stopPropagation();
+            form.classList.add('was-validated');
+            return;
         }
     
         setLoading(true); // Mostra o ícone de carregamento
     
         // Dados do formulário
-        const formData = new FormData();
-        formData.append('assunto', assunto);
-        formData.append('nome', nome);
-        formData.append('email', email);
-        formData.append('telefone', telefone);
+        const data = {
+            assunto: assunto,
+            nome: nome,
+            email: email,
+            telefone: telefone,
+        };
     
         try {
             // Requisição POST para o backend
-            const response = await fetch('/contato', {
+            const response = await fetch(route, {
                 method: 'POST',
-                body: formData,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+                credentials: 'include'
             });
     
             const data = await response.json();
             
-            if (data.success) {
-                setMessage(data.message); // Mostrar mensagem de sucesso
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    setMessage(data.message);
+                } else {
+                    setMessage(data.message);
+                }
             } else {
-                setMessage(data.message); // Exibe mensagem de erro
+                setMessage('Erro na solicitação.');
             }
         } catch (error) {
             console.error('Error:', error);
@@ -123,7 +132,7 @@ function Contato() {
                 </div>
                 )}
                 {message && (
-                <div className="mt-3" id="extra">
+                <div className="mt-3 message" id="extra">
                     <p>{message}</p>
                 </div>
                 )}

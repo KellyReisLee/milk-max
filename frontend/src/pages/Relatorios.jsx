@@ -6,21 +6,29 @@ function Relatorios() {
     const [imgPaths, setImgPaths] = useState([]);
     const [option, setOption] = useState('');
     const [selecaoVaca, setSelecaoVaca] = useState('');
-    const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
+    const route = '/relatorios';
 
+    // Selecionar opção de visualização de relatórios
     const handleSubmit = async (e) => {
+        
+        // Previne comportamento padrão de formulário ao recarregar a página
         e.preventDefault();
 
+        const data = {
+            option: option,
+            select: selecaoVaca
+        };
+
         try {
-            const response = await fetch('/relatorios', {
+            // Requisição POST para o backend
+            const response = await fetch(route, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ select: option, selecao_vaca: selecaoVaca }),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
                 credentials: 'include'
             });
-
+    
             if (response.ok) {
                 const data = await response.json();
                 if (data.success) {
@@ -28,16 +36,15 @@ function Relatorios() {
                     setLinhas(data.linhas);
                     setCount(data.count);
                     setImgPaths(data.img_paths);
-                    setError('');
                 } else {
-                    setError(data.message || 'Erro ao gerar relatórios.');
+                    setMessage(data.message);
                 }
             } else {
-                setError('Erro ao gerar relatórios.');
+                setMessage('Erro ao gerar relatórios.');
             }
         } catch (error) {
             console.error('Error:', error);
-            setError('Erro ao gerar relatórios.');
+            setMessage('Erro ao gerar relatórios.');
         } finally {
             setLoading(false);
         }
@@ -55,6 +62,7 @@ function Relatorios() {
                             type="radio"
                             name="select"
                             value="all"
+                            className="input-radio"
                             onChange={(e) => {
                                 setOption(e.target.value);
                                 setSelecaoVaca('');
@@ -67,6 +75,7 @@ function Relatorios() {
                             type="radio"
                             name="select"
                             value="select"
+                            className="input-radio"
                             onChange={(e) => setOption(e.target.value)}
                         />
                         Selecionar vaca
@@ -82,7 +91,7 @@ function Relatorios() {
                             required
                         />
                     )}
-                    <button className="btn-login" type="submit"> Ver relatórios </button>
+                    <button className="btn btn-click" type="submit"> Ver relatórios </button>
                 </form>
             </div>
 
@@ -115,8 +124,11 @@ function Relatorios() {
                 ))}
             </div>
 
-            {/* Exibir mensagens de erro */}
-            {error && <p className="error-message">{error}</p>}
+            {message && (
+                    <div className="mt-3 message" id="extra">
+                        <p>{message}</p>
+                    </div>
+            )}
         </div>
     );
 }
