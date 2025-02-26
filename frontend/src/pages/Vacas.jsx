@@ -8,7 +8,8 @@ function Vacas() {
         nasc: '',
         peso: ''
     });
-    const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
+    const route = '/vacas';
 
     // Buscar dados das vacas ao carregar o componente
     useEffect(() => {
@@ -17,27 +18,39 @@ function Vacas() {
 
     const fetchVacas = async () => {
         try {
-            const response = await fetch('/vacas', {
+            const response = await fetch(route, {
                 method: 'GET',
                 credentials: 'include' // Para enviar cookies (necessário para autenticação)
             });
 
             if (response.ok) {
                 const data = await response.json();
+                if (data.success) {
                 setColunas(data.colunas);
                 setVacas(data.vacas);
+                } else {
+                    setMessage(data.message);
+                }
             } else {
-                setError('Erro ao carregar dados das vacas.');
+                setMessage('Erro ao gerar tabela.');
             }
         } catch (error) {
             console.error('Error:', error);
-            setError('Erro ao carregar dados das vacas.');
+            setMessage('Erro ao carregar dados das vacas.');
         }
     };
 
     // Cadastrar nova vaca
     const handleCadastrarVaca = async (e) => {
+        
+        // Previne comportamento padrão de formulário ao recarregar a página
         e.preventDefault();
+
+        const data = {
+            raca: novaVaca.raca,
+            nasc: novaVaca.nasc,
+            peso: novaVaca.peso,
+        };
 
         try {
             const response = await fetch('/cadastro', {
@@ -45,20 +58,25 @@ function Vacas() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(novaVaca),
+                body: JSON.stringify(data),
                 credentials: 'include'
             });
 
             if (response.ok) {
-                fetchVacas(); // Recarrega os dados das vacas
-                setNovaVaca({ raca: '', nasc: '', peso: '' });
-            } else {
                 const data = await response.json();
-                setError(data.message || 'Erro ao cadastrar vaca.');
+                if (data.success) {
+                    fetchVacas(); // Recarrega os dados das vacas
+                    setNovaVaca({ raca: '', nasc: '', peso: '' });
+                    setMessage(data.message);
+                } else {
+                    setMessage(data.message);
+                }
+            } else {
+                setMessage(data.message);
             }
         } catch (error) {
             console.error('Error:', error);
-            setError('Erro ao cadastrar vaca.');
+            setMessage('Erro ao cadastrar vaca.');
         }
     };
 
@@ -90,45 +108,54 @@ function Vacas() {
 
             {/* Formulário para cadastrar nova vaca */}
             <div className="container button">
-                <button className="btn-login" onClick={() => setNovaVaca({ ...novaVaca, visible: true })}>
+                <button className="btn btn-click" onClick={() => setNovaVaca({ ...novaVaca, visible: true })}>
                     Cadastrar vaca
                 </button>
                 {novaVaca.visible && (
                     <form onSubmit={handleCadastrarVaca}>
-                        <input
-                            type="text"
-                            id="raca"
-                            name="raca"
-                            placeholder="Raça"
-                            value={novaVaca.raca}
-                            onChange={(e) => setNovaVaca({ ...novaVaca, raca: e.target.value })}
-                            required
-                        />
-                        <input
-                            type="text"
-                            id="nasc"
-                            name="nasc"
-                            placeholder="Nascimento (aaaa-mm-dd)"
-                            value={novaVaca.nasc}
-                            onChange={(e) => setNovaVaca({ ...novaVaca, nasc: e.target.value })}
-                            required
-                        />
-                        <input
-                            type="text"
-                            id="peso"
-                            name="peso"
-                            placeholder="Peso"
-                            value={novaVaca.peso}
-                            onChange={(e) => setNovaVaca({ ...novaVaca, peso: e.target.value })}
-                            required
-                        />
-                        <button className="btn-login" type="submit"> Cadastrar </button>
+                        <div className="form-group">
+                            <input
+                                type="text"
+                                id="raca"
+                                name="raca"
+                                placeholder="Raça"
+                                value={novaVaca.raca}
+                                onChange={(e) => setNovaVaca({ ...novaVaca, raca: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <input
+                                type="text"
+                                id="nasc"
+                                name="nasc"
+                                placeholder="Nascimento (aaaa-mm-dd)"
+                                value={novaVaca.nasc}
+                                onChange={(e) => setNovaVaca({ ...novaVaca, nasc: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <input
+                                type="text"
+                                id="peso"
+                                name="peso"
+                                placeholder="Peso"
+                                value={novaVaca.peso}
+                                onChange={(e) => setNovaVaca({ ...novaVaca, peso: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <button className="btn btn-click" type="submit"> Cadastrar </button>
                     </form>
                 )}
             </div>
 
-            {/* Exibir mensagens de erro */}
-            {error && <p className="error-message">{error}</p>}
+            {message && (
+                    <div className="message mt-3" id="extra">
+                        <p>{message}</p>
+                    </div>
+            )}
         </div>
     );
 }

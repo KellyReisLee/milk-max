@@ -12,19 +12,25 @@ function Diario() {
         leite_temp: '',
         leite_ph: ''
     });
-    const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
+    const route = '/diario';
 
     // Buscar dados do diário ao selecionar uma vaca
     const handleSelecionarVaca = async (e) => {
+        
+        // Previne comportamento padrão de formulário ao recarregar a página
         e.preventDefault();
 
+        const data = {
+            seletor: selecaoVaca
+        };
+
         try {
-            const response = await fetch('/diario', {
+            // Requisição POST para o backend
+            const response = await fetch(route, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ selecao_vaca: selecaoVaca }),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
                 credentials: 'include'
             });
 
@@ -34,28 +40,33 @@ function Diario() {
                     setColunas(data.colunas);
                     setDias(data.dias);
                 } else {
-                    setError(data.message || 'Erro ao buscar diário.');
+                    setMessage(data.message);
                 }
             } else {
-                setError('Erro ao buscar diário.');
+                setMessage('Erro ao buscar diário.');
             }
         } catch (error) {
             console.error('Error:', error);
-            setError('Erro ao buscar diário.');
+            setMessage('Erro ao buscar diário.');
         }
     };
 
     // Adicionar novo registro no diário
     const handleAdicionarRegistro = async (e) => {
+        
+        // Previne comportamento padrão de formulário ao recarregar a página
         e.preventDefault();
 
+        const data2 = {
+            registro: novoRegistro
+        };
+
         try {
+            // Requisição POST para o backend
             const response = await fetch('/registro', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(novoRegistro),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data2),
                 credentials: 'include'
             });
 
@@ -73,16 +84,16 @@ function Diario() {
                         leite_temp: '',
                         leite_ph: ''
                     });
-                    setError('');
+                    setMessage('');
                 } else {
-                    setError(data.message || 'Erro ao adicionar registro.');
+                    setMessage(data.message);
                 }
             } else {
-                setError('Erro ao adicionar registro.');
+                setMessage('Erro ao adicionar registro.');
             }
         } catch (error) {
             console.error('Error:', error);
-            setError('Erro ao adicionar registro.');
+            setMessage('Erro ao adicionar registro.');
         }
     };
 
@@ -194,8 +205,11 @@ function Diario() {
                 )}
             </div>
 
-            {/* Exibir mensagens de erro */}
-            {error && <p className="error-message">{error}</p>}
+            {message && (
+                    <div className="message mt-3" id="extra">
+                        <p>{message}</p>
+                    </div>
+            )}
         </div>
     );
 }

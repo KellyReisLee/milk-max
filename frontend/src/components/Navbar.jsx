@@ -40,29 +40,29 @@ function Navbar() {
                 ) : (
                     <ul className="navbar-nav mx-auto mb-lg-0 justify-content-center">
                     <li className="nav-item">
-                        <Link className="nav-link text-light active" to="/#features">Funcionalidades</Link>
+                        <a className="nav-link text-light active" href="#features">Funcionalidades</a>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link text-light active" to="/#about">Sobre</Link>
+                        <a className="nav-link text-light active" href="#features">Sobre</a>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link text-light active" to="/#testimonials">Testemunhos</Link>
+                        <a className="nav-link text-light active" href="#features">Testemunhos</a>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link text-light active" to="/#prices">Preços</Link>
+                        <a className="nav-link text-light active" href="#features">Preços</a>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link text-light active" to="/contato">Contato</Link>
+                        <a className="nav-link text-light active" href="#features">Contato</a>
                     </li>
                     </ul>
                 )}
 
                 {isLoggedIn ? (
-                    <button className="btn btn-light text-primary btn-login px-4 py-1" onClick={logout}>
+                    <Link className="btn btn-light btn-login px-4 py-1" to="/" onClick={logout}>
                     Log out
-                    </button>
+                    </Link>
                 ) : (
-                    <Link className="btn btn-light text-primary btn-login px-4 py-1" to="/login">
+                    <Link className="btn btn-light btn-login px-4 py-1" to="/login">
                     Log in
                     </Link>
                 )}

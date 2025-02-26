@@ -5,8 +5,11 @@ function ForgotUsername() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const route = '/forgot/username';
 
   const handleSubmit = async (e) => {
+    
+    // Previne comportamento padrão de formulário ao recarregar a página
     e.preventDefault();
 
     // Validação do formulário
@@ -19,21 +22,27 @@ function ForgotUsername() {
 
     setLoading(true); // Mostra o ícone de carregamento
 
-    // Dados do formulário
-    const formData = new FormData();
-    formData.append('email', email);
-    formData.append('password', password);
+    const data = {
+        email: email,
+        password: password
+    };
 
     try {
         // Requisição POST para o backend
-        const response = await fetch('/forgot/username', {
+        const response = await fetch(route, {
             method: 'POST',
-            body: formData,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+            credentials: 'include'
         });
 
-        const data = await response.json();
-        if (data.success) {
-            setMessage(data.message); // Mostrar mensagem de sucesso
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                setMessage(data.message);
+            } else {
+                setMessage(data.message);
+            }
         } else {
             setMessage(data.message); // Exibe mensagem de erro
         }
@@ -95,7 +104,7 @@ function ForgotUsername() {
                 </div>
                 )}
                 {message && (
-                <div className="mt-3" id="extra">
+                <div className="message mt-3" id="extra">
                     <p>{message}</p>
                 </div>
                 )}

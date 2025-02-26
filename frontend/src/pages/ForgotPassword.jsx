@@ -1,40 +1,48 @@
 import React, { useState } from 'react';
 
 function ForgotPassword() {
-  const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
+    const [email, setEmail] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState('');
+    const route = '/forgot/password';
 
-  const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
+
+    // Previne comportamento padrão de formulário ao recarregar a página
     e.preventDefault();
 
-    // Validação do formulário
+    // Validação do formulário e exibição de mensagens
     const form = e.target;
     if (!form.checkValidity()) {
-      e.stopPropagation();
-      form.classList.add('was-validated');
-      return;
+        e.stopPropagation();
+        form.classList.add('was-validated');
+        return;
     }
 
     setLoading(true); // Mostra o ícone de carregamento
 
-    // Dados do formulário
-    const formData = new FormData();
-    formData.append('email', email);
+    const data = {
+        email: email,
+    };
 
     try {
         // Requisição POST para o backend
-        const response = await fetch('/forgot/password', {
+        const response = await fetch(route, {
             method: 'POST',
-            body: formData,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+            credentials: 'include'
         });
 
-        const data = await response.json();
-        
-        if (data.success) {
-            setMessage(data.message); // Mostrar mensagem de sucesso
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                setMessage(data.message);
+            } else {
+                setMessage(data.message);
+            }
         } else {
-            setMessage(data.message); // Exibe mensagem de erro
+            setMessage('Erro ao processar solicitação'); // Exibe mensagem de erro
         }
     } catch (error) {
         console.error('Error:', error);
@@ -42,7 +50,7 @@ function ForgotPassword() {
     } finally {
         setLoading(false); // Esconde o ícone de carregamento
     }
-  };
+    };
 
   return (
     <div className="wrapper">
@@ -81,7 +89,7 @@ function ForgotPassword() {
                 </div>
                 )}
                 {message && (
-                <div className="mt-3" id="extra">
+                <div className="message mt-3" id="extra">
                     <p>{message}</p>
                 </div>
                 )}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 function Signup() {
@@ -7,7 +8,9 @@ function Signup() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
-    const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
+    const navigate = useNavigate();
+    const route = '/signup';
 
     const handleSubmit = async (e) => {
 
@@ -23,31 +26,38 @@ function Signup() {
         }
 
         // Dados do formulário
-        const formData = new FormData();
-        formData.append('email', email);
-        formData.append('username', username);
-        formData.append('password', password);
-        formData.append('confirm', confirm);
+        const data = {
+            email: email,
+            username: username,
+            password: password,
+            confirm: confirm,
+        };
 
         try {
             // Requisição POST para o backend
-            const response = await fetch('/signup', {
+            const response = await fetch(route, {
                 method: 'POST',
-                body: formData,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+                credentials: 'include'
             });
 
-            if (response.redirected) {
-                // Redireciona para a página especificada pelo servidor
-                window.location.href = response.redirect;
-            } else {
+            if (response.ok) {
                 const data = await response.json();
-                if (data && !data.success) {
-                    setError(data.message); // Exibe mensagem de erro
+                if (data.success) {
+                    setMessage(data.message);
+                    setTimeout(() => {
+                        navigate('/login'); // Redireciona para a página de login após 3 segundos
+                    }, 3000);
+                } else {
+                    setError(data.message);
                 }
+            } else {
+                setMessage('Erro ao tentar fazer cadastro.');
             }
         } catch (error) {
             console.error('Error:', error);
-            setError('Ocorreu um erro ao tentar fazer login.');
+            setMessage('Ocorreu um erro ao tentar fazer cadastro.');
         }
     };
 
@@ -63,7 +73,7 @@ function Signup() {
                     <p>
                         Se você já tem uma conta: <Link to="/login">Log In</Link>
                     </p>
-                    <form className="needs-validation" id="signupForm" action="/signup" method="post" noValidate="">
+                    <form className="needs-validation" id="signupForm" onSubmit={handleSubmit} noValidate="">
                         <div className="form-group">
                             <label htmlFor="email" />
                             <input
@@ -125,7 +135,11 @@ function Signup() {
                         <strong>REGISTRAR</strong>
                         </button>
                     </form>
-                    {error && <p className="error-message">{error}</p>}
+                    {message && (
+                    <div className="mt-3 message " id="extra">
+                        <p>{message}</p>
+                    </div>
+                    )}
                 </div>
             </div>
         </div>

@@ -9,6 +9,8 @@ function RedefSenha() {
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
+        
+        // Previne comportamento padrão de formulário ao recarregar a página
         e.preventDefault();
 
         // Validação do formulário
@@ -39,9 +41,9 @@ function RedefSenha() {
                 setTimeout(() => {
                   navigate('/login'); // Redireciona para a página de login após 3 segundos
                 }, 3000);
-              } else {
+            } else {
                 setMessage(data.message); // Exibe mensagem de erro
-              }
+            }
         } catch (error) {
             console.error('Error:', error);
             setMessage('Ocorreu um erro ao tentar redefinir a senha.');
@@ -91,7 +93,7 @@ function RedefSenha() {
                         </button>
                     </form>
                     {message && (
-                    <div className="mt-3" id="extra">
+                    <div className="mt-3 message" id="extra">
                         <p>{message}</p>
                     </div>
                     )}

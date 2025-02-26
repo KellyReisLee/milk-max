@@ -1,12 +1,15 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
     const { login } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const route = '/login';
 
     const handleSubmit = async (e) => {
 
@@ -21,32 +24,37 @@ function Login() {
             return;
         }
 
-        // Dados do formulário
-        const formData = new FormData();
-        formData.append('username', username);
-        formData.append('password', password);
+        const data = {
+            username: username,
+            password: password
+        };
 
         try {
             // Requisição POST para o backend
-            const response = await fetch('/login', {
+            const response = await fetch(route, {
                 method: 'POST',
-                body: formData,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+                credentials: 'include'
             });
     
             if (response.ok) {
                 const data = await response.json();
                 if (data.success) {
                     login(); // Atualiza o estado de autenticação no frontend
-                    window.location.href = data.redirect; // Redireciona para a página principal
+                    setMessage(data.message);
+                    setTimeout(() => {
+                        navigate('/vacas'); // Redireciona para a página de vacas após 3 segundos
+                    }, 3000);
                 } else {
-                    setError(data.message || 'Erro ao fazer login.');
+                    setMessage(data.message);
                 }
             } else {
-                setError('Erro ao fazer login.');
+                setMessage('Erro ao fazer login.');
             }
         } catch (error) {
             console.error('Error:', error);
-            setError('Ocorreu um erro ao tentar fazer login.');
+            setMessage('Ocorreu um erro ao tentar fazer login.');
         }
     };
 
@@ -100,7 +108,11 @@ function Login() {
                             <strong>ENTRAR</strong>
                         </button>
                     </form>
-                    {error && <p className="error-message">{error}</p>}
+                    {message && (
+                    <div className="message mt-3" id="extra">
+                        <p>{message}</p>
+                    </div>
+                    )}
                 </div>
             </div>
         </div>
