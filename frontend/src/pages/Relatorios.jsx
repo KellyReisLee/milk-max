@@ -34,7 +34,6 @@ function Relatorios() {
                 if (data.success) {
                     setColunas(data.colunas);
                     setLinhas(data.linhas);
-                    setCount(data.count);
                     setImgPaths(data.img_paths);
                 } else {
                     setMessage(data.message);
@@ -45,8 +44,6 @@ function Relatorios() {
         } catch (error) {
             console.error('Error:', error);
             setMessage('Erro ao gerar relatórios.');
-        } finally {
-            setLoading(false);
         }
     };
 

@@ -43,7 +43,7 @@ function Diario() {
                     setMessage(data.message);
                 }
             } else {
-                setMessage('Erro ao buscar diário.');
+                setMessage('Não há registros no diário dessa vaca.');
             }
         } catch (error) {
             console.error('Error:', error);
@@ -113,7 +113,7 @@ function Diario() {
                         onChange={(e) => setSelecaoVaca(e.target.value)}
                         required
                     />
-                    <button className="btn-login" type="submit"> Ver diário </button>
+                    <button className="btn btn-click" type="submit"> Ver diário </button>
                 </form>
             </div>
 
@@ -141,7 +141,7 @@ function Diario() {
 
             {/* Formulário para adicionar registro */}
             <div className="container button">
-                <button className="btn-login" onClick={() => setNovoRegistro({ ...novoRegistro, visible: true })}>
+                <button className="btn btn-click" onClick={() => setNovoRegistro({ ...novoRegistro, visible: true })}>
                     Registrar no diário
                 </button>
                 {novoRegistro.visible && (
@@ -200,7 +200,7 @@ function Diario() {
                             onChange={(e) => setNovoRegistro({ ...novoRegistro, leite_ph: e.target.value })}
                             required
                         />
-                        <button className="btn-login" type="submit"> Adicionar registro </button>
+                        <button className="btn btn-click" type="submit"> Adicionar registro </button>
                     </form>
                 )}
             </div>
