@@ -45,7 +45,7 @@ function Login() {
                     setMessage(data.message);
                     setTimeout(() => {
                         navigate('/vacas'); // Redireciona para a página de vacas após 3 segundos
-                    }, 3000);
+                    }, 2000);
                 } else {
                     setMessage(data.message);
                 }
