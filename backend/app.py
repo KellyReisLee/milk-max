@@ -398,7 +398,7 @@ def vacas():
             cursor.execute(query)
             vacas = cursor.fetchall()
             colunas = [desc[0] for desc in cursor.description]  # Nomes das colunas
-            return jsonify({"colunas": colunas, "vacas": vacas})
+            return jsonify({"success": True, "colunas": colunas, "vacas": vacas})
     
 
 ## Cadastro de nova vaca
@@ -445,49 +445,42 @@ def cadastro():
 
 
 ## Diário de cada vaca
-@app.route("/diario", methods=["POST", "GET"])
+@app.route("/diario", methods=["POST"])
 @login_required
 def diario():
 
-    # Selecionar vaca
-    if request.method == "POST":
+    # Recuperar dados inputados
+    data = request.get_json()
 
-        # Recuperar dados inputados
-        data = request.get_json()
+    if not data:
+        return jsonify({"success": False, "message": "Dados não recebidos"}), 400
+    
+    seletor = request.json.get("seletor")
 
-        if not data:
-            return jsonify({"success": False, "message": "Dados não recebidos"}), 400
+    if not seletor:
+        return jsonify({"success": False, "message": "ID não fornecido"}), 400
+
+    # Verificar se ID é válido
+    with conn.cursor() as cursor:
+        seletor = int(data.get("seletor"))
+        tab = f'vaca{seletor}_{session["username"]}'
+        id_query = sql.SQL('''
+        SELECT * FROM {} WHERE id = (%s)
+        ''').format(sql.Identifier(session["vacas"]))
+        cursor.execute(id_query, (seletor,))
+        result = (cursor.fetchall())
+        if not result:
+            return jsonify({"success": False, "message": "ID inválido"})
         
-        seletor = request.json.get("seletor")
-
-        if not seletor:
-            return jsonify({"success": False, "message": "ID não fornecido"}), 400
-
-        # Verificar se ID é válido
-        with conn.cursor() as cursor:
-            seletor = int(data.get("selecao_vaca"))
-            tab = f'vaca{seletor}_{session["username"]}'
-            id_query = sql.SQL('''
-            SELECT * FROM {} WHERE id = (%s)
-            ''').format(sql.Identifier(session["vacas"]))
-            cursor.execute(id_query, (seletor,))
-            result = (cursor.fetchall())
-            if not result:
-                return jsonify({"success": False, "message": "ID inválido"})
-            
-            # Renderizar tabela
-            query = sql.SQL('''
-            SELECT * FROM {} ORDER BY dia       
-            ''').format(sql.Identifier(tab))
-            cursor.execute(query)
-            dias = cursor.fetchall()
-            colunas = [desc[0] for desc in cursor.description]
-            return jsonify({"success": True, "colunas": colunas, "dias": dias})
+        # Renderizar tabela
+        query = sql.SQL('''
+        SELECT * FROM {} ORDER BY dia DESC      
+        ''').format(sql.Identifier(tab))
+        cursor.execute(query)
+        dias = cursor.fetchall()
+        colunas = [desc[0] for desc in cursor.description]
+        return jsonify({"success": True, "colunas": colunas, "dias": dias})
         
-    # Renderizar tabela
-    else:
-        # Retornar dados vazios para o método GET
-        return jsonify({"success": True, "colunas": [], "dias": []})
 
 ## Registro no diário
 @app.route("/registro", methods = ["POST"])
@@ -500,12 +493,13 @@ def registro():
     if not data:
         return jsonify({"success": False, "message": "Dados não recebidos"}), 400
     
-    id = data.get("id_vaca")
-    dia = data.get("dia")
-    ciclo = data.get("ciclo")
-    qtdd = data.get("leite_qtdd")
-    temp = data.get("leite_temp")
-    ph = data.get("leite_ph")
+    id = data.get("registro", {}).get("id_vaca")
+    dia = data.get("registro", {}).get("dia")
+    ciclo = data.get("registro", {}).get("ciclo")
+    qtdd = data.get("registro", {}).get("leite_qtdd")
+    temp = data.get("registro", {}).get("leite_temp")
+    ph = data.get("registro", {}).get("leite_ph")
+
 
     if not id or not dia or not ciclo or not qtdd or not temp or not ph:
         return jsonify({"success": False, "message": "Todos os campos são obrigatórios"}), 400
