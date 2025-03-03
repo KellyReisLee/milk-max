@@ -32,12 +32,22 @@ from .helpers import login_required
 # Carrega as variáveis do arquivo .env
 load_dotenv()
 key = os.getenv('SECRET_KEY')
-db_host = os.getenv("DB_HOST")
-db_name = os.getenv("DB_NAME")
-db_user = os.getenv("DB_USER")
-db_password = os.getenv("DB_PASSWORD")
 email = os.getenv("EMAIL")
 senha = os.getenv("PASSWORD")
+db_url = os.getenv("DATABASE_URL")
+
+####### caso deseje utilizar banco de dados local
+#db_host = os.getenv("DB_HOST")
+#db_name = os.getenv("DB_NAME")
+#db_user = os.getenv("DB_USER")
+#db_password = os.getenv("DB_PASSWORD")
+#conn = psycopg2.connect(
+#    dbname=db_name,
+#    user=db_user,
+#    password=db_password, # excluir para testes
+#    host=db_host,
+#    port='5432'
+#)
 
 # Configure app
 app = Flask(__name__, static_folder="../frontend/dist")
@@ -73,16 +83,14 @@ mail = Mail(app)
 serializer = URLSafeTimedSerializer(app.config['MAIL_PASSWORD'])
 
 # Connect to the PostgreSQL database
-conn = psycopg2.connect(
-    dbname=db_name,
-    user=db_user,
-    password=db_password, # excluir para testes
-    host=db_host,
-    port='5432'
-)
+try:
+    conn = psycopg2.connect(db_url, sslmode='require')
+    print("Conexão com o banco de dados estabelecida!")
+except psycopg2.OperationalError as e:
+    print(f"Erro ao conectar ao banco de dados: {e}")
 
 # SQLAlchemy
-url = f'postgresql://{db_user}:{db_password}@{db_host}:5432/{db_name}'
+url = db_url
 engine = create_engine(url)
 
 # Configure o backend do Matplotlib para evitar GUIs
