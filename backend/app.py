@@ -35,6 +35,7 @@ key = os.getenv('SECRET_KEY')
 email = os.getenv("EMAIL")
 senha = os.getenv("PASSWORD")
 db_url = os.getenv("DATABASE_URL")
+backend_url=os.getenv("BACKEND_URL")
 
 ####### caso deseje utilizar banco de dados local
 #db_host = os.getenv("DB_HOST")

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { config } from '../../config';
 
 
 function Signup() {
@@ -10,7 +11,7 @@ function Signup() {
     const [confirm, setConfirm] = useState('');
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
-    const route = '/signup';
+    const { routes } = config;
 
     const handleSubmit = async (e) => {
 
@@ -35,7 +36,7 @@ function Signup() {
 
         try {
             // Requisição POST para o backend
-            const response = await fetch(route, {
+            const response = await fetch(routes.signup, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),

@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { config } from '../../config';
 
 function Login() {
     const [username, setUsername] = useState('');
@@ -9,7 +10,7 @@ function Login() {
     const [message, setMessage] = useState('');
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
-    const route = '/login';
+    const { routes } = config;
 
     const handleSubmit = async (e) => {
 
@@ -31,7 +32,7 @@ function Login() {
 
         try {
             // Requisição POST para o backend
-            const response = await fetch(route, {
+            const response = await fetch(routes.login, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),

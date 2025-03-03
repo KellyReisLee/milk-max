@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { config } from '../../config';
 
 function Relatorios() {
     const [colunas, setColunas] = useState([]);
@@ -7,7 +8,7 @@ function Relatorios() {
     const [option, setOption] = useState('');
     const [selecaoVaca, setSelecaoVaca] = useState('');
     const [message, setMessage] = useState('');
-    const route = '/relatorios';
+    const { routes } = config;
 
     // Selecionar opção de visualização de relatórios
     const handleSubmit = async (e) => {
@@ -22,7 +23,7 @@ function Relatorios() {
 
         try {
             // Requisição POST para o backend
-            const response = await fetch(route, {
+            const response = await fetch(routes.relatorios, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),

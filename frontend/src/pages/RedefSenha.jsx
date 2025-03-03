@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { config } from '../../config';
 
 function RedefSenha() {
     const { token } = useParams(); // Obtém o token passado na URL
@@ -7,6 +8,7 @@ function RedefSenha() {
     const [confirm, setConfirm] = useState('');
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
+    const { routes } = config;
 
     const handleSubmit = async (e) => {
         
@@ -29,7 +31,7 @@ function RedefSenha() {
 
         try {
             // Requisição POST para o backend
-            const response = await fetch('/reset_password', {
+            const response = await fetch(routes.reset_pass, {
                 method: 'POST',
                 body: formData,
             });

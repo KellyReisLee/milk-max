@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { config } from '../../config';
 
 function Vacas() {
     const [colunas, setColunas] = useState([]);
@@ -9,7 +10,7 @@ function Vacas() {
         peso: ''
     });
     const [message, setMessage] = useState('');
-    const route = '/vacas';
+    const { routes } = config;
 
     // Buscar dados das vacas ao carregar o componente
     useEffect(() => {
@@ -18,7 +19,7 @@ function Vacas() {
 
     const fetchVacas = async () => {
         try {
-            const response = await fetch(route, {
+            const response = await fetch(routes.vacas, {
                 method: 'GET',
                 credentials: 'include' // Para enviar cookies (necessário para autenticação)
             });
@@ -53,7 +54,7 @@ function Vacas() {
         };
 
         try {
-            const response = await fetch('/cadastro', {
+            const response = await fetch(routes.cadastro, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
