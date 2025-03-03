@@ -95,13 +95,17 @@ function Vacas() {
                         </tr>
                     </thead>
                     <tbody>
-                        {vacas.map((linha, index) => (
-                            <tr key={index}>
-                                {linha.map((item, idx) => (
-                                    <td key={idx}>{item}</td>
-                                ))}
-                            </tr>
-                        ))}
+                    {vacas.map((linha, index) => (
+                        <tr key={index}>
+                            {linha.map((item, idx) => (
+                                <td key={idx}>
+                                    {typeof item === "string" && item.match(/^\d{4}-\d{2}-\d{2}$/)
+                                        ? item.split("-").reverse().join("/")
+                                        : item}
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
                     </tbody>
                 </table>
             </div>
