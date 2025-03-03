@@ -446,9 +446,12 @@ def cadastro():
 
 ## Diário de cada vaca
 @app.route("/diario", methods=["POST"])
+@app.route("/diario", methods=["POST"])
 @login_required
 def diario():
 
+    # Recuperar dados inputados
+    data = request.get_json()
     # Recuperar dados inputados
     data = request.get_json()
 
@@ -456,7 +459,13 @@ def diario():
         return jsonify({"success": False, "message": "Dados não recebidos"}), 400
     
     seletor = request.json.get("seletor")
+    if not data:
+        return jsonify({"success": False, "message": "Dados não recebidos"}), 400
+    
+    seletor = request.json.get("seletor")
 
+    if not seletor:
+        return jsonify({"success": False, "message": "ID não fornecido"}), 400
     if not seletor:
         return jsonify({"success": False, "message": "ID não fornecido"}), 400
 
@@ -493,6 +502,13 @@ def registro():
     if not data:
         return jsonify({"success": False, "message": "Dados não recebidos"}), 400
     
+    id = data.get("registro", {}).get("id_vaca")
+    dia = data.get("registro", {}).get("dia")
+    ciclo = data.get("registro", {}).get("ciclo")
+    qtdd = data.get("registro", {}).get("leite_qtdd")
+    temp = data.get("registro", {}).get("leite_temp")
+    ph = data.get("registro", {}).get("leite_ph")
+
     id = data.get("registro", {}).get("id_vaca")
     dia = data.get("registro", {}).get("dia")
     ciclo = data.get("registro", {}).get("ciclo")
