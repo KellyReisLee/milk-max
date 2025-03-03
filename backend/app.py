@@ -3,7 +3,7 @@
 import os
 from dotenv import load_dotenv
 
-from flask import Flask, session, request, jsonify, url_for, send_from_directory
+from flask import Flask, session, request, jsonify, send_from_directory
 from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer
 from flask_session import Session
@@ -17,8 +17,13 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from werkzeug.security import check_password_hash, generate_password_hash
 import json
+import sys
+import os
 
-from helpers import login_required
+# Adiciona o diretório atual ao PATH do Python
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+from .helpers import login_required
 
 ############################################################################
 
