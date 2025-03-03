@@ -16,7 +16,7 @@ import base64
 import matplotlib.pyplot as plt
 import seaborn as sns
 from werkzeug.security import check_password_hash, generate_password_hash
-from datetime import datetime
+import json
 
 from helpers import login_required
 
@@ -385,7 +385,7 @@ def forgot_username():
 @login_required
 def vacas():
 
-    # Adicionar atributo
+    # Escolher período
     if request.method == "POST":
         return jsonify({"success": False, "message": "Período não fornecido"}), 400
     
@@ -398,7 +398,7 @@ def vacas():
             cursor.execute(query)
             vacas = cursor.fetchall()
             colunas = [desc[0] for desc in cursor.description]  # Nomes das colunas
-            return jsonify({"success": True, "colunas": colunas, "vacas": vacas})
+            return json.dumps({"success": True, "colunas": colunas, "vacas": vacas}, default=str)
     
 
 ## Cadastro de nova vaca
@@ -479,7 +479,7 @@ def diario():
         cursor.execute(query)
         dias = cursor.fetchall()
         colunas = [desc[0] for desc in cursor.description]
-        return jsonify({"success": True, "colunas": colunas, "dias": dias})
+        return json.dumps({"success": True, "colunas": colunas, "dias": dias}, default=str)
         
 
 ## Registro no diário
