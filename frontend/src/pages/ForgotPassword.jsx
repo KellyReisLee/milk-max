@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { config } from '../../config';
 
 function ForgotPassword() {
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
-    const route = '/forgot/password';
+    const { routes } = config;
 
     const handleSubmit = async (e) => {
 
@@ -27,7 +28,7 @@ function ForgotPassword() {
 
     try {
         // Requisição POST para o backend
-        const response = await fetch(route, {
+        const response = await fetch(routes.forgot_pass, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),

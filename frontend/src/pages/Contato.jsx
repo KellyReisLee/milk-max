@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { config } from '../../config';
 
 function Contato() {
     const [assunto, setAssunto] = useState('');
@@ -7,7 +8,7 @@ function Contato() {
     const [telefone, setTelefone] = useState('');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
-    const route = '/contato';
+    const { routes } = config;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -32,7 +33,7 @@ function Contato() {
     
         try {
             // Requisição POST para o backend
-            const response = await fetch(route, {
+            const response = await fetch(routes.contato, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),

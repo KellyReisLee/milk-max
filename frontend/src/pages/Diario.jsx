@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { config } from '../../config';
 
 function Diario() {
     const [colunas, setColunas] = useState([]);
@@ -13,7 +14,7 @@ function Diario() {
         leite_ph: ''
     });
     const [message, setMessage] = useState('');
-    const route = '/diario';
+    const { routes } = config;
 
     // Buscar dados do diário ao selecionar uma vaca
     const handleSelecionarVaca = async (e) => {
@@ -27,7 +28,7 @@ function Diario() {
 
         try {
             // Requisição POST para o backend
-            const response = await fetch(route, {
+            const response = await fetch(routes.diario, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -63,7 +64,7 @@ function Diario() {
 
         try {
             // Requisição POST para o backend
-            const response = await fetch('/registro', {
+            const response = await fetch(routes.registro, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data2),
