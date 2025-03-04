@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { config } from '../../config';
+import img1 from '@/assets/logo-reduzida-azul.png';
+import img2 from '@/assets/loading.gif';
 
 
 function ForgotUsername() {
@@ -60,7 +62,7 @@ function ForgotUsername() {
     <div className="wrapper">
         <div className="login-container">
             <div className="login-img">
-                <img src="../assets/logo-reduzida-azul.png" alt="Logo" />
+                <img src={img1} alt="Logo" />
             </div>
             <div className="divisor"></div>
             <div className="form-container">
@@ -102,7 +104,7 @@ function ForgotUsername() {
                 </form>
                 {loading && (
                 <div id="loading">
-                    <img id="loadingimg" src="../assets/loading.gif" alt="Carregando..." />
+                    <img id="loadingimg" src={img2} alt="Carregando..." />
                 </div>
                 )}
                 {message && (

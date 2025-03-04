@@ -1,4 +1,6 @@
 import React from 'react';
+import img1 from '@/assets/about-section/about-2.jpg';
+import img2 from '@/assets/about-section/about-1.jpg'
 
 function AboutSoftware() {
   return (    
@@ -16,7 +18,7 @@ function AboutSoftware() {
                     <div className="col-lg-5 justify-content-between align-items-center mx-3">
                         <div className="primary-benefit showcase">
                             <img
-                            src="/assets/about-section/about-2.jpg"
+                            src={img1}
                             alt="image-about-2"
                             />
                         </div>
@@ -52,7 +54,7 @@ function AboutSoftware() {
                     <div className="col-lg-5  order-1 order-lg-2">
                         <div className="primary-benefit showcase">
                             <img
-                            src="/assets/about-section/about-1.jpg"
+                            src={img2}
                             alt="image-about-1"
                             />
                         </div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { config } from '../../config';
+import img1 from '@/assets/logo-reduzida-azul.png';
 
 function RedefSenha() {
     const { token } = useParams(); // Obtém o token passado na URL
@@ -56,7 +57,7 @@ function RedefSenha() {
         <div className="wrapper">
             <div className="login-container">
                 <div className="login-img">
-                    <img src="../assets/logo-reduzida-azul.png" alt="Logo" />
+                    <img src={img1} alt="Logo" />
                 </div>
                 <div className="divisor"></div>
                 <div className="form-container">

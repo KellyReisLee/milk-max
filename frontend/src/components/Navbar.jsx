@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import img1 from '@/assets/logo-branco-sem-fundo.png';
 
 function Navbar() {
   const { isLoggedIn, logout } = useContext(AuthContext);
@@ -14,7 +15,7 @@ function Navbar() {
             <div className="container text-center main-container">
                 <div className="logo">
                     <Link to="/">
-                        <img id="logo" className="img-fluid" src="../assets/logo-branco-sem-fundo.png" alt="Logo Milkmax" />
+                        <img id="logo" className="img-fluid" src={img1} alt="Logo Milkmax" />
                     </Link>
                 </div>
 
