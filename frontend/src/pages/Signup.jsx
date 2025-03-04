@@ -37,7 +37,7 @@ function Signup() {
 
         try {
             // Requisição POST para o backend
-            const response = await fetch(routes.signup, {
+            const response = await fetch('https://milkmax.onrender.com/signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
