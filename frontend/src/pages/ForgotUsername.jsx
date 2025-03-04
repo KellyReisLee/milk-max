@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { config } from '../../config';
+import { config } from '../config';
 import img1 from '@/assets/logo-reduzida-azul.png';
 import img2 from '@/assets/loading.gif';
 
