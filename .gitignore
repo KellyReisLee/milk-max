@@ -1,0 +1,22 @@
+# Dependências
+node_modules/
+venv/
+.env
+
+# Logs
+logs/
+*.log
+
+# Configurações sensíveis
+CONF_BANCO.txt
+CONF_MAIL.txt
+*.env
+
+# Compilação e cache
+dist/
+build/
+.cache/
+
+# Configurações de IDE
+.vscode/
+.idea/
