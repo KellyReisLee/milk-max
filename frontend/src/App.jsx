@@ -14,6 +14,7 @@ import ForgotUsername from './pages/ForgotUsername';
 import Layout from './components/Layout';
 
 function App() {
+  console.log('App renderizando');
   return (
     <Router>
       <Layout>

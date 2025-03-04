@@ -19,6 +19,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 import json
 import sys
 import os
+from flask_cors import CORS
 
 # Adiciona o diretório atual ao PATH do Python
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -50,13 +51,15 @@ backend_url=os.getenv("BACKEND_URL")
 #    port='5432'
 #)
 
+# Caminho absoluto para a pasta dist do frontend
+FRONTEND_DIST_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'frontend', 'dist'))
+
 # Configure app
-app = Flask(__name__, static_folder="../frontend/dist")
+app = Flask(__name__, static_folder=FRONTEND_DIST_PATH)
+CORS(app)  # Permite requisições de qualquer origem
 app.config['SECRET_KEY'] = key
 
 # Configurar integração com front-end React
-
-# Servir o frontend React em produção
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
@@ -104,6 +107,8 @@ def after_request(response):
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Expires"] = 0
     response.headers["Pragma"] = "no-cache"
+    if request.path.endswith('.js'):
+        response.headers['Content-Type'] = 'application/javascript'
     return response
 
 ###########################################################################
