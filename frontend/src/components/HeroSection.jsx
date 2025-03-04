@@ -1,4 +1,5 @@
 import React from 'react';
+import img1 from '@/assets/hero-image.jpg';
 
 function HeroSection() {
   return (
@@ -19,7 +20,7 @@ function HeroSection() {
                 </a>
             </div>
             <div className="hero-img-container col-lg-6 col-md-12 order-lg-2 order-1 d-flex justify-content-center align-items-center">
-                <img className="img-fluid w-100 h-100" src="../assets/hero-image.jpg" alt="" style={{ objectFit: 'cover', height: '100%' }} />
+                <img className="img-fluid w-100 h-100" src={img1} alt="" style={{ objectFit: 'cover', height: '100%' }} />
             </div>
         </div>
     </section>

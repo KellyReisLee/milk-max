@@ -1,4 +1,9 @@
 import React from 'react';
+import img1 from '@/assets/sponsors/farmers-market.png';
+import img2 from '@/assets/sponsors/milky-cafe.png';
+import img3 from '@/assets/sponsors/farm-2022.png';
+import img4 from '@/assets/sponsors/farmers.png';
+import img5 from '@/assets/sponsors/farmer-green-house.png';
 
 function Sponsors() {
   return (
@@ -10,35 +15,35 @@ function Sponsors() {
                 <div className="col-2 d-flex ">
                 <img
                     className="img-fluid "
-                    src="../assets/sponsors/farmers-market.png"
+                    src={img1}
                     alt="farmers-market-logo"
                 />
                 </div>
                 <div className="col-2 d-flex justify-content-center">
                 <img
                     className="img-fluid "
-                    src="../assets/sponsors/milky-cafe.png"
+                    src={img2}
                     alt="milky-cafe-logo"
                 />
                 </div>
                 <div className="col-2 d-flex justify-content-center">
                 <img
                     className="img-fluid "
-                    src="../assets/sponsors/farm-2022.png"
+                    src={img3}
                     alt="farmer-2022-logo"
                 />
                 </div>
                 <div className="col-2 d-flex justify-content-center">
                 <img
                     className="img-fluid "
-                    src="../assets/sponsors/farmers.png"
+                    src={img4}
                     alt="farmers-logo"
                 />
                 </div>
                 <div className="col-2 d-flex justify-content-center">
                 <img
                     className="img-fluid "
-                    src="../assets/sponsors/farmer-green-house.png"
+                    src={img5}
                     alt="farmer-green-house-logo"
                 />
                 </div>

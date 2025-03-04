@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { config } from '../../config';
+import img1 from '@/assets/loading.gif';
 
 function Contato() {
     const [assunto, setAssunto] = useState('');
@@ -129,7 +130,7 @@ function Contato() {
                 </form>
                 {loading && (
                 <div id="loading">
-                    <img id="loadingimg" src="../assets/loading.gif" alt="Carregando..." />
+                    <img id="loadingimg" src={img1} alt="Carregando..." />
                 </div>
                 )}
                 {message && (

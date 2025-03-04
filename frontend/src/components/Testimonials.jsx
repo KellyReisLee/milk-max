@@ -1,4 +1,7 @@
 import React from 'react';
+import img1 from '@/assets/testimonials-section/face-1.jpg';
+import img2 from '@/assets/testimonials-section/face-3.jpg';
+import img3 from '@/assets/testimonials-section/face-2.jpg';
 
 function Testimonials() {
   return (
@@ -14,7 +17,7 @@ function Testimonials() {
                             <div className="testimonial-img">
                                 <img
                                     className="img-fluid rounded-circle"
-                                    src="/assets/testimonials-section/face-1.jpg"
+                                    src={img1}
                                     alt=""
                                 />
                             </div>
@@ -40,7 +43,7 @@ function Testimonials() {
                             <div className="testimonial-img">
                                 <img
                                     className="img-fluid rounded-circle"
-                                    src="/assets/testimonials-section/face-3.jpg"
+                                    src={img2}
                                     alt=""
                                 />
                             </div>
@@ -68,7 +71,7 @@ function Testimonials() {
                             <div className="testimonial-img">
                                 <img
                                     className="img-fluid rounded-circle"
-                                    src="/assets/testimonials-section/face-2.jpg"
+                                    src={img3}
                                     alt=""
                                 />
                             </div>
