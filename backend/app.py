@@ -24,7 +24,7 @@ from flask_cors import CORS
 # Adiciona o diretório atual ao PATH do Python
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from .helpers import login_required
+from helpers import login_required
 
 ############################################################################
 
