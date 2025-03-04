@@ -107,8 +107,8 @@ def after_request(response):
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Expires"] = 0
     response.headers["Pragma"] = "no-cache"
-    if request.path.endswith('.js'):
-        response.headers['Content-Type'] = 'application/javascript'
+    if response.mimetype == 'application/octet-stream' and request.path.endswith('.js'):
+        response.mimetype = 'application/javascript'
     return response
 
 ###########################################################################
