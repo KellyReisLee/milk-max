@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { config } from '../../config';
+import { config } from '../config';
 import img1 from '@/assets/logo-reduzida-azul.png';
 
 function Login() {
