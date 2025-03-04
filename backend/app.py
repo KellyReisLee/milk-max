@@ -35,10 +35,24 @@ load_dotenv()
 key = os.getenv('SECRET_KEY')
 email = os.getenv("EMAIL")
 senha = os.getenv("PASSWORD")
+
+####### utilizar BANCO DE DADOS REMOTO (opção padrão)
 db_url = os.getenv("DATABASE_URL")
 backend_url=os.getenv("REACT_APP_BACKEND_URL")
 
-####### caso deseje utilizar banco de dados local
+# Connect to the PostgreSQL database
+try:
+    conn = psycopg2.connect(db_url, sslmode='require')
+    print("Conexão com o banco de dados estabelecida!")
+except psycopg2.OperationalError as e:
+    print(f"Erro ao conectar ao banco de dados: {e}")
+
+# SQLAlchemy
+url = db_url
+engine = create_engine(url)
+
+####### para utilizar BANCO DE DADOS LOCAL, descomente as linhas abaixo e comente as linhas acima (a partir do comentário "utilizar BANCO DE DADOS REMOTO")
+####### além disso, não se esqueça de configurar as variáveis de ambiente no arquivo .env
 #db_host = os.getenv("DB_HOST")
 #db_name = os.getenv("DB_NAME")
 #db_user = os.getenv("DB_USER")
@@ -50,6 +64,15 @@ backend_url=os.getenv("REACT_APP_BACKEND_URL")
 #    host=db_host,
 #    port='5432'
 #)
+#conn = psycopg2.connect(
+#    dbname=db_name,
+#    user=db_user,
+#    password=db_password,
+#    host=db_host,
+#    port='5432'
+#)
+#url = f'postgresql://{db_user}:{db_password}@{db_host}:5432/{db_name}'
+#engine = create_engine(url)
 
 # Caminho absoluto para a pasta dist do frontend
 FRONTEND_DIST_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'frontend', 'dist'))
@@ -85,17 +108,6 @@ mail = Mail(app)
 
 # Configurar serializer para gerar e validar tokens
 serializer = URLSafeTimedSerializer(app.config['MAIL_PASSWORD'])
-
-# Connect to the PostgreSQL database
-try:
-    conn = psycopg2.connect(db_url, sslmode='require')
-    print("Conexão com o banco de dados estabelecida!")
-except psycopg2.OperationalError as e:
-    print(f"Erro ao conectar ao banco de dados: {e}")
-
-# SQLAlchemy
-url = db_url
-engine = create_engine(url)
 
 # Configure o backend do Matplotlib para evitar GUIs
 plt.switch_backend('Agg')
