@@ -105,6 +105,8 @@ Session(app)
 app.config['SESSION_COOKIE_SECURE'] = True
 # Permitir cookies quando backend e frontend estão hospedados em domínios diferentes
 app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+# Permitir que o frontend acesse o cookie
+app.config["SESSION_COOKIE_HTTPONLY"] = False 
 
 # Diretório para armazenamento de sessões
 app.config["SESSION_FILE_DIR"] = os.path.join(os.getcwd(), "flask_session")
