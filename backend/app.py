@@ -20,6 +20,7 @@ import json
 import sys
 import os
 from flask_cors import CORS
+import traceback
 
 # Adiciona o diretório atual ao PATH do Python
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -60,9 +61,10 @@ engine = create_engine(url)
 #conn = psycopg2.connect(
 #    dbname=db_name,
 #    user=db_user,
-#    password=db_password, # excluir para testes
+#    password=db_password, # excluir caso senha não tenha sido configurada
 #    host=db_host,
 #    port='5432'
+#    sslmode="require"  # Garante que a conexão use SSL
 #)
 #conn = psycopg2.connect(
 #    dbname=db_name,
@@ -435,14 +437,20 @@ def vacas():
     
     # Renderizar tabela
     else:
-        with conn.cursor() as cursor:
-            query = sql.SQL('''
-            SELECT * FROM {}             
-            ''').format(sql.Identifier(session["vacas"]))
-            cursor.execute(query)
-            vacas = cursor.fetchall()
-            colunas = [desc[0] for desc in cursor.description]  # Nomes das colunas
-            return jsonify({"success": True, "colunas": colunas, "vacas": vacas}, default=str)
+        try:
+            with conn.cursor() as cursor:
+                query = sql.SQL('''
+                    SELECT * FROM {}
+                ''').format(sql.Identifier(session["vacas"]))
+                cursor.execute(query)
+                vacas = cursor.fetchall()
+                colunas = [desc[0] for desc in cursor.description]  # Nomes das colunas
+                return jsonify({"success": True, "colunas": colunas, "vacas": vacas})
+
+        except Exception as e:
+            print("Erro na requisição /vacas:", str(e))
+            traceback.print_exc()  # Exibe o erro completo nos logs do Render
+            return jsonify({"success": False, "message": "Erro no servidor"}), 500
     
 
 ## Cadastro de nova vaca
@@ -532,7 +540,7 @@ def diario():
         cursor.execute(query)
         dias = cursor.fetchall()
         colunas = [desc[0] for desc in cursor.description]
-        return jsonify({"success": True, "colunas": colunas, "dias": dias}, default=str)
+        return json.dumps({"success": True, "colunas": colunas, "dias": dias}, default=str)
         
 
 ## Registro no diário
