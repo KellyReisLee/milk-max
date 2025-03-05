@@ -104,7 +104,7 @@ Session(app)
 # Garante que cookies só sejam enviados por HTTPS
 app.config['SESSION_COOKIE_SECURE'] = True
 # Permitir cookies quando backend e frontend estão hospedados em domínios diferentes
-app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 # Permitir que o frontend acesse o cookie
 app.config["SESSION_COOKIE_HTTPONLY"] = False 
 
