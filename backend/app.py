@@ -442,7 +442,7 @@ def vacas():
             cursor.execute(query)
             vacas = cursor.fetchall()
             colunas = [desc[0] for desc in cursor.description]  # Nomes das colunas
-            return json.dumps({"success": True, "colunas": colunas, "vacas": vacas}, default=str)
+            return jsonify({"success": True, "colunas": colunas, "vacas": vacas}, default=str)
     
 
 ## Cadastro de nova vaca
@@ -532,7 +532,7 @@ def diario():
         cursor.execute(query)
         dias = cursor.fetchall()
         colunas = [desc[0] for desc in cursor.description]
-        return json.dumps({"success": True, "colunas": colunas, "dias": dias}, default=str)
+        return jsonify({"success": True, "colunas": colunas, "dias": dias}, default=str)
         
 
 ## Registro no diário
