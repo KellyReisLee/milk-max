@@ -99,10 +99,15 @@ app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_PERMANENT"] = False
 Session(app)
 
-# Permitir cooekies quando backend e frontend estão hospedados em domínios diferentes
-app.config['SESSION_COOKIE_SECURE'] = True  # Garante que cookies só sejam enviados por HTTPS
-app.config['SESSION_COOKIE_SAMESITE'] = 'None'  # Permite cookies entre sites diferentes
+# Garante que cookies só sejam enviados por HTTPS
+app.config['SESSION_COOKIE_SECURE'] = True
+# Permitir cookies quando backend e frontend estão hospedados em domínios diferentes
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 
+# Diretório para armazenamento de sessões
+app.config["SESSION_FILE_DIR"] = os.path.join(os.getcwd(), "flask_session")
+if not os.path.exists(app.config["SESSION_FILE_DIR"]):
+    os.makedirs(app.config["SESSION_FILE_DIR"])  # Cria o diretório se não existir
 
 # Configurações de e-mail
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Servidor de e-mail
