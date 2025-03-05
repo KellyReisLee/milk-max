@@ -6,7 +6,7 @@ Inicie o serviço: sudo systemctl start postgresql
 
 2. Usuário padrão: O usuário postgres é criado durante a instalação do PostgreSQL e é
 configurado com permissões de superusuário (equivalente a um administrador).
-Acessar o PostgreSQL com o usuário postgres: Primeiro, você precisa acessar o PostgreSQL com o usuário padrão postgree:
+Acessar o PostgreSQL com o usuário postgres: Primeiro, você precisa acessar o PostgreSQL com o usuário padrão postgres:
 No terminal:
 sudo -i -u postgres
 psql
@@ -20,8 +20,25 @@ Conecte-se ao banco de dados criado: \c meu_banco
 5. Digite comandos SQL:
 CREATE TABLE (...)
     
-6. Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
+6. Crie dois arquivos .env (dentro da pasta frontend e dentro da pasta backend) e especifique as seguintes variáveis:
 
-DB_HOST=localhost
-DB_NAME=meu_banco
-DB_USER=postgres
+EMAIL="email_para_mensagem_automatica"
+PASSWORD="senha_gerada_email_configurado"
+SECRET_KEY=gere ou escolha uma senha
+
+###### ESCOLHA 1 OU 2 PARA BACKEND
+# 1. rodar com backend remoto
+VITE_BACKEND_URL='https://milkmax.onrender.com'
+# 2. rodar localmente, com python app.py (backend e front end na mesma url)
+#VITE_BACKEND_URL='http://127.0.0.1:5000'
+
+###### ESCOLHA 1 OU 2 PARA BANCO DE DADOS
+# 1. rodar com database remota
+DATABASE_URL='url_database'
+# 2. rodar com database local
+#DB_HOST="localhost"
+#DB_NAME="meu_banco"
+#DB_USER="postgre" // "meu_usuario"
+#DB_PASSWORD="minha_senha"  # caso configurada
+
+No caso dessa explicação a password não foi configurada.
