@@ -269,43 +269,50 @@ def login():
     # Campos vazios
     if not username or not password:
         return jsonify({"success": False, "message": "Username e password são obrigatórios"}), 400
+    
+    try:
+        # Consultar tabela users por username
+        with conn.cursor() as cursor:
+            query = '''
+            SELECT * FROM users WHERE username = (%s)
+            '''
+            cursor.execute(query, (username,))
+            rows = cursor.fetchall()
 
-    # Consultar tabela users por username
-    with conn.cursor() as cursor:
-        query = '''
-        SELECT * FROM users WHERE username = (%s)
-        '''
-        cursor.execute(query, (username,))
-        rows = cursor.fetchall()
+            # Garantir que username existe e senha está correta
+            if len(rows) != 1 or not check_password_hash(
+                rows[0][2], password
+            ):
+                return jsonify({"success": False, "message": "Nome de usuário e/ou senha inválido"})
 
-        # Garantir que username existe e senha está correta
-        if len(rows) != 1 or not check_password_hash(
-            rows[0][2], password
-        ):
-            return jsonify({"success": False, "message": "Nome de usuário e/ou senha inválido"})
+            # Criar sessão de usuário logado, armazenando como "key" seu username
+            session["username"] = rows[0][1]
 
-        # Criar sessão de usuário logado, armazenando como "key" seu username
-        session["username"] = rows[0][1]
+            # Criar tabela de vacas se não existe
+            tabela_vacas = f'vacas_{session["username"]}'
+            session["vacas"] = tabela_vacas # guardar nome da tabela na sessão do usuário
+            create_query = sql.SQL('''
+            CREATE TABLE IF NOT EXISTS {} (id SERIAL PRIMARY KEY, raca VARCHAR(50), nasc DATE, peso FLOAT)
+            ''').format(sql.Identifier(tabela_vacas)) # Comando SQL dinâmico para nome da tabela
+            cursor.execute(create_query)
+            conn.commit()
 
-        # Criar tabela de vacas se não existe
-        tabela_vacas = f'vacas_{session["username"]}'
-        session["vacas"] = tabela_vacas # guardar nome da tabela na sessão do usuário
-        create_query = sql.SQL('''
-        CREATE TABLE IF NOT EXISTS {} (id SERIAL PRIMARY KEY, raca VARCHAR(50), nasc DATE, peso FLOAT)
-        ''').format(sql.Identifier(tabela_vacas)) # Comando SQL dinâmico para nome da tabela
-        cursor.execute(create_query)
-        conn.commit()
+            # Guardar número de vacas na sessão do usuário
+            count_query = sql.SQL('''
+            SELECT COUNT(*) FROM {}
+            ''').format(sql.Identifier(session["vacas"]))
+            cursor.execute(count_query)
+            num_vacas = cursor.fetchall()
+            session["num_vacas"] = int(num_vacas[0][0])
 
-        # Guardar número de vacas na sessão do usuário
-        count_query = sql.SQL('''
-        SELECT COUNT(*) FROM {}
-        ''').format(sql.Identifier(session["vacas"]))
-        cursor.execute(count_query)
-        num_vacas = cursor.fetchall()
-        session["num_vacas"] = int(num_vacas[0][0])
+            # Redirecionar para tabela vacas
+            return jsonify({"success": True, "message": "Login efetuado com sucesso."})
 
-        # Redirecionar para tabela vacas
-        return jsonify({"success": True, "message": "Login efetuado com sucesso."})
+    except Exception as e:
+        print("Erro na requisição /login:", str(e))
+        traceback.print_exc()  # Exibe o erro completo nos logs do Render
+        return jsonify({"success": False, "message": "Erro no servidor"}), 500
+
 
 ## Esqueci senha
 @app.route("/forgot/password", methods=["POST"])
@@ -445,7 +452,7 @@ def vacas():
                 cursor.execute(query)
                 vacas = cursor.fetchall()
                 colunas = [desc[0] for desc in cursor.description]  # Nomes das colunas
-                return jsonify({"success": True, "colunas": colunas, "vacas": vacas})
+                return json.dumps({"success": True, "colunas": colunas, "vacas": vacas}, default=str)
 
         except Exception as e:
             print("Erro na requisição /vacas:", str(e))
