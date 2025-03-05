@@ -27,15 +27,20 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from helpers import login_required
 
+
 ############################################################################
 
-## CONFIGURAÇÕES ##
 
 # Carrega as variáveis do arquivo .env
 load_dotenv()
 key = os.getenv('SECRET_KEY')
 email = os.getenv("EMAIL")
 senha = os.getenv("PASSWORD")
+
+
+############################################################################
+
+## BANCO DE DADOS ##
 
 ####### utilizar BANCO DE DADOS REMOTO (opção padrão)
 db_url = os.getenv("DATABASE_URL")
@@ -76,6 +81,11 @@ engine = create_engine(url)
 #url = f'postgresql://{db_user}:{db_password}@{db_host}:5432/{db_name}'
 #engine = create_engine(url)
 
+
+############################################################################
+
+## CONFIGURAÇÕES APP ##
+
 # Caminho absoluto para a pasta dist do frontend
 FRONTEND_DIST_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'frontend', 'dist'))
 
@@ -94,6 +104,25 @@ def serve(path):
         return send_from_directory('../frontend/dist', path)
     else:
         return send_from_directory('../frontend/dist', 'index.html')
+    
+# Configure o backend do Matplotlib para evitar GUIs
+plt.switch_backend('Agg')
+
+# Função para ser processada após cada solicitação e antes de enviar resposta
+@app.after_request # Garantir respostas atualizadas
+def after_request(response):
+    """Ensure responses aren't cached"""
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    if response.mimetype == 'application/octet-stream' and request.path.endswith('.js'):
+        response.mimetype = 'application/javascript'
+    return response
+
+
+############################################################################
+
+## CONFIGURAÇÕES COOKIES ##
 
 # Configurar sessão para que armazenamento de dados seja feito no servidor, e não através de cookies (navegador)
 app.config["SESSION_TYPE"] = "filesystem"
@@ -113,6 +142,11 @@ app.config["SESSION_FILE_DIR"] = os.path.join(os.getcwd(), "flask_session")
 if not os.path.exists(app.config["SESSION_FILE_DIR"]):
     os.makedirs(app.config["SESSION_FILE_DIR"])  # Cria o diretório se não existir
 
+
+############################################################################
+
+## CONFIGURAÇÕES DE E-MAIL ##
+
 # Configurações de e-mail
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Servidor de e-mail
 app.config['MAIL_PORT'] = 587                # Porta do servidor
@@ -126,19 +160,6 @@ mail = Mail(app)
 # Configurar serializer para gerar e validar tokens
 serializer = URLSafeTimedSerializer(app.config['MAIL_PASSWORD'])
 
-# Configure o backend do Matplotlib para evitar GUIs
-plt.switch_backend('Agg')
-
-# Função para ser processada após cada solicitação e antes de enviar resposta
-@app.after_request # Garantir respostas atualizadas
-def after_request(response):
-    """Ensure responses aren't cached"""
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-    response.headers["Expires"] = 0
-    response.headers["Pragma"] = "no-cache"
-    if response.mimetype == 'application/octet-stream' and request.path.endswith('.js'):
-        response.mimetype = 'application/javascript'
-    return response
 
 ###########################################################################
 
@@ -148,10 +169,10 @@ def after_request(response):
 # nome da tabela com todas as vacas -> session["vacas"]
 # número de vacas cadastradas -> session["num_vacas"]
 
+
 ############################################################################
 
 ## ROUTES ##
-
 
 @app.route("/contato", methods=["POST"])
 def contato():
