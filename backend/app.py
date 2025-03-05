@@ -79,7 +79,8 @@ FRONTEND_DIST_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..
 
 # Configure app
 app = Flask(__name__, static_folder=FRONTEND_DIST_PATH)
-CORS(app)  # Permite requisições de qualquer origem
+# Permite requisições para este servidor
+CORS(app, resources={r"/*": {"origins": ["http://localhost:5173", "https://milkmax-site.onrender.com"]}})
 app.config['SECRET_KEY'] = key
 
 # Configurar integração com front-end React
