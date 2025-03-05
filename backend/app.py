@@ -100,10 +100,10 @@ app.config['SECRET_KEY'] = key
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
-    if path != "" and os.path.exists(os.path.join('../frontend/dist', path)):
-        return send_from_directory('../frontend/dist', path)
+    if path != "" and os.path.exists(os.path.join(FRONTEND_DIST_PATH, path)):
+        return send_from_directory(FRONTEND_DIST_PATH, path)
     else:
-        return send_from_directory('../frontend/dist', 'index.html')
+        return send_from_directory(FRONTEND_DIST_PATH, 'index.html')
     
 # Configure o backend do Matplotlib para evitar GUIs
 plt.switch_backend('Agg')
