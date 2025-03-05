@@ -38,7 +38,7 @@ senha = os.getenv("PASSWORD")
 
 ####### utilizar BANCO DE DADOS REMOTO (opção padrão)
 db_url = os.getenv("DATABASE_URL")
-backend_url=os.getenv("REACT_APP_BACKEND_URL")
+backend_url=os.getenv("VITE_BACKEND_URL")
 
 # Connect to the PostgreSQL database
 try:
