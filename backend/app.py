@@ -81,6 +81,7 @@ FRONTEND_DIST_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..
 app = Flask(__name__, static_folder=FRONTEND_DIST_PATH)
 # Permite requisições para este servidor
 CORS(app, supports_credentials=True, resources={r"/*": {"origins": ["http://localhost:5173", 'http://127.0.0.1:5000', "https://milkmax-site.onrender.com"]}})
+# Importante para gerenciar sessões (session)
 app.config['SECRET_KEY'] = key
 
 # Configurar integração com front-end React
@@ -93,9 +94,15 @@ def serve(path):
         return send_from_directory('../frontend/dist', 'index.html')
 
 # Configurar sessão para que armazenamento de dados seja feito no servidor, e não através de cookies (navegador)
-app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+# sessão expira quando o navegador é fechado
+app.config["SESSION_PERMANENT"] = False
 Session(app)
+
+# Permitir cooekies quando backend e frontend estão hospedados em domínios diferentes
+app.config['SESSION_COOKIE_SECURE'] = True  # Garante que cookies só sejam enviados por HTTPS
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'  # Permite cookies entre sites diferentes
+
 
 # Configurações de e-mail
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Servidor de e-mail

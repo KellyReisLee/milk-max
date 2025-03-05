@@ -46,7 +46,7 @@ function Login() {
                     login(); // Atualiza o estado de autenticação no frontend
                     setMessage(data.message);
                     setTimeout(() => {
-                        navigate('/vacas'); // Redireciona para a página de vacas após 3 segundos
+                        navigate('/vacas'); // Redireciona para a página de vacas após 2 segundos
                     }, 2000);
                 } else {
                     setMessage(data.message);
