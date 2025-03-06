@@ -3,7 +3,7 @@
 import os
 from dotenv import load_dotenv
 
-from flask import Flask, session, request, jsonify, send_from_directory
+from flask import Flask, session, request, jsonify, send_from_directory, g
 from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer
 from flask_session import Session
@@ -63,13 +63,6 @@ def release_db_connection(conn):
     """Devolve a conexão para o pool."""
     if connection_pool and conn:
         connection_pool.putconn(conn)
-
-@app.teardown_appcontext
-def close_db_connection(exception=None):
-    """Libera a conexão ao final de cada requisição."""
-    conn = getattr(g, "_database", None)
-    if conn:
-        release_db_connection(conn)
 
 # SQLAlchemy
 url = db_url
@@ -876,10 +869,12 @@ def relatorios():
 
 ################################################################################
 
-# Fecha o pool de conexões ao encerrar a aplicação
+# Libera a conexão ao final de cada requisição
 @app.teardown_appcontext
-def close_connection_pool(exception):
-    connection_pool.closeall()
+def close_db_connection(exception=None):
+    conn = getattr(g, "_database", None)
+    if conn:
+        release_db_connection(conn)
 
 if __name__ == '__main__':
     app.run(debug=True)
