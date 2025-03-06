@@ -8,7 +8,7 @@ from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer
 from flask_session import Session
 import psycopg2
-from psycopg2 import sql
+from psycopg2 import sql, pool
 import pandas as pd
 from sqlalchemy import create_engine
 import io
@@ -46,14 +46,12 @@ senha = os.getenv("PASSWORD")
 db_url = os.getenv("DATABASE_URL")
 backend_url=os.getenv("VITE_BACKEND_URL")
 
-# Connect to the PostgreSQL database
-def get_db_connection():
-    try:
-        conn = psycopg2.connect(db_url)
-        return conn
-    except psycopg2.OperationalError as e:
-        print("Erro ao conectar ao banco de dados:", str(e))
-        return None
+# Configuração do pool de conexões
+connection_pool = pool.SimpleConnectionPool(
+    minconn=1,
+    maxconn=12,
+    dsn=db_url
+)
 
 # SQLAlchemy
 url = db_url
@@ -232,12 +230,10 @@ def signup():
     if not username or not password or not confirm or not email:
         return jsonify({"success": False, "message": "Preencher todos os campos"}) 
 
-    # Conectar com banco de dados
+    # Pega uma conexão do pool
     conn = None
     try:
-        conn = get_db_connection()
-        if not conn:
-            return jsonify({"success": False, "message": "Erro ao conectar ao banco de dados"}), 500
+        conn = connection_pool.getconn()
         with conn.cursor() as cursor:
             # Criar tabela de users se não existe
             create = '''
@@ -279,11 +275,6 @@ def signup():
 
             # Redirecionar para login
             return jsonify({"success": True, "message": "Cadastro realizado com sucesso"})
-        
-    except psycopg2.OperationalError as e:
-        print("Erro na requisição /signup:", str(e))
-        traceback.print_exc()  # Exibe o erro completo nos logs do Render
-        return jsonify({"success": False, "message": "Erro no servidor (SSL)"}), 500
     
     except Exception as e:
         print("Erro na requisição /signup:", str(e))
@@ -292,7 +283,7 @@ def signup():
     
     finally:
         if conn:
-            conn.close()
+            connection_pool.putconn(conn)
 
 
 ## Login page
@@ -312,12 +303,10 @@ def login():
     if not username or not password:
         return jsonify({"success": False, "message": "Username e password são obrigatórios"}), 400
 
-    # Conectar com banco de dados
+    # Pega uma conexão do pool
     conn = None
     try:
-        conn = get_db_connection()
-        if not conn:
-            return jsonify({"success": False, "message": "Erro ao conectar ao banco de dados"}), 500
+        conn = connection_pool.getconn()
         with conn.cursor() as cursor:
             # Consultar tabela users por username
             query = '''
@@ -354,11 +343,6 @@ def login():
 
             # Redirecionar para tabela vacas
             return jsonify({"success": True, "message": "Login efetuado com sucesso."})
-        
-    except psycopg2.OperationalError as e:
-        print("Erro na requisição /login:", str(e))
-        traceback.print_exc()  # Exibe o erro completo nos logs do Render
-        return jsonify({"success": False, "message": "Erro no servidor (SSL)"}), 500
     
     except Exception as e:
         print("Erro na requisição /login:", str(e))
@@ -367,7 +351,7 @@ def login():
     
     finally:
         if conn:
-            conn.close()
+            connection_pool.putconn(conn)
 
 
 ## Esqueci senha
@@ -386,12 +370,10 @@ def forgot_password():
     if not email:
         return jsonify({"success": False, "message": "Inserir e-mail"})
     
-    # Conectar com banco de dados
+    # Pega uma conexão do pool
     conn = None
     try:
-        conn = get_db_connection()
-        if not conn:
-            return jsonify({"success": False, "message": "Erro ao conectar ao banco de dados"}), 500
+        conn = connection_pool.getconn()
         with conn.cursor() as cursor:
             # Consultar tabela users pelo email do usuário
             query = '''
@@ -411,11 +393,6 @@ def forgot_password():
             msg.body = f'Clique no link para redefinir sua senha: {reset_link}' # corpo da mensagem
             mail.send(msg)
             return jsonify({"success": True, "message": "Um link para redefinição de senha foi enviado para o seu e-mail."})
-        
-    except psycopg2.OperationalError as e:
-        print("Erro na requisição /forgot/password:", str(e))
-        traceback.print_exc()  # Exibe o erro completo nos logs do Render
-        return jsonify({"success": False, "message": "Erro no servidor (SSL)"}), 500
     
     except Exception as e:
         print("Erro na requisição /forgot/password:", str(e))
@@ -424,8 +401,7 @@ def forgot_password():
     
     finally:
         if conn:
-            conn.close()
-        
+            connection_pool.putconn(conn)        
 
 ## Redefinir senha
 @app.route('/reset_password', methods=["POST"])
@@ -456,12 +432,10 @@ def reset_password(token):
     # Atualizar nova senha na tabela users
     hash = generate_password_hash(password, method='pbkdf2', salt_length=16) # Gerar versão criptografada da senha
 
-    # Conectar com banco de dados
+    # Pega uma conexão do pool
     conn = None
     try:
-        conn = get_db_connection()
-        if not conn:
-            return jsonify({"success": False, "message": "Erro ao conectar ao banco de dados"}), 500
+        conn = connection_pool.getconn()
         with conn.cursor() as cursor:
             # Atualizar registro existente
             query = '''
@@ -471,11 +445,6 @@ def reset_password(token):
             cursor.execute(query, values)
             conn.commit()
             return jsonify({"success": True, "message": "Senha redefinida com sucesso."})
-        
-    except psycopg2.OperationalError as e:
-        print("Erro na requisição /reset_password:", str(e))
-        traceback.print_exc()  # Exibe o erro completo nos logs do Render
-        return jsonify({"success": False, "message": "Erro no servidor (SSL)"}), 500
     
     except Exception as e:
         print("Erro na requisição /reset_password:", str(e))
@@ -484,7 +453,7 @@ def reset_password(token):
     
     finally:
         if conn:
-            conn.close()
+            connection_pool.putconn(conn)
 
 ## Esqueci usuário
 @app.route("/forgot/username", methods=["POST"])
@@ -504,15 +473,12 @@ def forgot_username():
     if not password:
         return jsonify({"success": False, "message": "Inserir senha"})
 
-    # Conectar com banco de dados
+    # Pega uma conexão do pool
     conn = None
     try:
-        conn = get_db_connection()
-        if not conn:
-            return jsonify({"success": False, "message": "Erro ao conectar ao banco de dados"}), 500
-
-        # Consultar tabela users
+        conn = connection_pool.getconn()
         with conn.cursor() as cursor:
+            # Consultar tabela users
             query = '''
             SELECT * FROM users WHERE email = (%s)
             '''
@@ -534,11 +500,6 @@ def forgot_username():
             msg.body = f'Seu nome de usuário é: {usr}\n\nIr pra página de login: {login_link}' # corpo da mensagem
             mail.send(msg)
             return jsonify({"success": True, "message": "O nome de usuário foi enviado para o seu e-mail."})
-
-    except psycopg2.OperationalError as e:
-        print("Erro na requisição /forgot/username:", str(e))
-        traceback.print_exc()  # Exibe o erro completo nos logs do Render
-        return jsonify({"success": False, "message": "Erro no servidor (SSL)"}), 500
         
     except Exception as e:
         print("Erro na requisição /forgot/username:", str(e))
@@ -547,7 +508,7 @@ def forgot_username():
     
     finally:
         if conn:
-            conn.close()
+            connection_pool.putconn(conn)
 
 
 ## Página "Vacas"
@@ -559,15 +520,13 @@ def vacas():
     if request.method == "POST":
         return jsonify({"success": False, "message": "Período não fornecido"}), 400
     
-    # Renderizar tabela
     else:
-        # Conectar com banco de dados
+        # Pega uma conexão do pool
         conn = None
         try:
-            conn = get_db_connection()
-            if not conn:
-                return jsonify({"success": False, "message": "Erro ao conectar ao banco de dados"}), 500
+            conn = connection_pool.getconn()
             with conn.cursor() as cursor:
+                # Renderizar tabela
                 query = sql.SQL('''
                     SELECT * FROM {}
                 ''').format(sql.Identifier(session["vacas"]))
@@ -575,11 +534,6 @@ def vacas():
                 vacas = cursor.fetchall()
                 colunas = [desc[0] for desc in cursor.description]  # Nomes das colunas
                 return json.dumps({"success": True, "colunas": colunas, "vacas": vacas}, default=str)
-
-        except psycopg2.OperationalError as e:
-            print("Erro na requisição /vacas:", str(e))
-            traceback.print_exc()  # Exibe o erro completo nos logs do Render
-            return jsonify({"success": False, "message": "Erro no servidor (SSL)"}), 500
         
         except Exception as e:
             print("Erro na requisição /vacas:", str(e))
@@ -588,7 +542,7 @@ def vacas():
         
         finally:
             if conn:
-                conn.close()
+                connection_pool.putconn(conn)
 
     
 
@@ -610,12 +564,10 @@ def cadastro():
     if not raca or not nasc or not peso:
         return jsonify({"success": False, "message": "Todos os campos são obrigatórios"}), 400
 
-    # Conectar com banco de dados
+    # Pega uma conexão do pool
     conn = None
     try:
-        conn = get_db_connection()
-        if not conn:
-            return jsonify({"success": False, "message": "Erro ao conectar ao banco de dados"}), 500
+        conn = connection_pool.getconn()
         with conn.cursor() as cursor:
             # Inserir nova vaca na tabela vacas
             nova_vaca = sql.SQL('''
@@ -639,11 +591,6 @@ def cadastro():
             cursor.execute(create_table)
             conn.commit()
             return jsonify({"success": True, "message": "Vaca cadastrada com sucesso!"})
-        
-    except psycopg2.OperationalError as e:
-        print("Erro na requisição /cadastro:", str(e))
-        traceback.print_exc()  # Exibe o erro completo nos logs do Render
-        return jsonify({"success": False, "message": "Erro no servidor (SSL)"}), 500
     
     except Exception as e:
         print("Erro na requisição /cadastro:", str(e))
@@ -652,7 +599,7 @@ def cadastro():
     
     finally:
         if conn:
-            conn.close()
+            connection_pool.putconn(conn)
 
 
 ## Diário de cada vaca
@@ -679,12 +626,10 @@ def diario():
     if not seletor:
         return jsonify({"success": False, "message": "ID não fornecido"}), 400
 
-    # Conectar com banco de dados
+    # Pega uma conexão do pool
     conn = None
     try:
-        conn = get_db_connection()
-        if not conn:
-            return jsonify({"success": False, "message": "Erro ao conectar ao banco de dados"}), 500
+        conn = connection_pool.getconn()
         with conn.cursor() as cursor:
             # Verificar se ID é válido
             seletor = int(data.get("seletor"))
@@ -706,11 +651,6 @@ def diario():
             colunas = [desc[0] for desc in cursor.description]
             return json.dumps({"success": True, "colunas": colunas, "dias": dias}, default=str)
     
-    except psycopg2.OperationalError as e:
-        print("Erro na requisição /diario:", str(e))
-        traceback.print_exc()  # Exibe o erro completo nos logs do Render
-        return jsonify({"success": False, "message": "Erro no servidor (SSL)"}), 500
-    
     except Exception as e:
         print("Erro na requisição /diario:", str(e))
         traceback.print_exc()  # Exibe o erro completo nos logs do Render
@@ -718,7 +658,7 @@ def diario():
     
     finally:
         if conn:
-            conn.close()
+            connection_pool.putconn(conn)
         
 
 ## Registro no diário
@@ -750,12 +690,10 @@ def registro():
     if not id or not dia or not ciclo or not qtdd or not temp or not ph:
         return jsonify({"success": False, "message": "Todos os campos são obrigatórios"}), 400
 
-    # Conectar com banco de dados
+    # Pega uma conexão do pool
     conn = None
     try:
-        conn = get_db_connection()
-        if not conn:
-            return jsonify({"success": False, "message": "Erro ao conectar ao banco de dados"}), 500
+        conn = connection_pool.getconn()
         with conn.cursor() as cursor:
             # Verificar se id é válido
             tab = f'vaca{id}_{session["username"]}'
@@ -798,11 +736,6 @@ def registro():
             dias = cursor.fetchall()
             colunas = [desc[0] for desc in cursor.description]
             return jsonify({"success": True, "colunas": colunas, "dias": dias})
-        
-    except psycopg2.OperationalError as e:
-        print("Erro na requisição /registro:", str(e))
-        traceback.print_exc()  # Exibe o erro completo nos logs do Render
-        return jsonify({"success": False, "message": "Erro no servidor (SSL)"}), 500
     
     except Exception as e:
         print("Erro na requisição /registro:", str(e))
@@ -811,7 +744,7 @@ def registro():
     
     finally:
         if conn:
-            conn.close()
+            connection_pool.putconn(conn)
 
 
 ## Página de relatórios
@@ -835,12 +768,10 @@ def relatorios():
         if not select:
             return jsonify({"success": False, "message": "Nenhum ID inserido"}), 400
 
-        # Conectar com banco de dados
+        # Pega uma conexão do pool
         conn = None
         try:
-            conn = get_db_connection()
-            if not conn:
-                return jsonify({"success": False, "message": "Erro ao conectar ao banco de dados"}), 500
+            conn = connection_pool.getconn()
             with conn.cursor() as cursor:
                 # Verificar se id é válido
                 id = int(select)
@@ -921,10 +852,6 @@ def relatorios():
                         "count": count,
                         "img_paths": session["img_paths"]
                     })
-        except psycopg2.OperationalError as e:
-            print("Erro na requisição /relatorios:", str(e))
-            traceback.print_exc()  # Exibe o erro completo nos logs do Render
-            return jsonify({"success": False, "message": "Erro no servidor (SSL)"}), 500
         
         except Exception as e:
             print("Erro na requisição /relatorios:", str(e))
@@ -933,7 +860,7 @@ def relatorios():
         
         finally:
             if conn:
-                conn.close()
+                connection_pool.putconn(conn)
         
     elif option == "all":
         # Lógica para relatórios de todas as vacas (se necessário)
