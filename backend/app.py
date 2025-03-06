@@ -54,10 +54,9 @@ connection_pool = pool.SimpleConnectionPool(
 )
 
 def get_db_connection():
-    """Obtém uma conexão do pool."""
-    if connection_pool:
-        return connection_pool.getconn()
-    raise Exception("Connection pool not initialized")
+    if "_database" not in g:
+        g._database = connection_pool.getconn()
+    return g._database
 
 def release_db_connection(conn):
     """Devolve a conexão para o pool."""
@@ -874,7 +873,7 @@ def relatorios():
 def close_db_connection(exception=None):
     conn = getattr(g, "_database", None)
     if conn:
-        release_db_connection(conn)
+        connection_pool.putconn(conn)  # Devolve ao pool
 
 if __name__ == '__main__':
     app.run(debug=True)
