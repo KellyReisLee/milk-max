@@ -866,7 +866,12 @@ def relatorios():
         # Lógica para relatórios de todas as vacas (se necessário)
         return jsonify({"success": False, "message": "Funcionalidade ainda não implementada"}), 501
 
-###############################################################################3
+################################################################################
+
+# Fecha o pool de conexões ao encerrar a aplicação
+@app.teardown_appcontext
+def close_connection_pool(exception):
+    connection_pool.closeall()
 
 if __name__ == '__main__':
     app.run(debug=True)
