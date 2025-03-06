@@ -237,47 +237,51 @@ def signup():
 
     # Pega uma conexão do pool
     conn = get_db_connection()
-    with conn.cursor() as cursor:
-        # Criar tabela de users se não existe
-        create = '''
-        CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, username VARCHAR(50), hash VARCHAR(255), email VARCHAR(100))
-        '''
-        cursor.execute(create)
-        conn.commit()
+    try:
+        with conn.cursor() as cursor:
+            # Criar tabela de users se não existe
+            create = '''
+            CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, username VARCHAR(50), hash VARCHAR(255), email VARCHAR(100))
+            '''
+            cursor.execute(create)
+            conn.commit()
 
-        # Retornar apology se nome de usuário já existe
-        query_register = '''
-        SELECT * FROM users WHERE username = (%s)
-        '''
-        cursor.execute(query_register, (username,))
-        usr = cursor.fetchall()
-        if len(usr) != 0:
-            return jsonify({"success": False, "message": "Nome de usuário já existe"})
-        
-        # Retornar apology se e-mail já está cadastrado
-        query_email = '''
-        SELECT * FROM users WHERE email = (%s)
-        '''
-        cursor.execute(query_email, (email,))
-        em = cursor.fetchall()
-        if len(em) != 0:
-            return jsonify({"success": False, "message": "E-mail já cadastrado"})
-                
-        # Retornar apology se senhas não coincidem
-        if password != confirm:
-            return jsonify({"success": False, "message": "Senhas não coincidem"})
-        
-        # Inserir novo usuário na tabela users
-        hash = generate_password_hash(password, method='pbkdf2', salt_length=16) # Gerar versão criptografada da senha
-        query = '''
-        INSERT INTO users (username, hash, email) VALUES ((%s), (%s), (%s))
-        '''
-        values = (username, hash, email)
-        cursor.execute(query, values)
-        conn.commit()
+            # Retornar apology se nome de usuário já existe
+            query_register = '''
+            SELECT * FROM users WHERE username = (%s)
+            '''
+            cursor.execute(query_register, (username,))
+            usr = cursor.fetchall()
+            if len(usr) != 0:
+                return jsonify({"success": False, "message": "Nome de usuário já existe"})
+            
+            # Retornar apology se e-mail já está cadastrado
+            query_email = '''
+            SELECT * FROM users WHERE email = (%s)
+            '''
+            cursor.execute(query_email, (email,))
+            em = cursor.fetchall()
+            if len(em) != 0:
+                return jsonify({"success": False, "message": "E-mail já cadastrado"})
+                    
+            # Retornar apology se senhas não coincidem
+            if password != confirm:
+                return jsonify({"success": False, "message": "Senhas não coincidem"})
+            
+            # Inserir novo usuário na tabela users
+            hash = generate_password_hash(password, method='pbkdf2', salt_length=16) # Gerar versão criptografada da senha
+            query = '''
+            INSERT INTO users (username, hash, email) VALUES ((%s), (%s), (%s))
+            '''
+            values = (username, hash, email)
+            cursor.execute(query, values)
+            conn.commit()
 
-        # Redirecionar para login
-        return jsonify({"success": True, "message": "Cadastro realizado com sucesso"})
+            # Redirecionar para login
+            return jsonify({"success": True, "message": "Cadastro realizado com sucesso"})
+        
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
 
 
 ## Login page
@@ -299,42 +303,46 @@ def login():
 
     # Pega uma conexão do pool
     conn = get_db_connection()
-    with conn.cursor() as cursor:
-        # Consultar tabela users por username
-        query = '''
-        SELECT * FROM users WHERE username = (%s)
-        '''
-        cursor.execute(query, (username,))
-        rows = cursor.fetchall()
+    try:
+        with conn.cursor() as cursor:
+            # Consultar tabela users por username
+            query = '''
+            SELECT * FROM users WHERE username = (%s)
+            '''
+            cursor.execute(query, (username,))
+            rows = cursor.fetchall()
 
-        # Garantir que username existe e senha está correta
-        if len(rows) != 1 or not check_password_hash(
-            rows[0][2], password
-        ):
-            return jsonify({"success": False, "message": "Nome de usuário e/ou senha inválido"})
+            # Garantir que username existe e senha está correta
+            if len(rows) != 1 or not check_password_hash(
+                rows[0][2], password
+            ):
+                return jsonify({"success": False, "message": "Nome de usuário e/ou senha inválido"})
 
-        # Criar sessão de usuário logado, armazenando como "key" seu username
-        session["username"] = rows[0][1]
+            # Criar sessão de usuário logado, armazenando como "key" seu username
+            session["username"] = rows[0][1]
 
-        # Criar tabela de vacas se não existe
-        tabela_vacas = f'vacas_{session["username"]}'
-        session["vacas"] = tabela_vacas # guardar nome da tabela na sessão do usuário
-        create_query = sql.SQL('''
-        CREATE TABLE IF NOT EXISTS {} (id SERIAL PRIMARY KEY, raca VARCHAR(50), nasc DATE, peso FLOAT)
-        ''').format(sql.Identifier(tabela_vacas)) # Comando SQL dinâmico para nome da tabela
-        cursor.execute(create_query)
-        conn.commit()
+            # Criar tabela de vacas se não existe
+            tabela_vacas = f'vacas_{session["username"]}'
+            session["vacas"] = tabela_vacas # guardar nome da tabela na sessão do usuário
+            create_query = sql.SQL('''
+            CREATE TABLE IF NOT EXISTS {} (id SERIAL PRIMARY KEY, raca VARCHAR(50), nasc DATE, peso FLOAT)
+            ''').format(sql.Identifier(tabela_vacas)) # Comando SQL dinâmico para nome da tabela
+            cursor.execute(create_query)
+            conn.commit()
 
-        # Guardar número de vacas na sessão do usuário
-        count_query = sql.SQL('''
-        SELECT COUNT(*) FROM {}
-        ''').format(sql.Identifier(session["vacas"]))
-        cursor.execute(count_query)
-        num_vacas = cursor.fetchall()
-        session["num_vacas"] = int(num_vacas[0][0])
+            # Guardar número de vacas na sessão do usuário
+            count_query = sql.SQL('''
+            SELECT COUNT(*) FROM {}
+            ''').format(sql.Identifier(session["vacas"]))
+            cursor.execute(count_query)
+            num_vacas = cursor.fetchall()
+            session["num_vacas"] = int(num_vacas[0][0])
 
-        # Redirecionar para tabela vacas
-        return jsonify({"success": True, "message": "Login efetuado com sucesso."})
+            # Redirecionar para tabela vacas
+            return jsonify({"success": True, "message": "Login efetuado com sucesso."})
+        
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
 
 
 ## Esqueci senha
@@ -355,25 +363,29 @@ def forgot_password():
     
     # Pega uma conexão do pool
     conn = get_db_connection()
-    with conn.cursor() as cursor:
-        # Consultar tabela users pelo email do usuário
-        query = '''
-        SELECT username FROM users WHERE email = (%s)
-        '''
-        cursor.execute(query, (email,))
-        rows = cursor.fetchall()
+    try:
+        with conn.cursor() as cursor:
+            # Consultar tabela users pelo email do usuário
+            query = '''
+            SELECT username FROM users WHERE email = (%s)
+            '''
+            cursor.execute(query, (email,))
+            rows = cursor.fetchall()
 
-        # Garantir que email está correto
-        if len(rows) != 1:
-            return jsonify({"success": False, "message": "Email inválido"})
+            # Garantir que email está correto
+            if len(rows) != 1:
+                return jsonify({"success": False, "message": "Email inválido"})
+        
+            # Enviar e-mail com link para redefinir senha
+            token = serializer.dumps(email, salt='password-reset-salt')
+            reset_link = f"http://milkmax.com/reset_password/{token}" # link para front-end
+            msg = Message('Redefinir sua senha', recipients=[email]) # título
+            msg.body = f'Clique no link para redefinir sua senha: {reset_link}' # corpo da mensagem
+            mail.send(msg)
+            return jsonify({"success": True, "message": "Um link para redefinição de senha foi enviado para o seu e-mail."})
     
-        # Enviar e-mail com link para redefinir senha
-        token = serializer.dumps(email, salt='password-reset-salt')
-        reset_link = f"http://milkmax.com/reset_password/{token}" # link para front-end
-        msg = Message('Redefinir sua senha', recipients=[email]) # título
-        msg.body = f'Clique no link para redefinir sua senha: {reset_link}' # corpo da mensagem
-        mail.send(msg)
-        return jsonify({"success": True, "message": "Um link para redefinição de senha foi enviado para o seu e-mail."})
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
   
 
 ## Redefinir senha
@@ -407,15 +419,19 @@ def reset_password(token):
 
     # Pega uma conexão do pool
     conn = get_db_connection()
-    with conn.cursor() as cursor:
-        # Atualizar registro existente
-        query = '''
-        UPDATE users SET hash = (%s) WHERE email = (%s)              
-        '''
-        values = (hash, email)
-        cursor.execute(query, values)
-        conn.commit()
-        return jsonify({"success": True, "message": "Senha redefinida com sucesso."})
+    try:
+        with conn.cursor() as cursor:
+            # Atualizar registro existente
+            query = '''
+            UPDATE users SET hash = (%s) WHERE email = (%s)              
+            '''
+            values = (hash, email)
+            cursor.execute(query, values)
+            conn.commit()
+            return jsonify({"success": True, "message": "Senha redefinida com sucesso."})
+        
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
 
 
 ## Esqueci usuário
@@ -438,29 +454,33 @@ def forgot_username():
 
     # Pega uma conexão do pool
     conn = get_db_connection()
-    with conn.cursor() as cursor:
-        # Consultar tabela users
-        query = '''
-        SELECT * FROM users WHERE email = (%s)
-        '''
-        cursor.execute(query, (email,))
-        rows = cursor.fetchall()
+    try:
+        with conn.cursor() as cursor:
+            # Consultar tabela users
+            query = '''
+            SELECT * FROM users WHERE email = (%s)
+            '''
+            cursor.execute(query, (email,))
+            rows = cursor.fetchall()
 
-        # Garantir que email e senha estão corretos
-        if len(rows) != 1 or not check_password_hash(
-            rows[0][2], password
-        ):
-            return jsonify({"success": False, "message": "E-mail e/ou senha inválido"})
+            # Garantir que email e senha estão corretos
+            if len(rows) != 1 or not check_password_hash(
+                rows[0][2], password
+            ):
+                return jsonify({"success": False, "message": "E-mail e/ou senha inválido"})
 
-        # Recuperar nome de usuário
-        usr = rows[0][1]
+            # Recuperar nome de usuário
+            usr = rows[0][1]
 
-        # Enviar e-mail com nome de usuário
-        login_link = f"http://milkmax.com/login" # link para login
-        msg = Message('Seu nome de usuário', recipients=[email]) # título
-        msg.body = f'Seu nome de usuário é: {usr}\n\nIr pra página de login: {login_link}' # corpo da mensagem
-        mail.send(msg)
-        return jsonify({"success": True, "message": "O nome de usuário foi enviado para o seu e-mail."})
+            # Enviar e-mail com nome de usuário
+            login_link = f"http://milkmax.com/login" # link para login
+            msg = Message('Seu nome de usuário', recipients=[email]) # título
+            msg.body = f'Seu nome de usuário é: {usr}\n\nIr pra página de login: {login_link}' # corpo da mensagem
+            mail.send(msg)
+            return jsonify({"success": True, "message": "O nome de usuário foi enviado para o seu e-mail."})
+    
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
         
 
 ## Página "Vacas"
@@ -475,17 +495,19 @@ def vacas():
     else:
         # Pega uma conexão do pool
         conn = get_db_connection()
-        with conn.cursor() as cursor:
-            # Renderizar tabela
-            query = sql.SQL('''
-                SELECT * FROM {}
-            ''').format(sql.Identifier(session["vacas"]))
-            cursor.execute(query)
-            vacas = cursor.fetchall()
-            colunas = [desc[0] for desc in cursor.description]  # Nomes das colunas
-            if not vacas:
-                vacas = []
-            return json.dumps({"success": True, "colunas": colunas, "vacas": vacas}, default=str)
+        try:
+            with conn.cursor() as cursor:
+                # Renderizar tabela
+                query = sql.SQL('''
+                    SELECT * FROM {}
+                ''').format(sql.Identifier(session["vacas"]))
+                cursor.execute(query)
+                vacas = cursor.fetchall()
+                colunas = [desc[0] for desc in cursor.description]  # Nomes das colunas
+                return json.dumps({"success": True, "colunas": colunas, "vacas": vacas}, default=str)
+            
+        except Exception as e:
+            return jsonify({"success": False, "message": str(e)}), 500
     
 
 ## Cadastro de nova vaca
@@ -508,29 +530,33 @@ def cadastro():
 
     # Pega uma conexão do pool
     conn = get_db_connection()
-    with conn.cursor() as cursor:
-        # Inserir nova vaca na tabela vacas
-        nova_vaca = sql.SQL('''
-        INSERT INTO {} (raca, nasc, peso) VALUES ((%s), (%s), (%s))
-        ''').format(sql.Identifier(session["vacas"]))
-        nova_vaca_values = (raca, nasc, peso)
-        cursor.execute(nova_vaca, nova_vaca_values)
-        conn.commit()
+    try:
+        with conn.cursor() as cursor:
+            # Inserir nova vaca na tabela vacas
+            nova_vaca = sql.SQL('''
+            INSERT INTO {} (raca, nasc, peso) VALUES ((%s), (%s), (%s))
+            ''').format(sql.Identifier(session["vacas"]))
+            nova_vaca_values = (raca, nasc, peso)
+            cursor.execute(nova_vaca, nova_vaca_values)
+            conn.commit()
 
-        # Criar tabela para nova vaca
-        session["num_vacas"] += 1
-        last_id = sql.SQL('''
-        SELECT * FROM {} ORDER BY id DESC LIMIT 1               
-        ''').format(sql.Identifier(session["vacas"]))
-        cursor.execute(last_id)
-        last = int(cursor.fetchall()[0][0])
-        nova_tab = f'vaca{last}_{session["username"]}'
-        create_table = sql.SQL('''
-        CREATE TABLE {} (dia DATE, fase_ciclo VARCHAR(50), leite_quantidade FLOAT, leite_temperatura FLOAT, leite_ph FLOAT)
-        ''').format(sql.Identifier(nova_tab))
-        cursor.execute(create_table)
-        conn.commit()
-        return jsonify({"success": True, "message": "Vaca cadastrada com sucesso!"})
+            # Criar tabela para nova vaca
+            session["num_vacas"] += 1
+            last_id = sql.SQL('''
+            SELECT * FROM {} ORDER BY id DESC LIMIT 1               
+            ''').format(sql.Identifier(session["vacas"]))
+            cursor.execute(last_id)
+            last = int(cursor.fetchall()[0][0])
+            nova_tab = f'vaca{last}_{session["username"]}'
+            create_table = sql.SQL('''
+            CREATE TABLE {} (dia DATE, fase_ciclo VARCHAR(50), leite_quantidade FLOAT, leite_temperatura FLOAT, leite_ph FLOAT)
+            ''').format(sql.Identifier(nova_tab))
+            cursor.execute(create_table)
+            conn.commit()
+            return jsonify({"success": True, "message": "Vaca cadastrada com sucesso!"})
+    
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
 
 
 ## Diário de cada vaca
@@ -559,26 +585,30 @@ def diario():
 
     # Pega uma conexão do pool
     conn = get_db_connection()
-    with conn.cursor() as cursor:
-        # Verificar se ID é válido
-        seletor = int(data.get("seletor"))
-        tab = f'vaca{seletor}_{session["username"]}'
-        id_query = sql.SQL('''
-        SELECT * FROM {} WHERE id = (%s)
-        ''').format(sql.Identifier(session["vacas"]))
-        cursor.execute(id_query, (seletor,))
-        result = (cursor.fetchall())
-        if not result:
-            return jsonify({"success": False, "message": "ID inválido"})
-        
-        # Renderizar tabela
-        query = sql.SQL('''
-        SELECT * FROM {} ORDER BY dia DESC      
-        ''').format(sql.Identifier(tab))
-        cursor.execute(query)
-        dias = cursor.fetchall()
-        colunas = [desc[0] for desc in cursor.description]
-        return json.dumps({"success": True, "colunas": colunas, "dias": dias}, default=str)
+    try:
+        with conn.cursor() as cursor:
+            # Verificar se ID é válido
+            seletor = int(data.get("seletor"))
+            tab = f'vaca{seletor}_{session["username"]}'
+            id_query = sql.SQL('''
+            SELECT * FROM {} WHERE id = (%s)
+            ''').format(sql.Identifier(session["vacas"]))
+            cursor.execute(id_query, (seletor,))
+            result = (cursor.fetchall())
+            if not result:
+                return jsonify({"success": False, "message": "ID inválido"})
+            
+            # Renderizar tabela
+            query = sql.SQL('''
+            SELECT * FROM {} ORDER BY dia DESC      
+            ''').format(sql.Identifier(tab))
+            cursor.execute(query)
+            dias = cursor.fetchall()
+            colunas = [desc[0] for desc in cursor.description]
+            return json.dumps({"success": True, "colunas": colunas, "dias": dias}, default=str)
+    
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
         
 
 ## Registro no diário
@@ -612,48 +642,52 @@ def registro():
 
     # Pega uma conexão do pool
     conn = get_db_connection()
-    with conn.cursor() as cursor:
-        # Verificar se id é válido
-        tab = f'vaca{id}_{session["username"]}'
-        id_query = sql.SQL('''
-        SELECT * FROM {} WHERE id = (%s)
-        ''').format(sql.Identifier(session["vacas"]))
-        cursor.execute(id_query, (id,))
-        result = (cursor.fetchall())
-        if not result:
-            return jsonify({"success": False, "message": "ID inválido"})
-        
-        # Verificar se data já foi inserida
-        dia_query = sql.SQL('''
-        SELECT * FROM {} WHERE dia = (%s)                 
-        ''').format(sql.Identifier(tab))
-        cursor.execute(dia_query, (dia, ))
-        result = cursor.fetchall()
-        if result:
-            # Modificar registro existente
-            update_query = sql.SQL('''
-            UPDATE {} SET fase_ciclo = (%s), leite_quantidade = (%s), leite_temperatura = (%s), leite_ph = (%s) WHERE dia = (%s)                    
+    try:
+        with conn.cursor() as cursor:
+            # Verificar se id é válido
+            tab = f'vaca{id}_{session["username"]}'
+            id_query = sql.SQL('''
+            SELECT * FROM {} WHERE id = (%s)
+            ''').format(sql.Identifier(session["vacas"]))
+            cursor.execute(id_query, (id,))
+            result = (cursor.fetchall())
+            if not result:
+                return jsonify({"success": False, "message": "ID inválido"})
+            
+            # Verificar se data já foi inserida
+            dia_query = sql.SQL('''
+            SELECT * FROM {} WHERE dia = (%s)                 
             ''').format(sql.Identifier(tab))
-            values = (ciclo, qtdd, temp, ph, dia)
-            cursor.execute(update_query, values)
-            conn.commit()
-        else:
-            # Adicionar registro na tabela vaca{id}_{username}
-            insert_query = sql.SQL('''
-            INSERT INTO {} (dia, fase_ciclo, leite_quantidade, leite_temperatura, leite_ph) VALUES ((%s), (%s), (%s), (%s), (%s))                    
-            ''').format(sql.Identifier(tab))
-            values = (dia, ciclo, qtdd, temp, ph)
-            cursor.execute(insert_query, values)
-            conn.commit()
+            cursor.execute(dia_query, (dia, ))
+            result = cursor.fetchall()
+            if result:
+                # Modificar registro existente
+                update_query = sql.SQL('''
+                UPDATE {} SET fase_ciclo = (%s), leite_quantidade = (%s), leite_temperatura = (%s), leite_ph = (%s) WHERE dia = (%s)                    
+                ''').format(sql.Identifier(tab))
+                values = (ciclo, qtdd, temp, ph, dia)
+                cursor.execute(update_query, values)
+                conn.commit()
+            else:
+                # Adicionar registro na tabela vaca{id}_{username}
+                insert_query = sql.SQL('''
+                INSERT INTO {} (dia, fase_ciclo, leite_quantidade, leite_temperatura, leite_ph) VALUES ((%s), (%s), (%s), (%s), (%s))                    
+                ''').format(sql.Identifier(tab))
+                values = (dia, ciclo, qtdd, temp, ph)
+                cursor.execute(insert_query, values)
+                conn.commit()
 
-        # Renderizar tabela
-        query = sql.SQL('''
-        SELECT * FROM {} ORDER BY dia          
-        ''').format(sql.Identifier(tab))
-        cursor.execute(query)
-        dias = cursor.fetchall()
-        colunas = [desc[0] for desc in cursor.description]
-        return jsonify({"success": True, "colunas": colunas, "dias": dias})
+            # Renderizar tabela
+            query = sql.SQL('''
+            SELECT * FROM {} ORDER BY dia          
+            ''').format(sql.Identifier(tab))
+            cursor.execute(query)
+            dias = cursor.fetchall()
+            colunas = [desc[0] for desc in cursor.description]
+            return jsonify({"success": True, "colunas": colunas, "dias": dias})
+        
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
 
 
 ## Página de relatórios
@@ -679,86 +713,90 @@ def relatorios():
 
         # Pega uma conexão do pool
         conn = get_db_connection()
-        with conn.cursor() as cursor:
-            # Verificar se id é válido
-            id = int(select)
-            tab = f'vaca{id}_{session["username"]}'
-            id_query = sql.SQL('''
-            SELECT * FROM {} WHERE id = (%s)
-            ''').format(sql.Identifier(session["vacas"]))
-            cursor.execute(id_query, (id,))
-            result = (cursor.fetchall())
-            if not result:
-                return jsonify({"success": False, "message": "ID inválido"})
+        try:
+            with conn.cursor() as cursor:
+                # Verificar se id é válido
+                id = int(select)
+                tab = f'vaca{id}_{session["username"]}'
+                id_query = sql.SQL('''
+                SELECT * FROM {} WHERE id = (%s)
+                ''').format(sql.Identifier(session["vacas"]))
+                cursor.execute(id_query, (id,))
+                result = (cursor.fetchall())
+                if not result:
+                    return jsonify({"success": False, "message": "ID inválido"})
+                
+                # Converter para DataFrame
+                query = sql.SQL('''
+                SELECT * FROM {}
+                ''').format(sql.Identifier(tab))
+                cursor.execute(query)
+                result = cursor.fetchall()
+                if not result:
+                    return jsonify({"success": False, "message": "Não há registros no diário dessa vaca"})
+                as_str = query.as_string(conn)
+                df = pd.read_sql_query(as_str, engine)
+                # Missing values
+                df.isnull()
+                df = df.fillna(0)
+
+                ## Descriptive analytics - statistics
+                descriptive = df.describe()
+                descriptive = descriptive.round(2)
+                count = descriptive.iloc[0,1]
+                descriptive.drop('count', inplace=True)
+
+                # Verificar se tabela SQL já existe
+                descrip_format = f'descriptive_vaca{id}_{session["username"]}'
+                descrip_exists = sql.SQL('''
+                SELECT EXISTS (
+                SELECT 1 FROM information_schema.tables
+                WHERE table_schema = 'public'
+                AND table_name = (%s)                         
+                )''')
+                cursor.execute(descrip_exists, (descrip_format, ))
+                exists = cursor.fetchone()[0]
+
+                # Criar tabela SQL, caso tabela não exista
+                if not exists:
+                    descriptive.to_sql(descrip_format, con=engine, index=True, index_label="parâmetro", if_exists='replace')
+
+                # Retornar consulta na tabela
+                query_descrip = sql.SQL('''
+                SELECT * FROM {}
+                ''').format(sql.Identifier(descrip_format))
+                cursor.execute(query_descrip)
+                linhas = cursor.fetchall()
+                colunas = [desc[0] for desc in cursor.description]
+
+                ## Descriptive analytics - univariate visualization
+                img_paths = []
+                for column in df.columns[1:]:
+                    plt.figure(figsize=(5, 5))
+                    sns.histplot(df[column], bins=30, kde=False)
+                    plt.title(column)
+                    # Salvar a imagem em memória com BytesIO
+                    img_io = io.BytesIO()
+                    plt.savefig(img_io, format='png')
+                    img_io.seek(0)  # Voltar para o início do arquivo
+                    
+                    # Converter para base64 para poder renderizar na página HTML
+                    img_data = base64.b64encode(img_io.getvalue()).decode('utf-8')
+                    img_paths.append(f"data:image/png;base64,{img_data}")
+                    
+                    plt.close()  # Fechar o gráfico
+                # Armazenar os gráficos na sessão
+                session['img_paths'] = img_paths
+                return jsonify({
+                        "success": True,
+                        "colunas": colunas,
+                        "linhas": linhas,
+                        "count": count,
+                        "img_paths": session["img_paths"]
+                    })
             
-            # Converter para DataFrame
-            query = sql.SQL('''
-            SELECT * FROM {}
-            ''').format(sql.Identifier(tab))
-            cursor.execute(query)
-            result = cursor.fetchall()
-            if not result:
-                return jsonify({"success": False, "message": "Não há registros no diário dessa vaca"})
-            as_str = query.as_string(conn)
-            df = pd.read_sql_query(as_str, engine)
-            # Missing values
-            df.isnull()
-            df = df.fillna(0)
-
-            ## Descriptive analytics - statistics
-            descriptive = df.describe()
-            descriptive = descriptive.round(2)
-            count = descriptive.iloc[0,1]
-            descriptive.drop('count', inplace=True)
-
-            # Verificar se tabela SQL já existe
-            descrip_format = f'descriptive_vaca{id}_{session["username"]}'
-            descrip_exists = sql.SQL('''
-            SELECT EXISTS (
-            SELECT 1 FROM information_schema.tables
-            WHERE table_schema = 'public'
-            AND table_name = (%s)                         
-            )''')
-            cursor.execute(descrip_exists, (descrip_format, ))
-            exists = cursor.fetchone()[0]
-
-            # Criar tabela SQL, caso tabela não exista
-            if not exists:
-                descriptive.to_sql(descrip_format, con=engine, index=True, index_label="parâmetro", if_exists='replace')
-
-            # Retornar consulta na tabela
-            query_descrip = sql.SQL('''
-            SELECT * FROM {}
-            ''').format(sql.Identifier(descrip_format))
-            cursor.execute(query_descrip)
-            linhas = cursor.fetchall()
-            colunas = [desc[0] for desc in cursor.description]
-
-            ## Descriptive analytics - univariate visualization
-            img_paths = []
-            for column in df.columns[1:]:
-                plt.figure(figsize=(5, 5))
-                sns.histplot(df[column], bins=30, kde=False)
-                plt.title(column)
-                # Salvar a imagem em memória com BytesIO
-                img_io = io.BytesIO()
-                plt.savefig(img_io, format='png')
-                img_io.seek(0)  # Voltar para o início do arquivo
-                
-                # Converter para base64 para poder renderizar na página HTML
-                img_data = base64.b64encode(img_io.getvalue()).decode('utf-8')
-                img_paths.append(f"data:image/png;base64,{img_data}")
-                
-                plt.close()  # Fechar o gráfico
-            # Armazenar os gráficos na sessão
-            session['img_paths'] = img_paths
-            return jsonify({
-                    "success": True,
-                    "colunas": colunas,
-                    "linhas": linhas,
-                    "count": count,
-                    "img_paths": session["img_paths"]
-                })
+        except Exception as e:
+            return jsonify({"success": False, "message": str(e)}), 500
         
     elif option == "all":
         # Lógica para relatórios de todas as vacas (se necessário)
@@ -769,9 +807,9 @@ def relatorios():
 # Libera a conexão ao final de cada requisição
 @app.teardown_appcontext
 def close_db_connection(exception=None):
-    conn = getattr(g, "_database", None)
+    conn = g.pop("_database", None)  # Remove do contexto global
     if conn:
-        connection_pool.putconn(conn)  # Devolve ao pool
+        connection_pool.putconn(conn)  # Retorna ao pool
 
 if __name__ == '__main__':
     app.run(debug=True)
