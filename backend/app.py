@@ -566,20 +566,12 @@ def diario():
 
     # Recuperar dados inputados
     data = request.get_json()
-    # Recuperar dados inputados
-    data = request.get_json()
 
     if not data:
-        return jsonify({"success": False, "message": "Dados não recebidos"}), 400
-    
-    seletor = request.json.get("seletor")
-    if not data:
-        return jsonify({"success": False, "message": "Dados não recebidos"}), 400
+        return jsonify({"success": False, "message": "Dados não recebidos"}), 400    
     
     seletor = request.json.get("seletor")
 
-    if not seletor:
-        return jsonify({"success": False, "message": "ID não fornecido"}), 400
     if not seletor:
         return jsonify({"success": False, "message": "ID não fornecido"}), 400
 
