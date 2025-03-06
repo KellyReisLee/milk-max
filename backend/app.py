@@ -566,6 +566,7 @@ def diario():
 
     # Recuperar dados inputados
     data = request.get_json()
+    print("Recebido do frontend:", data)
 
     if not data:
         return jsonify({"success": False, "message": "Dados não recebidos"}), 400    

@@ -22,9 +22,7 @@ function Diario() {
         // Previne comportamento padrão de formulário ao recarregar a página
         e.preventDefault();
 
-        const data = {
-            seletor: selecaoVaca
-        };
+        const data = { seletor: Number(selecaoVaca) };  // Convertendo para número antes de enviar
 
         try {
             // Requisição POST para o backend
