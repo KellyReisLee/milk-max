@@ -53,6 +53,24 @@ connection_pool = pool.SimpleConnectionPool(
     dsn=db_url
 )
 
+def get_db_connection():
+    """Obtém uma conexão do pool."""
+    if connection_pool:
+        return connection_pool.getconn()
+    raise Exception("Connection pool not initialized")
+
+def release_db_connection(conn):
+    """Devolve a conexão para o pool."""
+    if connection_pool and conn:
+        connection_pool.putconn(conn)
+
+@app.teardown_appcontext
+def close_db_connection(exception=None):
+    """Libera a conexão ao final de cada requisição."""
+    conn = getattr(g, "_database", None)
+    if conn:
+        release_db_connection(conn)
+
 # SQLAlchemy
 url = db_url
 engine = create_engine(url)
@@ -231,9 +249,8 @@ def signup():
         return jsonify({"success": False, "message": "Preencher todos os campos"}) 
 
     # Pega uma conexão do pool
-    conn = None
+    conn = get_db_connection()
     try:
-        conn = connection_pool.getconn()
         with conn.cursor() as cursor:
             # Criar tabela de users se não existe
             create = '''
@@ -283,7 +300,7 @@ def signup():
     
     finally:
         if conn:
-            connection_pool.putconn(conn)
+            release_db_connection(conn)
 
 
 ## Login page
@@ -304,9 +321,8 @@ def login():
         return jsonify({"success": False, "message": "Username e password são obrigatórios"}), 400
 
     # Pega uma conexão do pool
-    conn = None
+    conn = get_db_connection()
     try:
-        conn = connection_pool.getconn()
         with conn.cursor() as cursor:
             # Consultar tabela users por username
             query = '''
@@ -351,7 +367,7 @@ def login():
     
     finally:
         if conn:
-            connection_pool.putconn(conn)
+            release_db_connection(conn)
 
 
 ## Esqueci senha
@@ -371,9 +387,8 @@ def forgot_password():
         return jsonify({"success": False, "message": "Inserir e-mail"})
     
     # Pega uma conexão do pool
-    conn = None
+    conn = get_db_connection()
     try:
-        conn = connection_pool.getconn()
         with conn.cursor() as cursor:
             # Consultar tabela users pelo email do usuário
             query = '''
@@ -401,7 +416,7 @@ def forgot_password():
     
     finally:
         if conn:
-            connection_pool.putconn(conn)        
+            release_db_connection(conn)       
 
 ## Redefinir senha
 @app.route('/reset_password', methods=["POST"])
@@ -433,9 +448,8 @@ def reset_password(token):
     hash = generate_password_hash(password, method='pbkdf2', salt_length=16) # Gerar versão criptografada da senha
 
     # Pega uma conexão do pool
-    conn = None
+    conn = get_db_connection()
     try:
-        conn = connection_pool.getconn()
         with conn.cursor() as cursor:
             # Atualizar registro existente
             query = '''
@@ -453,7 +467,7 @@ def reset_password(token):
     
     finally:
         if conn:
-            connection_pool.putconn(conn)
+            release_db_connection(conn)
 
 ## Esqueci usuário
 @app.route("/forgot/username", methods=["POST"])
@@ -474,9 +488,8 @@ def forgot_username():
         return jsonify({"success": False, "message": "Inserir senha"})
 
     # Pega uma conexão do pool
-    conn = None
+    conn = get_db_connection()
     try:
-        conn = connection_pool.getconn()
         with conn.cursor() as cursor:
             # Consultar tabela users
             query = '''
@@ -508,7 +521,7 @@ def forgot_username():
     
     finally:
         if conn:
-            connection_pool.putconn(conn)
+            release_db_connection(conn)
 
 
 ## Página "Vacas"
@@ -522,9 +535,8 @@ def vacas():
     
     else:
         # Pega uma conexão do pool
-        conn = None
+        conn = get_db_connection()
         try:
-            conn = connection_pool.getconn()
             with conn.cursor() as cursor:
                 # Renderizar tabela
                 query = sql.SQL('''
@@ -542,7 +554,7 @@ def vacas():
         
         finally:
             if conn:
-                connection_pool.putconn(conn)
+                release_db_connection(conn)
 
     
 
@@ -565,9 +577,8 @@ def cadastro():
         return jsonify({"success": False, "message": "Todos os campos são obrigatórios"}), 400
 
     # Pega uma conexão do pool
-    conn = None
+    conn = get_db_connection()
     try:
-        conn = connection_pool.getconn()
         with conn.cursor() as cursor:
             # Inserir nova vaca na tabela vacas
             nova_vaca = sql.SQL('''
@@ -599,7 +610,7 @@ def cadastro():
     
     finally:
         if conn:
-            connection_pool.putconn(conn)
+            release_db_connection(conn)
 
 
 ## Diário de cada vaca
@@ -627,9 +638,8 @@ def diario():
         return jsonify({"success": False, "message": "ID não fornecido"}), 400
 
     # Pega uma conexão do pool
-    conn = None
+    conn = get_db_connection()
     try:
-        conn = connection_pool.getconn()
         with conn.cursor() as cursor:
             # Verificar se ID é válido
             seletor = int(data.get("seletor"))
@@ -658,7 +668,7 @@ def diario():
     
     finally:
         if conn:
-            connection_pool.putconn(conn)
+            release_db_connection(conn)
         
 
 ## Registro no diário
@@ -691,9 +701,8 @@ def registro():
         return jsonify({"success": False, "message": "Todos os campos são obrigatórios"}), 400
 
     # Pega uma conexão do pool
-    conn = None
+    conn = get_db_connection()
     try:
-        conn = connection_pool.getconn()
         with conn.cursor() as cursor:
             # Verificar se id é válido
             tab = f'vaca{id}_{session["username"]}'
@@ -744,7 +753,7 @@ def registro():
     
     finally:
         if conn:
-            connection_pool.putconn(conn)
+            release_db_connection(conn)
 
 
 ## Página de relatórios
@@ -769,9 +778,8 @@ def relatorios():
             return jsonify({"success": False, "message": "Nenhum ID inserido"}), 400
 
         # Pega uma conexão do pool
-        conn = None
+        conn = get_db_connection()
         try:
-            conn = connection_pool.getconn()
             with conn.cursor() as cursor:
                 # Verificar se id é válido
                 id = int(select)
@@ -860,7 +868,7 @@ def relatorios():
         
         finally:
             if conn:
-                connection_pool.putconn(conn)
+                release_db_connection(conn)
         
     elif option == "all":
         # Lógica para relatórios de todas as vacas (se necessário)
