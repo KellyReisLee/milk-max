@@ -483,6 +483,8 @@ def vacas():
             cursor.execute(query)
             vacas = cursor.fetchall()
             colunas = [desc[0] for desc in cursor.description]  # Nomes das colunas
+            if not vacas:
+                vacas = []
             return json.dumps({"success": True, "colunas": colunas, "vacas": vacas}, default=str)
     
 
