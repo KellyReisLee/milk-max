@@ -9,7 +9,6 @@ function RedefSenha() {
     const [confirm, setConfirm] = useState('');
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
-    const { routes } = config;
 
     const handleSubmit = async (e) => {
         
@@ -33,7 +32,7 @@ function RedefSenha() {
 
         try {
             // Requisição POST para o backend
-            const response = await fetch(routes.reset_pass, {
+            const response = await fetch('${import.meta.env.VITE_BACKEND_URL}/reset_password/${token}', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
