@@ -5,7 +5,6 @@ import img1 from '@/assets/logo-reduzida-azul.png';
 
 function RedefSenha() {
     const { token } = useParams(); // Obtém o token passado na URL
-    console.log("Token capturado:", token);
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
     const [message, setMessage] = useState('');
@@ -41,7 +40,6 @@ function RedefSenha() {
             });
 
             const data = await response.json();
-            console.log(data);
             
             if (data.success) {
                 setMessage('Senha redefinida com sucesso.');
@@ -88,7 +86,7 @@ function RedefSenha() {
                             name="confirmPassword"
                             placeholder="Confirmar Senha"
                             type="password"
-                            value={confirmPassword}
+                            value={confirm}
                             onChange={(e) => setConfirm(e.target.value)}
                             required
                             />
