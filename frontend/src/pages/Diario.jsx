@@ -99,6 +99,8 @@ function Diario() {
         } catch (error) {
             console.error('Error:', error);
             setMessage('Erro ao adicionar registro.');
+        } finally {
+            setLoading(false); // Esconde o ícone de carregamento
         }
     };
 
