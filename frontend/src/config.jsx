@@ -12,7 +12,6 @@ export const config = {
       vacas: `${import.meta.env.VITE_BACKEND_URL}/vacas`,
       cadastro: `${import.meta.env.VITE_BACKEND_URL}/cadastro`,
       registro: `${import.meta.env.VITE_BACKEND_URL}/registro`,
-      // Adicione outras rotas aqui
     },
   };
 

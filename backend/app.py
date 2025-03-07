@@ -371,7 +371,7 @@ def login():
 
 
 ## Esqueci senha
-@app.route("/forgot/password/<token>", methods=["POST"])
+@app.route("/forgot/password", methods=["POST"])
 def forgot_password():
 
     # Recuperar dados inputados
@@ -428,7 +428,7 @@ def forgot_password():
         
 
 ## Redefinir senha
-@app.route('/reset_password', methods=["POST"])
+@app.route('/reset_password/<token>', methods=["POST"])
 def reset_password(token):
     
     # Recuperar dados inputados
