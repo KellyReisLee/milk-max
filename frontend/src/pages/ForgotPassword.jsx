@@ -7,7 +7,6 @@ function ForgotPassword() {
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
-    const { routes } = config;
 
     const handleSubmit = async (e) => {
 
@@ -30,7 +29,7 @@ function ForgotPassword() {
 
     try {
         // Requisição POST para o backend
-        const response = await fetch(routes.forgot_pass, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/reset_password/${token}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
