@@ -5,6 +5,7 @@ import img1 from '@/assets/logo-reduzida-azul.png';
 
 function RedefSenha() {
     const { token } = useParams(); // Obtém o token passado na URL
+    console.log("Token capturado:", token);
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
     const [message, setMessage] = useState('');
@@ -30,8 +31,6 @@ function RedefSenha() {
             token: token
         };
 
-        console.log("Token capturado:", token);
-
         try {
             // Requisição POST para o backend
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/reset_password/${token}`, {
@@ -42,6 +41,7 @@ function RedefSenha() {
             });
 
             const data = await response.json();
+            console.log(data);
             
             if (data.success) {
                 setMessage('Senha redefinida com sucesso.');
