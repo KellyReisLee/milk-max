@@ -32,7 +32,7 @@ function RedefSenha() {
 
         try {
             // Requisição POST para o backend
-            const response = await fetch('${import.meta.env.VITE_BACKEND_URL}/reset_password/${token}', {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/reset_password/${token}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
