@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { config } from '../config';
 import img1 from '@/assets/logo-reduzida-azul.png';
+import img2 from '@/assets/loading.gif';
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+     const [loading, setLoading] = useState(false);
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
     const { routes } = config;
@@ -25,6 +27,8 @@ function Login() {
             form.classList.add('was-validated');
             return;
         }
+
+        setLoading(true); // Mostra o ícone de carregamento
 
         const data = {
             username: username,
@@ -110,6 +114,11 @@ function Login() {
                             <strong>ENTRAR</strong>
                         </button>
                     </form>
+                    {loading && (
+                    <div id="loading">
+                        <img id="loadingimg" src={img2} alt="Carregando..." />
+                    </div>
+                    )}
                     {message && (
                     <div className="message mt-3" id="extra">
                         <p>{message}</p>
