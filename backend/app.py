@@ -410,7 +410,7 @@ def forgot_password():
             msg = Message('Redefinir sua senha', recipients=[email]) # título
             msg.body = f'Clique no link para redefinir sua senha: {reset_link}' # corpo da mensagem
             mail.send(msg)
-            return jsonify({"success": True, "message": "Um link para redefinição de senha foi enviado para o seu e-mail."})
+            return jsonify({"success": True, "message": "Um link para redefinição de senha foi enviado para o seu e-mail.\nCaso não encontre, verifique sua caixa de spam"})
         
     except psycopg2.OperationalError as e:
         print("Erro na requisição /forgot/password:", str(e))
@@ -533,7 +533,7 @@ def forgot_username():
             msg = Message('Seu nome de usuário', recipients=[email]) # título
             msg.body = f'Seu nome de usuário é: {usr}\n\nIr pra página de login: {login_link}' # corpo da mensagem
             mail.send(msg)
-            return jsonify({"success": True, "message": "O nome de usuário foi enviado para o seu e-mail."})
+            return jsonify({"success": True, "message": "O nome de usuário foi enviado para o seu e-mail.\nCaso não encontre, verifique sua caixa de spam"})
 
     except psycopg2.OperationalError as e:
         print("Erro na requisição /forgot/username:", str(e))
