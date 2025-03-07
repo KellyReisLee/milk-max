@@ -25,16 +25,19 @@ function RedefSenha() {
         }
 
         // Dados do formulário
-        const formData = new FormData();
-        formData.append('password', password);
-        formData.append('confirm', confirm);
-        formData.append('token', token);
+        const data = {
+            confirm: confirm,
+            password: password,
+            token: token
+        };
 
         try {
             // Requisição POST para o backend
             const response = await fetch(routes.reset_pass, {
                 method: 'POST',
-                body: formData,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+                credentials: 'include'
             });
 
             const data = await response.json();
