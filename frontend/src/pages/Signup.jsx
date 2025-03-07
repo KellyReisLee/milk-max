@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { config } from '../config';
 import img1 from '@/assets/logo-reduzida-azul.png';
-
+import img2 from '@/assets/loading.gif';
 
 function Signup() {
     const [email, setEmail] = useState('');
@@ -11,6 +11,7 @@ function Signup() {
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
     const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { routes } = config;
 
@@ -26,6 +27,8 @@ function Signup() {
             form.classList.add('was-validated');
             return;
         }
+
+        setLoading(true); // Mostra o ícone de carregamento
 
         // Dados do formulário
         const data = {
@@ -137,6 +140,11 @@ function Signup() {
                         <strong>REGISTRAR</strong>
                         </button>
                     </form>
+                    {loading && (
+                    <div id="loading">
+                        <img id="loadingimg" src={img2} alt="Carregando..." />
+                    </div>
+                    )}
                     {message && (
                     <div className="mt-3 message " id="extra">
                         <p>{message}</p>
