@@ -406,7 +406,7 @@ def forgot_password():
         
             # Enviar e-mail com link para redefinir senha
             token = serializer.dumps(email, salt='password-reset-salt')
-            reset_link = f"http://milkmax.com/reset_password/{token}" # link para front-end
+            reset_link = f"{backend_url}/reset_password/{token}" # link para front-end
             msg = Message('Redefinir sua senha', recipients=[email]) # título
             msg.body = f'Clique no link para redefinir sua senha: {reset_link}' # corpo da mensagem
             mail.send(msg)
@@ -529,7 +529,7 @@ def forgot_username():
             usr = rows[0][1]
 
             # Enviar e-mail com nome de usuário
-            login_link = f"http://milkmax.com/login" # link para login
+            login_link = f"{backend_url}/login" # link para login
             msg = Message('Seu nome de usuário', recipients=[email]) # título
             msg.body = f'Seu nome de usuário é: {usr}\n\nIr pra página de login: {login_link}' # corpo da mensagem
             mail.send(msg)
@@ -876,7 +876,7 @@ def relatorios():
                 cursor.execute(descrip_exists, (descrip_format, ))
                 exists = cursor.fetchone()[0]
 
-                # Criar tabela SQL, caso tabela não exista
+                # Criar tabela SQL, caso tabela não exista, ou substituir existente
                 if not exists:
                     descriptive.to_sql(descrip_format, con=engine, index=True, index_label="parâmetro", if_exists='replace')
 
