@@ -53,6 +53,8 @@ function Diario() {
         } catch (error) {
             console.error('Error:', error);
             setMessage('Erro ao buscar diário.');
+        } finally {
+            setLoading(false); // Esconde o ícone de carregamento
         }
     };
 
@@ -61,6 +63,8 @@ function Diario() {
         
         // Previne comportamento padrão de formulário ao recarregar a página
         e.preventDefault();
+
+        setLoading(true); // Mostra o ícone de carregamento
 
         const data2 = {
             registro: novoRegistro
@@ -220,6 +224,11 @@ function Diario() {
                     </form>
                 )}
             </div>
+            {loading && (
+            <div id="loading">
+                <img id="loadingimg" src={img2} alt="Carregando..." />
+            </div>
+            )}
 
             {message && (
                     <div className="message mt-3" id="extra">
