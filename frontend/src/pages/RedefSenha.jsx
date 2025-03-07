@@ -30,6 +30,8 @@ function RedefSenha() {
             token: token
         };
 
+        console.log("Token capturado:", token);
+
         try {
             // Requisição POST para o backend
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/reset_password/${token}`, {
