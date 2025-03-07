@@ -662,20 +662,12 @@ def diario():
 
     # Recuperar dados inputados
     data = request.get_json()
-    # Recuperar dados inputados
-    data = request.get_json()
 
     if not data:
         return jsonify({"success": False, "message": "Dados não recebidos"}), 400
-    
-    seletor = request.json.get("seletor")
-    if not data:
-        return jsonify({"success": False, "message": "Dados não recebidos"}), 400
-    
+
     seletor = request.json.get("seletor")
 
-    if not seletor:
-        return jsonify({"success": False, "message": "ID não fornecido"}), 400
     if not seletor:
         return jsonify({"success": False, "message": "ID não fornecido"}), 400
 
@@ -797,7 +789,7 @@ def registro():
             cursor.execute(query)
             dias = cursor.fetchall()
             colunas = [desc[0] for desc in cursor.description]
-            return jsonify({"success": True, "colunas": colunas, "dias": dias})
+            return json.dumps({"success": True, "colunas": colunas, "dias": dias}, default=str)
         
     except psycopg2.OperationalError as e:
         print("Erro na requisição /registro:", str(e))
