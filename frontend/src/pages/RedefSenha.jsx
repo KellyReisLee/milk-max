@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { config } from '../config';
 import img1 from '@/assets/logo-reduzida-azul.png';
+import img2 from '@/assets/loading.gif';
 
 function RedefSenha() {
     const { token } = useParams(); // Obtém o token passado na URL
@@ -23,6 +23,8 @@ function RedefSenha() {
             return;
         }
 
+        setLoading(true); // Mostra o ícone de carregamento
+
         // Dados do formulário
         const data = {
             confirm: confirm,
@@ -39,15 +41,18 @@ function RedefSenha() {
                 credentials: 'include'
             });
 
-            const data = await response.json();
-            
-            if (data.success) {
-                setMessage('Senha redefinida com sucesso.');
-                setTimeout(() => {
-                  navigate('/login'); // Redireciona para a página de login após 3 segundos
-                }, 3000);
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    setMessage(data.message);
+                    setTimeout(() => {
+                        navigate('/login'); // Redireciona para a página de login após 2 segundos
+                    }, 2000);
+                } else {
+                    setMessage(data.message); // Exibe mensagem de erro
+                }
             } else {
-                setMessage(data.message); // Exibe mensagem de erro
+                setMessage('Erro ao processar solicitação'); // Exibe mensagem de erro
             }
         } catch (error) {
             console.error('Error:', error);
@@ -97,6 +102,11 @@ function RedefSenha() {
                             <strong>REDEFINIR</strong>
                         </button>
                     </form>
+                    {loading && (
+                    <div id="loading">
+                        <img id="loadingimg" src={img2} alt="Carregando..." />
+                    </div>
+                    )}
                     {message && (
                     <div className="mt-3 message" id="extra">
                         <p>{message}</p>
