@@ -224,11 +224,6 @@ function Diario() {
                     </form>
                 )}
             </div>
-            {loading && (
-            <div id="loading">
-                <img id="loadingimg" src={img2} alt="Carregando..." />
-            </div>
-            )}
 
             {message && (
                     <div className="message mt-3" id="extra">
