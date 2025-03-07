@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { config } from '../config';
+import img2 from '@/assets/loading.gif';
 
 function Relatorios() {
     const [colunas, setColunas] = useState([]);
@@ -8,6 +9,7 @@ function Relatorios() {
     const [option, setOption] = useState('');
     const [selecaoVaca, setSelecaoVaca] = useState('');
     const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false);
     const { routes } = config;
 
     // Selecionar opção de visualização de relatórios
@@ -15,6 +17,8 @@ function Relatorios() {
         
         // Previne comportamento padrão de formulário ao recarregar a página
         e.preventDefault();
+
+        setLoading(true); // Mostra o ícone de carregamento
 
         const data = {
             option: option,
@@ -45,6 +49,8 @@ function Relatorios() {
         } catch (error) {
             console.error('Error:', error);
             setMessage('Erro ao gerar relatórios.');
+        } finally {
+            setLoading(false); // Esconde o ícone de carregamento
         }
     };
 
@@ -92,6 +98,11 @@ function Relatorios() {
                     <button className="btn btn-click" type="submit"> Ver relatórios </button>
                 </form>
             </div>
+            {loading && (
+            <div id="loading">
+                <img id="loadingimg" src={img2} alt="Carregando..." />
+            </div>
+            )}
 
             {/* Tabela de estatísticas */}
             <div className="container mt-5">
