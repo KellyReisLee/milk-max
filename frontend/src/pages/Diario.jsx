@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { config } from '../config';
+import img2 from '@/assets/loading.gif';
 
 function Diario() {
     const [colunas, setColunas] = useState([]);
@@ -14,6 +15,7 @@ function Diario() {
         leite_ph: ''
     });
     const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false);
     const { routes } = config;
 
     // Buscar dados do diário ao selecionar uma vaca
@@ -21,6 +23,8 @@ function Diario() {
         
         // Previne comportamento padrão de formulário ao recarregar a página
         e.preventDefault();
+
+        setLoading(true); // Mostra o ícone de carregamento
 
         const data = {
             seletor: selecaoVaca
@@ -117,6 +121,11 @@ function Diario() {
                     <button className="btn btn-click" type="submit"> Ver diário </button>
                 </form>
             </div>
+            {loading && (
+            <div id="loading">
+                <img id="loadingimg" src={img2} alt="Carregando..." />
+            </div>
+            )}
 
             {/* Tabela do diário */}
             <div className="container mt-5">
