@@ -38,8 +38,8 @@ COLAR CÓDIGO NO <head> DO HTML
 
  - OPEN SANS (GOOGLE FONTS) - CORPO DO TEXTO, PARÁGRAFOS, INFORMAÇÕES <head> DO HTML
 
-## Como usar localmente
-Se quiser acessar o site na web, ele está hospedado em um servidor gratuito, disponível no endereço: https://milkmax.onrender.com
+## Como usar
+Se quiser acessar o site na web, ele está hospedado em um servidor gratuito, disponível no endereço: https://milkmax.onrender.com.
 A primeira requisição pode demorar alguns instantes, pois o servidor estará inicializando.
 
 1. Abra o VSCode no seu computador.
