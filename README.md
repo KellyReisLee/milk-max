@@ -3,7 +3,7 @@
 ## Índice
 1. [Sobre o Projeto](#sobre-o-projeto)
 2. [Cores e Fontes](#cores-e-fontes)
-3. [Como Usar](#como-usar)
+3. [Como usar localmente](#como-usar)
 4. [Erro: Failed building wheel for msgspec](#erro)
 5. [Contribuições](#contribuições)
 6. [Licença](#licença)
@@ -39,6 +39,9 @@ COLAR CÓDIGO NO <head> DO HTML
  - OPEN SANS (GOOGLE FONTS) - CORPO DO TEXTO, PARÁGRAFOS, INFORMAÇÕES <head> DO HTML
 
 ## Como usar
+Se quiser acessar o site na web, ele está hospedado em um servidor gratuito, disponível no endereço: https://milkmax.onrender.com.
+A primeira requisição pode demorar alguns instantes, pois o servidor estará inicializando.
+
 1. Abra o VSCode no seu computador.
 Se ainda não instalado, instale em: https://code.visualstudio.com
 
