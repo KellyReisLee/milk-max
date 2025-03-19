@@ -70,7 +70,7 @@ engine = create_engine(url)
 #    user=db_user,
 #    password=db_password, # excluir caso senha não tenha sido configurada
 #    host=db_host,
-#    port='5432'
+#    port='5432',
 #    sslmode="require"  # Garante que a conexão use SSL
 #)
 #url = f'postgresql://{db_user}:{db_password}@{db_host}:5432/{db_name}'
