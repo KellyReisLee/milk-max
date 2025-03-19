@@ -73,13 +73,6 @@ engine = create_engine(url)
 #    port='5432'
 #    sslmode="require"  # Garante que a conexão use SSL
 #)
-#conn = psycopg2.connect(
-#    dbname=db_name,
-#    user=db_user,
-#    password=db_password,
-#    host=db_host,
-#    port='5432'
-#)
 #url = f'postgresql://{db_user}:{db_password}@{db_host}:5432/{db_name}'
 #engine = create_engine(url)
 
