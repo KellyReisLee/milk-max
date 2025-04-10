@@ -117,7 +117,7 @@ function Contato() {
                         <textarea
                             rows="5"
                             id="mensagem"
-                            placeholder="Mensagem"
+                            placeholder="    Mensagem"
                             name="mensagem"
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}

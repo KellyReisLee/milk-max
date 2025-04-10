@@ -53,7 +53,9 @@ function Navbar() {
                         <a className="nav-link text-light active" href="#prices">Preços</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link text-light active" href="#features">Contato</a>
+                        <Link className="nav-link text-light active" to="/contato">
+                            Contato
+                        </Link>
                     </li>
                     </ul>
                 )}
