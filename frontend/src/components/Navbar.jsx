@@ -44,13 +44,13 @@ function Navbar() {
                         <a className="nav-link text-light active" href="#features">Funcionalidades</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link text-light active" href="#features">Sobre</a>
+                        <a className="nav-link text-light active" href="#about">Sobre</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link text-light active" href="#features">Testemunhos</a>
+                        <a className="nav-link text-light active" href="#testimonials">Testemunhos</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link text-light active" href="#features">Preços</a>
+                        <a className="nav-link text-light active" href="#prices">Preços</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link text-light active" href="#features">Contato</a>
