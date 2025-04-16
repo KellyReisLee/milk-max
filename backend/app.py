@@ -885,83 +885,88 @@ def relatorios():
                 ## Descriptive analytics - univariate visualization
                 img_paths = []
                 for column in df.columns[1:]:
+
                     # Definindo comprimento das classes
-                    bins = 5
                     max_value = df[column].max()
                     min_value = df[column].min()
-                    try:
+
+                    # verificar se coluna é numérica ou categórica
+                    if isinstance(min_value, (int, float)):
+                        bins = 5
                         max_value = round(float(max_value), 2)
                         min_value = round(float(min_value), 2)
-                    except ValueError:
-                        print(f"Não foi possível converter valores para float na coluna {column}.")
-                        continue
-                    width = round((max_value - min_value) / bins, 2)
+                        width = round((max_value - min_value) / bins, 2)
 
-                    # Criando as classes por comprimento de intervalo
-                    classes = list()
-                    freq = [0] * bins
-                    start = min_value
-                    for i in range(bins):
-                        stop = round(start + width, 2)
-                        classes.append((start, stop))
-                        start = round(stop, 2)
+                        # Criando as classes por comprimento de intervalo
+                        classes = list()
+                        freq = [0] * bins
+                        start = min_value
+                        for i in range(bins):
+                            stop = round(start + width, 2)
+                            classes.append((start, stop))
+                            start = round(stop, 2)
 
-                    # Os breakpoints das classes
-                    bkps = [c[0] for c in classes] + [classes[-1][1]]
+                        # Os breakpoints das classes
+                        bkps = [c[0] for c in classes] + [classes[-1][1]]
 
-                    # Rótulos formatados com 1 casa decimal
-                    labels = [f"({round(bkps[i], 1)}, {round(bkps[i+1], 1)}]" for i in range(len(bkps)-1)]
+                        # Rótulos formatados com 1 casa decimal
+                        labels = [f"({round(bkps[i], 1)}, {round(bkps[i+1], 1)}]" for i in range(len(bkps)-1)]
 
-                    # Criação da base com todas as classes
-                    df_base = pd.DataFrame({'classe': labels, 'frequência': freq})
+                        # Criação da base com todas as classes
+                        df_base = pd.DataFrame({'classe': labels, 'frequência': freq})
 
-                    # regex para formatação
-                    df_base['classe'] = df_base['classe'].astype(str)
-                    df_base['classe'] = df_base['classe'].str.replace(r'\,', ' -', regex=True)
-                    df_base['classe'] = df_base['classe'].str.replace(r'[\(\]]', '', regex=True)
+                        # regex para formatação
+                        df_base['classe'] = df_base['classe'].astype(str)
+                        df_base['classe'] = df_base['classe'].str.replace(r'\,', ' -', regex=True)
+                        df_base['classe'] = df_base['classe'].str.replace(r'[\(\]]', '', regex=True)
 
-                    # Aplicar no pd.cut
-                    df['classe'] = pd.cut(df[column], bins=bkps, labels=labels, right=True, include_lowest=True)
+                        # Aplicar no pd.cut
+                        df['classe'] = pd.cut(df[column], bins=bkps, labels=labels, right=True, include_lowest=True)
 
-                    # Frequência real dos dados
-                    df_freq = df.copy()
-                    df_freq = df.groupby('classe', observed=True).size().reset_index(name='frequência')
-                    
-                    # regex para formatação
-                    df_freq['classe'] = df_freq['classe'].astype(str)
-                    df_freq['classe'] = df_freq['classe'].str.replace(r'\,', ' -', regex=True)
-                    df_freq['classe'] = df_freq['classe'].str.replace(r'[\(\]]', '', regex=True)
+                        # Frequência real dos dados
+                        df_freq = df.copy()
+                        df_freq = df.groupby('classe', observed=True).size().reset_index(name='frequência')
+                        
+                        # regex para formatação
+                        df_freq['classe'] = df_freq['classe'].astype(str)
+                        df_freq['classe'] = df_freq['classe'].str.replace(r'\,', ' -', regex=True)
+                        df_freq['classe'] = df_freq['classe'].str.replace(r'[\(\]]', '', regex=True)
 
-                    # Merge: a base com todas as classes à esquerda
-                    df_final = pd.merge(df_base, df_freq, on='classe', how='left', suffixes=('_base', ''))
+                        # Merge: a base com todas as classes à esquerda
+                        df_final = pd.merge(df_base, df_freq, on='classe', how='left', suffixes=('_base', ''))
 
-                    # Substitui NaN por 0 (onde não houve ocorrências)
-                    df_final['frequência'] = df_final['frequência'].fillna(0).astype(int)
-                    df_final.drop('frequência_base', axis=1, inplace=True)
-                    print(df_final)
+                        # Substitui NaN por 0 (onde não houve ocorrências)
+                        df_final['frequência'] = df_final['frequência'].fillna(0).astype(int)
+                        df_final.drop('frequência_base', axis=1, inplace=True)
 
-                    # Intervalos
-                    intervals = bkps
+                        # Intervalos
+                        intervals = bkps
 
-                    # Densidade de frequência e porcentagem
-                    freq = list(df_final['frequência'])
-                    n = len(df[column])
-                    densidade = [round(f / (n*(intervals[i + 1] - intervals[i])), 4) for i, f in enumerate(freq)]
-                    porc = [round(f/n*100, 2) for f in freq]
+                        # Densidade de frequência e porcentagem
+                        freq = list(df_final['frequência'])
+                        n = len(df[column])
+                        densidade = [round(f / (n*(intervals[i + 1] - intervals[i])), 4) for i, f in enumerate(freq)]
+                        porc = [round(f/n*100, 2) for f in freq]
 
-                    # representação em valores contínuos
-                    plt.bar(intervals[:-1], densidade, align='edge',
-                            width=[intervals[i+1] - intervals[i] for i in range(len(intervals) - 1)],
-                            color='#1051AB', alpha=0.9, edgecolor='black')
-                    plt.xlabel(column)
-                    plt.ylabel('Densidade de Frequência')
-                    plt.title(column)
-                    plt.xticks(intervals)
-                    plt.ylim(0, max(densidade) + 0.1*max(densidade))
-                    plt.xlim(min_value - width, intervals[-1] + width)
-                    for i, p in enumerate(porc):
-                        plt.text(intervals[i] + width/2, densidade[i] + 0.02*densidade[i], f'{round(p)}%', ha='center', fontsize=10)
-                    plt.show()
+                        # representação em valores contínuos
+                        plt.bar(intervals[:-1], densidade, align='edge',
+                                width=[intervals[i+1] - intervals[i] for i in range(len(intervals) - 1)],
+                                color='#1051AB', alpha=0.9, edgecolor='black')
+                        plt.xlabel(column)
+                        plt.ylabel('Densidade de Frequência')
+                        plt.title(column)
+                        plt.xticks(intervals)
+                        plt.ylim(0, max(densidade) + 0.1*max(densidade))
+                        plt.xlim(min_value - width, intervals[-1] + width)
+                        for i, p in enumerate(porc):
+                            plt.text(intervals[i] + width/2, densidade[i] + 0.02*densidade[i], f'{round(p)}%', ha='center', fontsize=10)
+                        plt.show()
+
+                    else:
+                        sns.histplot(df[column], bins=30, kde=False, color='#1051AB', alpha=0.9, edgecolor='black')
+                        plt.title(column)
+                        plt.show()
+
                     # Salvar a imagem em memória com BytesIO
                     img_io = io.BytesIO()
                     plt.savefig(img_io, format='png')
