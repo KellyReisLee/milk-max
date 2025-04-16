@@ -658,3 +658,18 @@ input::placeholder {
     color: #4d4b4b;
     text-shadow: #1051AB;
 }
+
+.graph {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px; /* espaçamento entre os gráficos */
+}
+
+.graph img {
+    max-width: 45%; /* ajusta a largura para caber dois por linha */
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+  
