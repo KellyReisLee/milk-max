@@ -860,18 +860,9 @@ def relatorios():
 
                 # Verificar se tabela SQL já existe
                 descrip_format = f'descriptive_vaca{id}_{session["username"]}'
-                descrip_exists = sql.SQL('''
-                SELECT EXISTS (
-                SELECT 1 FROM information_schema.tables
-                WHERE table_schema = 'public'
-                AND table_name = (%s)                         
-                )''')
-                cursor.execute(descrip_exists, (descrip_format, ))
-                exists = cursor.fetchone()[0]
 
                 # Criar tabela SQL, caso tabela não exista, ou substituir existente
-                if not exists:
-                    descriptive.to_sql(descrip_format, con=engine, index=True, index_label="parâmetro", if_exists='replace')
+                descriptive.to_sql(descrip_format, con=engine, index=True, index_label="parâmetro", if_exists='replace')
 
                 # Retornar consulta na tabela
                 query_descrip = sql.SQL('''
