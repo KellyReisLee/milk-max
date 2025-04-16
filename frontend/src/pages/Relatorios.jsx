@@ -40,15 +40,25 @@ function Relatorios() {
                     setColunas(data.colunas);
                     setLinhas(data.linhas);
                     setImgPaths(data.img_paths);
+                    setMessage(data.message);
                 } else {
                     setMessage(data.message);
+                    setColunas([]);
+                    setLinhas([]);
+                    setImgPaths([]);
                 }
             } else {
                 setMessage('Erro ao gerar relatórios.');
+                setColunas([]);
+                setLinhas([]);
+                setImgPaths([]);
             }
         } catch (error) {
             console.error('Error:', error);
             setMessage('Erro ao gerar relatórios.');
+            setColunas([]);
+            setLinhas([]);
+            setImgPaths([]);
         } finally {
             setLoading(false); // Esconde o ícone de carregamento
         }
@@ -80,7 +90,9 @@ function Relatorios() {
                             name="select"
                             value="select"
                             className="input-radio"
-                            onChange={(e) => setOption(e.target.value)}
+                            onChange={(e) => {
+                                setOption(e.target.value);
+                            }}
                         />
                         Selecionar vaca
                     </label>
@@ -102,6 +114,13 @@ function Relatorios() {
             <div id="loading">
                 <img id="loadingimg" src={img2} alt="Carregando..." />
             </div>
+            )}
+
+            {/* Escolha do usuário */}
+            {message && (
+                <div className="container mt-5">
+                    <h3 className="text-center mb-4"><strong>{message}</strong></h3>
+                </div>
             )}
 
             {/* Tabela de estatísticas */}
@@ -132,12 +151,6 @@ function Relatorios() {
                     <img key={index} src={img} alt={`Gráfico ${index + 1}`} />
                 ))}
             </div>
-
-            {message && (
-                    <div className="mt-3 message" id="extra">
-                        <p>{message}</p>
-                    </div>
-            )}
         </div>
     );
 }
