@@ -979,12 +979,14 @@ def relatorios():
                     plt.close()  # Fechar o gráfico
                 # Armazenar os gráficos na sessão
                 session['img_paths'] = img_paths
+                message = f'Vaca {select}'
                 return jsonify({
                         "success": True,
                         "colunas": colunas,
                         "linhas": linhas,
                         "count": count,
-                        "img_paths": session["img_paths"]
+                        "img_paths": session["img_paths"],
+                        "message": message
                     })
         except psycopg2.OperationalError as e:
             print("Erro na requisição /relatorios:", str(e))
