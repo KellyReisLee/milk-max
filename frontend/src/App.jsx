@@ -1,16 +1,15 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'; 
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
 import Contato from './pages/Contato';
 import Diario from './pages/Diario';
 import Home from './pages/Home';
-import Login from './pages/Login';
+import Login from './pages/Login/Login';
 import Relatorios from './pages/Relatorios';
 import Signup from './pages/Signup';
 import Vacas from './pages/Vacas';
 import ForgotPassword from './pages/ForgotPassword';
 import RedefSenha from './pages/RedefSenha';
 import ForgotUsername from './pages/ForgotUsername';
-
 import Layout from './components/Layout';
 
 function App() {
@@ -35,4 +34,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
