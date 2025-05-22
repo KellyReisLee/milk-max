@@ -1010,6 +1010,7 @@ def relatorios():
                 return jsonify({"success": False, "message": "Erro ao conectar ao banco de dados"}), 500
             with conn.cursor() as cursor:
                 all_descriptives = []
+                all_data = []  # List to store all data for visualization
 
                 # Averiguar ids das vacas cadastradas
                 query = sql.SQL('''
@@ -1048,6 +1049,7 @@ def relatorios():
                             continue
                         # Missing values
                         df = df.fillna(0)
+                        all_data.append(df)  # Store the data for visualization
 
                         ## Descriptive analytics - statistics
                         descriptive = df.describe()
@@ -1065,8 +1067,17 @@ def relatorios():
                 # Tira a média de todas as tabelas
                 if not all_descriptives:
                     return jsonify({"success": False, "message": "Nenhuma vaca possui registros"}), 400
-                combined = pd.concat(all_descriptives)
-                grouped = combined.groupby(combined.index).mean().round(2)
+                
+                # Combine all data for visualization
+                combined_df = pd.concat(all_data, ignore_index=True)
+                
+                # Calculate descriptive statistics on the combined data
+                grouped = combined_df.describe().round(2)
+                grouped = grouped.drop('count')
+                
+                # Reorder rows to match individual cow tables
+                row_order = ['mean', 'std', 'min', '25%', '50%', '75%', 'max']
+                grouped = grouped.reindex(row_order)
 
                 # Salva como tabela descritiva geral
                 descrip_all = f'descriptive_all_{session["username"]}'
@@ -1082,17 +1093,14 @@ def relatorios():
 
                 ## Descriptive analytics - univariate visualization
                 img_paths = []
-                for column in df.columns[1:]:
-
-                    # Definindo comprimento das classes
-                    max_value = df[column].max()
-                    min_value = df[column].min()
+                for column in combined_df.columns[1:]:
+                    plt.figure(figsize=(10, 6))
 
                     # verificar se coluna é numérica ou categórica
-                    if isinstance(min_value, (int, float)):
+                    if isinstance(combined_df[column].iloc[0], (int, float)):
                         bins = 5
-                        max_value = round(float(max_value), 2)
-                        min_value = round(float(min_value), 2)
+                        max_value = round(float(combined_df[column].max()), 2)
+                        min_value = round(float(combined_df[column].min()), 2)
                         width = round((max_value - min_value) / bins, 2)
 
                         # Criando as classes por comprimento de intervalo
@@ -1119,11 +1127,10 @@ def relatorios():
                         df_base['classe'] = df_base['classe'].str.replace(r'[\(\]]', '', regex=True)
 
                         # Aplicar no pd.cut
-                        df['classe'] = pd.cut(df[column], bins=bkps, labels=labels, right=True, include_lowest=True)
+                        combined_df['classe'] = pd.cut(combined_df[column], bins=bkps, labels=labels, right=True, include_lowest=True)
 
                         # Frequência real dos dados
-                        df_freq = df.copy()
-                        df_freq = df.groupby('classe', observed=True).size().reset_index(name='frequência')
+                        df_freq = combined_df.groupby('classe', observed=True).size().reset_index(name='frequência')
                         
                         # regex para formatação
                         df_freq['classe'] = df_freq['classe'].astype(str)
@@ -1142,7 +1149,7 @@ def relatorios():
 
                         # Densidade de frequência e porcentagem
                         freq = list(df_final['frequência'])
-                        n = len(df[column])
+                        n = len(combined_df[column])
                         densidade = [round(f / (n*(intervals[i + 1] - intervals[i])), 4) for i, f in enumerate(freq)]
                         porc = [round(f/n*100, 2) for f in freq]
 
@@ -1152,50 +1159,47 @@ def relatorios():
                                 color='#1051AB', alpha=0.9, edgecolor='black')
                         plt.xlabel(column)
                         plt.ylabel('Densidade de Frequência')
-                        plt.title(column)
+                        plt.title(f'Média de {column} - Todas as Vacas')
                         plt.xticks(intervals)
                         plt.ylim(0, max(densidade) + 0.1*max(densidade))
                         plt.xlim(min_value - width, intervals[-1] + width)
                         for i, p in enumerate(porc):
                             plt.text(intervals[i] + width/2, densidade[i] + 0.02*densidade[i], f'{round(p)}%', ha='center', fontsize=10)
-                        plt.show()
 
                     else:
                         # Garantir que a coluna está tratada como string e sem valores ausentes
-                        df[column] = df[column].astype(str).str.strip().fillna("Desconhecido")
+                        combined_df[column] = combined_df[column].astype(str).str.strip().fillna("Desconhecido")
 
-                        # Ordenar categorias por frequência (opcional, mas melhora leitura)
-                        ordem = df[column].value_counts().index
+                        # Ordenar categorias por frequência
+                        ordem = combined_df[column].value_counts().index
 
                         # Plotagem com barras categóricas
-                        plt.figure(figsize=(8, 5))
-                        sns.countplot(data=df, x=column, order=ordem, color='#1051AB', edgecolor='black')
-                        plt.title(column)
+                        sns.countplot(data=combined_df, x=column, order=ordem, color='#1051AB', edgecolor='black')
+                        plt.title(f'Distribuição de {column} - Todas as Vacas')
                         plt.xlabel(column)
                         plt.ylabel('Frequência')
                         plt.xticks(rotation=45)
                         plt.tight_layout()
-                        plt.show()
-
 
                     # Salvar a imagem em memória com BytesIO
                     img_io = io.BytesIO()
-                    plt.savefig(img_io, format='png')
-                    img_io.seek(0)  # Voltar para o início do arquivo
+                    plt.savefig(img_io, format='png', bbox_inches='tight')
+                    img_io.seek(0)
                     
-                    # Converter para base64 para poder renderizar na página HTML
+                    # Converter para base64
                     img_data = base64.b64encode(img_io.getvalue()).decode('utf-8')
                     img_paths.append(f"data:image/png;base64,{img_data}")
                     
-                    plt.close()  # Fechar o gráfico
+                    plt.close()
+
                 # Armazenar os gráficos na sessão
                 session['img_paths'] = img_paths
-                message = f'Vaca {select}'
+                message = 'Média de todas as vacas'
                 return jsonify({
                         "success": True,
                         "colunas": colunas,
                         "linhas": linhas,
-                        "count": count,
+                        "count": len(combined_df),
                         "img_paths": session["img_paths"],
                         "message": message
                     })
