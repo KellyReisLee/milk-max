@@ -1,11 +1,22 @@
 import styled from 'styled-components';
 
+// Estilos do wrapper (pode ser reutilizado em outras páginas)
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 60vh;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+`;
+
+// Estilos específicos da página de Login
 export const LoginContainer = styled.div`
   display: flex;
   margin: 10px;
 `;
 
-export const LoginImage = styled.div`
+export const LoginImg = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,25 +27,14 @@ export const LoginImage = styled.div`
     height: 450px;
     width: 400px;
   }
-
-  @media (max-width: 991px) {
-    width: 100%;
-    max-width: 150px;
-    height: auto;
-    margin-bottom: 20px;
-  }
 `;
 
-export const Divider = styled.div`
+export const Divisor = styled.div`
   margin: 0;
   padding: 0;
   width: 1px;
   height: 500px;
   background-color: #e0e0e0;
-
-  @media (max-width: 991px) {
-    display: none;
-  }
 `;
 
 export const FormContainer = styled.div`
@@ -48,15 +48,9 @@ export const FormContainer = styled.div`
   p {
     margin-top: 5px;
   }
-
-  @media (max-width: 991px) {
-    width: 100%;
-    max-width: 90%;
-    height: 280px;
-  }
 `;
 
-export const Title = styled.h2`
+export const TitleForm = styled.h2`
   display: flex;
   justify-content: center;
   margin-top: 25px;
@@ -86,24 +80,19 @@ export const FormGroup = styled.div`
   }
 `;
 
-export const Input = styled.input`
+export const FormInput = styled.input`
   width: 400px;
   height: 40px;
   border: 1.5px solid #b4b5b7;
   border-radius: 5px;
-  padding: 0.375rem 0.75rem;
+  padding: .375rem .75rem;
 
   &::placeholder {
     padding-left: 5px;
   }
-
-  @media (max-width: 991px) {
-    width: 100%;
-    max-width: 90%;
-  }
 `;
 
-export const SubmitButton = styled.button`
+export const FormButton = styled.button`
   width: 400px;
   height: 45px;
   border: none;
@@ -113,44 +102,12 @@ export const SubmitButton = styled.button`
   transition: transform 0.3s ease;
 
   &:hover {
-    transform: scale(1.03);
     background-color: #5279ae;
-  }
-
-  @media (max-width: 991px) {
-    width: 100%;
-    max-width: 90%;
+    transform: scale(1.03);
   }
 `;
 
-export const ForgotLinks = styled.div`
-  text-align: center;
-  margin: 1rem 0;
-
-  p {
-    margin: 1rem 0 0.5rem;
-    color: #6c757d;
-  }
-
-  a {
-    color: #6c757d;
-    text-decoration: none;
-    margin: 0 0.5rem;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-`;
-
-export const LoadingContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 1rem;
-`;
-
-export const LoadingImage = styled.img`
+export const LoadingImg = styled.img`
   height: 100px;
   width: 100px;
 `;
@@ -161,9 +118,44 @@ export const Message = styled.div`
   margin-top: 1rem;
 `;
 
-export const ErrorText = styled.span`
-  color: #dc3545;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-  display: block;
+// Media queries para telas pequenas e médias
+export const MediaQueries = styled.div`
+  @media (max-width: 991px) {
+    ${LoginContainer} {
+      flex-direction: column;
+      align-items: center;
+      margin: 20px;
+    }
+
+    ${LoginImg} {
+      width: 100%;
+      max-width: 150px;
+      height: auto;
+      margin-bottom: 20px;
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    ${FormContainer} {
+      width: 100%;
+      max-width: 90%;
+      height: 280px;
+    }
+
+    ${Divisor} {
+      display: none;
+    }
+
+    ${FormInput}, ${FormButton} {
+      width: 100%;
+      max-width: 90%;
+    }
+
+    ${FormContainer} p {
+      text-align: center;
+    }
+  }
 `; 
