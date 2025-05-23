@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { config } from '../config';
 import img2 from '@/assets/loading.gif';
 
@@ -16,22 +16,18 @@ function Diario() {
     });
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
-    const { routes } = config;
+    const { routes, backendUrl } = config;
 
     // Buscar dados do diário ao selecionar uma vaca
     const handleSelecionarVaca = async (e) => {
-        
-        // Previne comportamento padrão de formulário ao recarregar a página
         e.preventDefault();
-
-        setLoading(true); // Mostra o ícone de carregamento
+        setLoading(true);
 
         const data = {
             seletor: selecaoVaca
         };
 
         try {
-            // Requisição POST para o backend
             const response = await fetch(routes.diario, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -54,25 +50,22 @@ function Diario() {
             console.error('Error:', error);
             setMessage('Erro ao buscar diário.');
         } finally {
-            setLoading(false); // Esconde o ícone de carregamento
+            setLoading(false);
         }
     };
 
     // Adicionar novo registro no diário
     const handleAdicionarRegistro = async (e) => {
-        
-        // Previne comportamento padrão de formulário ao recarregar a página
         e.preventDefault();
+        setLoading(true);
 
-        setLoading(true); // Mostra o ícone de carregamento
-
+        const registroUrl = `${backendUrl}/registro`;
         const data2 = {
             registro: novoRegistro
         };
 
         try {
-            // Requisição POST para o backend
-            const response = await fetch(routes.registro, {
+            const response = await fetch(registroUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data2),
@@ -82,7 +75,6 @@ function Diario() {
             if (response.ok) {
                 const data = await response.json();
                 if (data.success) {
-                    // Atualizar tabela com os dados retornados
                     setColunas(data.colunas);
                     setDias(data.dias);
                     setNovoRegistro({
@@ -95,16 +87,17 @@ function Diario() {
                     });
                     setMessage('');
                 } else {
-                    setMessage(data.message);
+                    setMessage(data.message || 'Erro ao processar resposta do servidor');
                 }
             } else {
-                setMessage('Erro ao adicionar registro.');
+                const errorData = await response.json().catch(() => null);
+                setMessage(errorData?.message || `Erro ao adicionar registro (${response.status})`);
             }
         } catch (error) {
             console.error('Error:', error);
-            setMessage('Erro ao adicionar registro.');
+            setMessage(`Erro na requisição: ${error.message}`);
         } finally {
-            setLoading(false); // Esconde o ícone de carregamento
+            setLoading(false);
         }
     };
 

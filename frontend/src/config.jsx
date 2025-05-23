@@ -1,16 +1,20 @@
+const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://127.0.0.1:5000';
+
+const routes = {
+    contato: `${backendUrl}/contato`,
+    login: `${backendUrl}/login`,
+    diario: `${backendUrl}/diario`,
+    forgot_pass: `${backendUrl}/forgot/password`,
+    forgot_user: `${backendUrl}/forgot/username`,
+    relatorios: `${backendUrl}/relatorios`,
+    signup: `${backendUrl}/signup`,
+    vacas: `${backendUrl}/vacas`,
+    cadastro: `${backendUrl}/cadastro`,
+    registro: `${backendUrl}/registro`,
+};
+
 export const config = {
-    backendUrl: import.meta.env.VITE_BACKEND_URL,
-    routes: {
-      contato: `${import.meta.env.VITE_BACKEND_URL}/contato`,
-      login: `${import.meta.env.VITE_BACKEND_URL}/login`,
-      diario: `${import.meta.env.VITE_BACKEND_URL}/diario`,
-      forgot_pass: `${import.meta.env.VITE_BACKEND_URL}/forgot/password`,
-      forgot_user: `${import.meta.env.VITE_BACKEND_URL}/forgot/username`,
-      relatorios: `${import.meta.env.VITE_BACKEND_URL}/relatorios`,
-      signup: `${import.meta.env.VITE_BACKEND_URL}/signup`,
-      vacas: `${import.meta.env.VITE_BACKEND_URL}/vacas`,
-      cadastro: `${import.meta.env.VITE_BACKEND_URL}/cadastro`,
-      registro: `${import.meta.env.VITE_BACKEND_URL}/registro`,
-    },
-  };
+    backendUrl,
+    routes
+};
 

@@ -907,12 +907,15 @@ def relatorios():
 
                         # Os breakpoints das classes
                         bkps = [c[0] for c in classes] + [classes[-1][1]]
-
+                        
+                        # Remove duplicate bin edges
+                        bkps = sorted(set(bkps))
+                        
                         # Rótulos formatados com 1 casa decimal
                         labels = [f"({round(bkps[i], 1)}, {round(bkps[i+1], 1)}]" for i in range(len(bkps)-1)]
 
                         # Criação da base com todas as classes
-                        df_base = pd.DataFrame({'classe': labels, 'frequência': freq})
+                        df_base = pd.DataFrame({'classe': labels, 'frequência': [0] * len(labels)})
 
                         # regex para formatação
                         df_base['classe'] = df_base['classe'].astype(str)
@@ -920,10 +923,9 @@ def relatorios():
                         df_base['classe'] = df_base['classe'].str.replace(r'[\(\]]', '', regex=True)
 
                         # Aplicar no pd.cut
-                        df['classe'] = pd.cut(df[column], bins=bkps, labels=labels, right=True, include_lowest=True)
+                        df['classe'] = pd.cut(df[column], bins=bkps, labels=labels, right=True, include_lowest=True, ordered=False)
 
                         # Frequência real dos dados
-                        df_freq = df.copy()
                         df_freq = df.groupby('classe', observed=True).size().reset_index(name='frequência')
                         
                         # regex para formatação
@@ -946,6 +948,11 @@ def relatorios():
                         n = len(df[column])
                         densidade = [round(f / (n*(intervals[i + 1] - intervals[i])), 4) for i, f in enumerate(freq)]
                         porc = [round(f/n*100, 2) for f in freq]
+
+                        # Skip plotting if no data
+                        if not densidade or max(densidade) == 0:
+                            plt.close()
+                            continue
 
                         # representação em valores contínuos
                         plt.bar(intervals[:-1], densidade, align='edge',
@@ -1114,12 +1121,15 @@ def relatorios():
 
                         # Os breakpoints das classes
                         bkps = [c[0] for c in classes] + [classes[-1][1]]
-
+                        
+                        # Remove duplicate bin edges
+                        bkps = sorted(set(bkps))
+                        
                         # Rótulos formatados com 1 casa decimal
                         labels = [f"({round(bkps[i], 1)}, {round(bkps[i+1], 1)}]" for i in range(len(bkps)-1)]
 
                         # Criação da base com todas as classes
-                        df_base = pd.DataFrame({'classe': labels, 'frequência': freq})
+                        df_base = pd.DataFrame({'classe': labels, 'frequência': [0] * len(labels)})
 
                         # regex para formatação
                         df_base['classe'] = df_base['classe'].astype(str)
@@ -1127,7 +1137,7 @@ def relatorios():
                         df_base['classe'] = df_base['classe'].str.replace(r'[\(\]]', '', regex=True)
 
                         # Aplicar no pd.cut
-                        combined_df['classe'] = pd.cut(combined_df[column], bins=bkps, labels=labels, right=True, include_lowest=True)
+                        combined_df['classe'] = pd.cut(combined_df[column], bins=bkps, labels=labels, right=True, include_lowest=True, ordered=False)
 
                         # Frequência real dos dados
                         df_freq = combined_df.groupby('classe', observed=True).size().reset_index(name='frequência')
@@ -1153,6 +1163,11 @@ def relatorios():
                         densidade = [round(f / (n*(intervals[i + 1] - intervals[i])), 4) for i, f in enumerate(freq)]
                         porc = [round(f/n*100, 2) for f in freq]
 
+                        # Skip plotting if no data
+                        if not densidade or max(densidade) == 0:
+                            plt.close()
+                            continue
+
                         # representação em valores contínuos
                         plt.bar(intervals[:-1], densidade, align='edge',
                                 width=[intervals[i+1] - intervals[i] for i in range(len(intervals) - 1)],
@@ -1176,7 +1191,7 @@ def relatorios():
 
                         # Plotagem com barras categóricas
                         plt.figure(figsize=(10, 6))
-                        sns.countplot(data=combined_df, x=column, order=ordem, color='#1051AB', edgecolor='black')
+                        sns.countplot(data=combined_df, x=column, order=ordem, color='#1051AB', edgecolor='black', duplicates='drop')
                         plt.title(f'Distribuição de {column} - Todas as Vacas')
                         plt.xlabel(column)
                         plt.ylabel('Frequência')
