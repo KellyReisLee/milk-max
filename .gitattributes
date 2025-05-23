@@ -1,1 +1,2 @@
 *.so filter=lfs diff=lfs merge=lfs -text
+.venv/lib/python3.11/site-packages/PyQt5/Qt5/lib/libQt5WebEngineCore.so.5 filter=lfs diff=lfs merge=lfs -text
