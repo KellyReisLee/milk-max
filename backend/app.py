@@ -1168,12 +1168,14 @@ def relatorios():
 
                     else:
                         # Garantir que a coluna está tratada como string e sem valores ausentes
-                        combined_df[column] = combined_df[column].astype(str).str.strip().fillna("Desconhecido")
-
+                        # Standardize categorical values: strip whitespace, convert to lowercase
+                        combined_df[column] = combined_df[column].astype(str).str.strip().str.lower().fillna("desconhecido")
+                        
                         # Ordenar categorias por frequência
                         ordem = combined_df[column].value_counts().index
 
                         # Plotagem com barras categóricas
+                        plt.figure(figsize=(10, 6))
                         sns.countplot(data=combined_df, x=column, order=ordem, color='#1051AB', edgecolor='black')
                         plt.title(f'Distribuição de {column} - Todas as Vacas')
                         plt.xlabel(column)
