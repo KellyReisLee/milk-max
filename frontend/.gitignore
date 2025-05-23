@@ -29,4 +29,6 @@ backend/__pycache__/
 *.env
 backend/flask_session/
 backend/.env
+.venv/
+
 
