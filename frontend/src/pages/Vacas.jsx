@@ -12,6 +12,28 @@ function Vacas() {
     const [message, setMessage] = useState('');
     const { routes } = config;
 
+    // Função para calcular idade em anos e meses
+    const calculateAge = (birthDate) => {
+        const today = new Date();
+        const birth = new Date(birthDate);
+        
+        let years = today.getFullYear() - birth.getFullYear();
+        let months = today.getMonth() - birth.getMonth();
+        
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+        
+        if (years === 0) {
+            return `${months} ${months === 1 ? 'mês' : 'meses'}`;
+        } else if (months === 0) {
+            return `${years} ${years === 1 ? 'ano' : 'anos'}`;
+        } else {
+            return `${years} ${years === 1 ? 'ano' : 'anos'} e ${months} ${months === 1 ? 'mês' : 'meses'}`;
+        }
+    };
+
     // Buscar dados das vacas ao carregar o componente
     useEffect(() => {
         fetchVacas();
@@ -27,8 +49,12 @@ function Vacas() {
             if (response.ok) {
                 const data = await response.json();
                 if (data.success) {
-                setColunas(data.colunas);
-                setVacas(data.vacas);
+                    // Modificar as colunas para mostrar "Idade" em vez de "Nascimento"
+                    const modifiedColunas = data.colunas.map(col => 
+                        col === 'nasc' ? 'idade' : col
+                    );
+                    setColunas(modifiedColunas);
+                    setVacas(data.vacas);
                 } else {
                     setMessage(data.message);
                 }
@@ -98,13 +124,20 @@ function Vacas() {
                     <tbody>
                     {vacas.map((linha, index) => (
                         <tr key={index}>
-                            {linha.map((item, idx) => (
-                                <td key={idx}>
-                                    {typeof item === "string" && item.match(/^\d{4}-\d{2}-\d{2}$/)
-                                        ? item.split("-").reverse().join("/")
-                                        : item}
-                                </td>
-                            ))}
+                            {linha.map((item, idx) => {
+                                // Se for a coluna de nascimento (nasc), mostrar a idade
+                                if (colunas[idx] === 'idade') {
+                                    return <td key={idx}>{calculateAge(item)}</td>;
+                                }
+                                // Para outras colunas, manter o comportamento atual
+                                return (
+                                    <td key={idx}>
+                                        {typeof item === "string" && item.match(/^\d{4}-\d{2}-\d{2}$/)
+                                            ? item.split("-").reverse().join("/")
+                                            : item}
+                                    </td>
+                                );
+                            })}
                         </tr>
                     ))}
                     </tbody>
