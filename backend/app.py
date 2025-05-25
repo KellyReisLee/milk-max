@@ -1241,11 +1241,15 @@ def relatorios():
                                 plt.ylabel('Densidade de Frequência')
                                 plt.ylim(0, 110)  # Add some padding above 100%
                                 
-                                # Save the plot
-                                img_path = f'static/graphs/{column}_{session["username"]}.png'
-                                plt.savefig(img_path)
+                                # Save the plot to memory
+                                img_io = io.BytesIO()
+                                plt.savefig(img_io, format='png', bbox_inches='tight')
+                                img_io.seek(0)
+
+                                # Convert to base64
+                                img_data = base64.b64encode(img_io.getvalue()).decode('utf-8')
+                                img_paths.append(f"data:image/png;base64,{img_data}")
                                 plt.close()
-                                img_paths.append(img_path)
                                 continue
                             
                             densidade = [round(f / (n*(intervals[i + 1] - intervals[i])), 4) for i, f in enumerate(freq)]
@@ -1269,6 +1273,16 @@ def relatorios():
                             plt.xlim(min_value - width, intervals[-1] + width)
                             for i, p in enumerate(porc):
                                 plt.text(intervals[i] + width/2, densidade[i] + 0.02*densidade[i], f'{round(p)}%', ha='center', fontsize=10)
+
+                            # Save the plot to memory
+                            img_io = io.BytesIO()
+                            plt.savefig(img_io, format='png', bbox_inches='tight')
+                            img_io.seek(0)
+
+                            # Convert to base64
+                            img_data = base64.b64encode(img_io.getvalue()).decode('utf-8')
+                            img_paths.append(f"data:image/png;base64,{img_data}")
+                            plt.close()
 
                         else:
                             print(f"Processing categorical column: {column}")
