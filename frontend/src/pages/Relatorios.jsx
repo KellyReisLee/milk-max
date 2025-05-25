@@ -147,9 +147,12 @@ function Relatorios() {
 
             {/* Gráficos */}
             <div className="container mt-5 graph">
-                {imgPaths.map((img, index) => (
-                    <img key={index} src={img} alt={`Gráfico ${index + 1}`} />
-                ))}
+                {imgPaths.map((img, index) => {
+                    const imgSrc = img.startsWith('data:image/png;base64,') ? img : `${config.backendUrl}/${img}`;
+                    return (
+                        <img key={index} src={imgSrc} alt={`Gráfico ${index + 1}`} />
+                    );
+                })}
             </div>
         </div>
     );

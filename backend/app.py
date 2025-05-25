@@ -101,6 +101,11 @@ CORS(app, supports_credentials=True, resources={r"/*": {"origins": ["http://loca
 # Importante para gerenciar sessões (session)
 app.config['SECRET_KEY'] = key
 
+# Create static/graphs directory if it doesn't exist
+static_graphs_dir = os.path.join(os.path.dirname(__file__), 'static', 'graphs')
+if not os.path.exists(static_graphs_dir):
+    os.makedirs(static_graphs_dir)
+
 # Configurar integração com front-end React
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
@@ -946,11 +951,36 @@ def relatorios():
                         # Densidade de frequência e porcentagem
                         freq = list(df_final['frequência'])
                         n = len(df[column])
+                        
+                        # Check if all values are the same
+                        if len(set(df[column])) == 1:
+                            # Create a single bar with 100% frequency
+                            value = df[column].iloc[0]
+                            plt.figure(figsize=(10, 6))
+                            plt.bar([str(round(value, 2))], [100], width=0.5, color='#1051AB', alpha=0.9, edgecolor='black')
+                            plt.title(column)
+                            plt.xlabel(column)
+                            plt.ylabel('Densidade de Frequência')
+                            plt.ylim(0, 110)  # Add some padding above 100%
+                            
+                            # Save the plot
+                            img_io = io.BytesIO()
+                            plt.savefig(img_io, format='png', bbox_inches='tight')
+                            img_io.seek(0)
+
+                            # Converter para base64
+                            img_data = base64.b64encode(img_io.getvalue()).decode('utf-8')
+                            img_paths.append(f"data:image/png;base64,{img_data}")
+
+                            plt.close()
+                            continue
+                        
                         densidade = [round(f / (n*(intervals[i + 1] - intervals[i])), 4) for i, f in enumerate(freq)]
                         porc = [round(f/n*100, 2) for f in freq]
 
                         # Skip plotting if no data
                         if not densidade or max(densidade) == 0:
+                            print(f"No data to plot for column {column}")
                             plt.close()
                             continue
 
@@ -966,23 +996,47 @@ def relatorios():
                         plt.xlim(min_value - width, intervals[-1] + width)
                         for i, p in enumerate(porc):
                             plt.text(intervals[i] + width/2, densidade[i] + 0.02*densidade[i], f'{round(p)}%', ha='center', fontsize=10)
-                        plt.show()
+
+                        # Salvar a imagem em memória com BytesIO
+                        img_io = io.BytesIO()
+                        plt.savefig(img_io, format='png', bbox_inches='tight')
+                        img_io.seek(0)  # Voltar para o início do arquivo
+
+                        # Converter para base64 para poder renderizar na página HTML
+                        img_data = base64.b64encode(img_io.getvalue()).decode('utf-8')
+                        img_paths.append(f"data:image/png;base64,{img_data}")
+
+                        plt.close()  # Fechar o gráfico
 
                     else:
-                        sns.histplot(df[column], bins=30, kde=False, color='#1051AB', alpha=0.9, edgecolor='black')
-                        plt.title(column)
-                        plt.show()
+                        print(f"Processing categorical column: {column}")
+                        # Garantir que a coluna está tratada como string e sem valores ausentes
+                        # Standardize categorical values: strip whitespace, convert to lowercase
+                        df[column] = df[column].astype(str).str.strip().str.lower().fillna("desconhecido")
+                        
+                        # Ordenar categorias por frequência e remover duplicatas
+                        value_counts = df[column].value_counts()
+                        ordem = value_counts.index
 
-                    # Salvar a imagem em memória com BytesIO
-                    img_io = io.BytesIO()
-                    plt.savefig(img_io, format='png')
-                    img_io.seek(0)  # Voltar para o início do arquivo
-                    
-                    # Converter para base64 para poder renderizar na página HTML
-                    img_data = base64.b64encode(img_io.getvalue()).decode('utf-8')
-                    img_paths.append(f"data:image/png;base64,{img_data}")
-                    
-                    plt.close()  # Fechar o gráfico
+                        # Plotagem com barras categóricas
+                        plt.figure(figsize=(10, 6))
+                        sns.countplot(data=df, x=column, order=ordem, color='#1051AB', edgecolor='black')
+                        plt.title(column)
+                        plt.xlabel(column)
+                        plt.ylabel('Frequência')
+                        plt.xticks(rotation=45)
+                        plt.tight_layout()
+
+                        # Salvar a imagem em memória com BytesIO
+                        img_io = io.BytesIO()
+                        plt.savefig(img_io, format='png', bbox_inches='tight')
+                        img_io.seek(0)
+
+                        # Converter para base64
+                        img_data = base64.b64encode(img_io.getvalue()).decode('utf-8')
+                        img_paths.append(f"data:image/png;base64,{img_data}")
+
+                        plt.close()
                 # Armazenar os gráficos na sessão
                 session['img_paths'] = img_paths
                 message = f'Vaca {select}'
@@ -1175,6 +1229,25 @@ def relatorios():
                             # Densidade de frequência e porcentagem
                             freq = list(df_final['frequência'])
                             n = len(combined_df[column])
+                            
+                            # Check if all values are the same
+                            if len(set(combined_df[column])) == 1:
+                                # Create a single bar with 100% frequency
+                                value = combined_df[column].iloc[0]
+                                plt.figure(figsize=(10, 6))
+                                plt.bar([str(round(value, 2))], [100], width=0.5, color='#1051AB', alpha=0.9, edgecolor='black')
+                                plt.title(f'Média de {column} - Todas as Vacas')
+                                plt.xlabel(column)
+                                plt.ylabel('Densidade de Frequência')
+                                plt.ylim(0, 110)  # Add some padding above 100%
+                                
+                                # Save the plot
+                                img_path = f'static/graphs/{column}_{session["username"]}.png'
+                                plt.savefig(img_path)
+                                plt.close()
+                                img_paths.append(img_path)
+                                continue
+                            
                             densidade = [round(f / (n*(intervals[i + 1] - intervals[i])), 4) for i, f in enumerate(freq)]
                             porc = [round(f/n*100, 2) for f in freq]
 
@@ -1216,16 +1289,16 @@ def relatorios():
                             plt.xticks(rotation=45)
                             plt.tight_layout()
 
-                        # Salvar a imagem em memória com BytesIO
-                        img_io = io.BytesIO()
-                        plt.savefig(img_io, format='png', bbox_inches='tight')
-                        img_io.seek(0)
-                        
-                        # Converter para base64
-                        img_data = base64.b64encode(img_io.getvalue()).decode('utf-8')
-                        img_paths.append(f"data:image/png;base64,{img_data}")
-                        
-                        plt.close()
+                            # Salvar a imagem em memória com BytesIO
+                            img_io = io.BytesIO()
+                            plt.savefig(img_io, format='png', bbox_inches='tight')
+                            img_io.seek(0)
+
+                            # Converter para base64
+                            img_data = base64.b64encode(img_io.getvalue()).decode('utf-8')
+                            img_paths.append(f"data:image/png;base64,{img_data}")
+
+                            plt.close()
                     except Exception as e:
                         print(f"Error processing column {column}: {str(e)}")
                         traceback.print_exc()
