@@ -19,7 +19,7 @@ function HeroSection() {
           <HeroText>Software de gestão de criação de gado e produção leiteira, ajudando pequenos produtores no acompanhamento da produção.</HeroText>
           <HeroButton href="/cadastro">Comece Agora!</HeroButton>
           <HeroButton href="https://www.youtube.com/watch?v=jlaK1mqf2Ks">Apresentação Projeto</HeroButton>
-          <HeroButton href="https://youtu.be/9wlm8JiliIw">Apresentação das funcionalidades do site</HeroButton>
+          <HeroButton href="https://youtu.be/HrooH52G6nY">Apresentação das funcionalidades do site</HeroButton>
         </HeroContent>
         <HeroImageContainer>
           <HeroImage src={img1} alt="Hero" />
