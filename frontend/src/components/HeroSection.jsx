@@ -15,7 +15,7 @@ function HeroSection() {
                 <a className="btn-hero align-self-lg-start align-self-center w-75 text-center" href="https://www.youtube.com/watch?v=jlaK1mqf2Ks">
                 Apresentação Projeto
                 </a>
-                <a className="btn-hero align-self-lg-start align-self-center w-75 text-center" href="https://youtu.be/9wlm8JiliIw">
+                <a className="btn-hero align-self-lg-start align-self-center w-75 text-center" href="https://youtu.be/HrooH52G6nY">
                 Apresentação das funcionalidades do site
                 </a>
             </div>

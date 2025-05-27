@@ -817,17 +817,23 @@ def registro():
 ## Página de relatórios
 @app.route("/relatorios", methods = ["POST"])
 def relatorios():
+    print("=== Relatórios Route Called ===")
+    print("Request Data:", request.get_json())
 
     # Recuperar dados inputados
     data = request.get_json()
 
     if not data:
+        print("No data received")
         return jsonify({"success": False, "message": "Dados não recebidos"}), 400
     
     option = data.get("option")
     select = data.get("select")
 
+    print(f"Option: {option}, Select: {select}")
+
     if not option:
+        print("No option selected")
         return jsonify({"success": False, "message": "Escolha uma opção"}), 400
 
     # Analisar relatórios de uma vaca
