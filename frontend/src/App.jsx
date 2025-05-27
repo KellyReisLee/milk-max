@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Contato from './pages/Contato';
 import Diario from './pages/Diario';
 import Home from './pages/Home';
-import Login from './pages/Login/Login';
+import Login from './pages/Login';
 import Relatorios from './pages/Relatorios';
 import Signup from './pages/Signup';
 import Vacas from './pages/Vacas';
